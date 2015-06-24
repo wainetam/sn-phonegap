@@ -14,12 +14,13 @@
 
 - (void) initialize:(CDVInvokedUrlCommand *)command {
     NSString *applicationGuid = [command.arguments objectAtIndex:0];
-    BOOL *makeQuiet = false;
+    BOOL makeQuiet = false;
     if([command.arguments count] > 1) {
         makeQuiet = [command.arguments objectAtIndex:1 withDefault:nil];
     }
     
-    [[Signal sharedInstance] initializeWithApplicationGUID:appId andDelegate:[[UIApplication sharedApplication] delegate] quietOption:makeQuiet];
+    [[SignalUI sharedInstance] initializeWithDelegate:[[UIApplication sharedApplication] delegate]];
+    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:[[UIApplication sharedApplication] delegate] quietOption:makeQuiet];
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
@@ -35,7 +36,7 @@
  * @return BOOL whether or not start has been called
  */
 - (void) isOn:(CDVInvokedUrlCommand *)command {
-    BOOL *on = [[Signal sharedInstance] isOn];
+    BOOL on = [[Signal sharedInstance] isOn];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 };
@@ -45,7 +46,7 @@
  * @return BOOL whether or not Bluetooth is Enabled
  */
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL *enabled = [[Signal sharedInstance] isBluetoothEnabled];
+    BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -99,7 +100,7 @@
 //- (void) checkConfig:(void (^)(SignalFetchResult))completionHandler;
 - (void) checkConfig:(CDVInvokedUrlCommand *)command {
     // how to ensure 'block function' written in JS is converted to Obj C object?
-    (void (^completionHandler)(SignalFetchResult)) = [command.arguments objectAtIndex:0 withDefault: nil];
+    void (^completionHandler)(SignalFetchResult) = [command.arguments objectAtIndex:0 withDefault: nil];
     [[Signal sharedInstance] checkConfig:completionHandler];
 }
 
@@ -124,7 +125,7 @@
 #pragma mark SignalDelegate methods for Cordova JS Bridge
 
 - (NSString *)serializeSignalCodeHeard:(SignalCodeHeard *)code {
-    NSMutableDictionary *dict = [NSMutableDictionary alloc] init];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
     if ([code respondsToSelector:@selector(beaconCode)]) {
         [dict setObject:code.beaconCode forKey:@"beaconCode"];
@@ -163,7 +164,7 @@
  * @return whether or not you are interested in receiving content for this signal, it is the implementers responsibility for throttling
  *
  */
-- (BOOL) signal: (Signal *)signal didHearCode: (SignalCodeHeard *) code;
+- (BOOL) signal: (Signal *)signal didHearCode: (SignalCodeHeard *) code {
     NSString *jsString = nil;
 
     NSString *jsonString = [self serializeSignalCodeHeard:code];
@@ -198,7 +199,7 @@
 }
 
 - (NSString *)serializeSignalLocation:(SignalLocation *) location {
-    NSMutableDictionary *dict = [NSMutableDictionary alloc] init];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
     
@@ -211,26 +212,26 @@
     }
     
     if ([location respondsToSelector:@selector(endTime)]) {
-        NSString* endTimeString = [dateFormatter stringFromDate:endTime];
+        NSString* endTimeString = [dateFormatter stringFromDate:location.endTime];
         [dict setObject:endTimeString forKey:@"endTime"];
     }
     
     if ([location respondsToSelector:@selector(startTime)]) {
-        NSString* startTimeString = [dateFormatter stringFromDate:startTime];
+        NSString* startTimeString = [dateFormatter stringFromDate:location.startTime];
         [dict setObject:startTimeString forKey:@"startTime"];
     }
     
-    if ([location respondsToSelector:@selector(latitude)]) {
-        [dict setObject:location.latitude forKey:@"latitude"];
-    }
-    
-    if ([location respondsToSelector:@selector(longitude)]) {
-        [dict setObject:location.longitude forKey:@"longitude"];
-    }
-    
-    if ([location respondsToSelector:@selector(radius)]) {
-        [dict setObject:location.radius forKey:@"radius"];
-    }
+//    if ([location respondsToSelector:@selector(latitude)]) {
+//        [dict setObject:location.latitude forKey:@"latitude"];
+//    }
+//    
+//    if ([location respondsToSelector:@selector(longitude)]) {
+//        [dict setObject:location.longitude forKey:@"longitude"];
+//    }
+//    
+//    if ([location respondsToSelector:@selector(radius)]) {
+//        [dict setObject:location.radius forKey:@"radius"];
+//    }
     
     if ([location respondsToSelector:@selector(state)]) {
         [dict setObject:location.state forKey:@"state"];

@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
-#import "SignalShared.h"
-#import "SignalUI.h"
 
-#import "SignalActivation.h"
-#import "SignalAudioCodeHeard.h"
-#import "SignalBluetoothCodeHeard.h"
-#import "SignalCodeHeard.h"
-#import "SignalConstantsUI.h"
-#import "SignalContentSplitViewController.h"
-#import "SignalContentTableViewCell.h"
-#import "SignalEvent.h"
-#import "SignalHistoricalData.h"
-#import "SignalIndicatorView.h"
-#import "SignalLocation.h"
+#import "SignalUI.framework/Headers/SignalShared.h"
+#import "SignalUI.framework/Headers/SignalUI.h"
+#import "SignalUI.framework/Headers/SignalActivation.h"
+#import "SignalUI.framework/Headers/SignalAudioCodeHeard.h"
+#import "SignalUI.framework/Headers/SignalBluetoothCodeHeard.h"
+#import "SignalUI.framework/Headers/SignalCodeHeard.h"
+#import "SignalUI.framework/Headers/SignalConstantsUI.h"
+#import "SignalUI.framework/Headers/SignalContentSplitViewController.h"
+#import "SignalUI.framework/Headers/SignalContentTableViewCell.h"
+#import "SignalUI.framework/Headers/SignalEvent.h"
+#import "SignalUI.framework/Headers/SignalHistoricalData.h"
+#import "SignalUI.framework/Headers/SignalIndicatorView.h"
+#import "SignalUI.framework/Headers/SignalLocation.h"
 
 
 @interface SignalPG : CDVPlugin <SignalDelegate>

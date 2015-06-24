@@ -2,15 +2,15 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
 		id="com.signal360.SignalPGPlugin" version="0.1.0">
 
-	<name>Signal360</name>
+	<name>SignalPGPlugin</name>
 	<description>Signal360 PhoneGap Plugin</description>
 	<keywords>signal360,sdk,phonegap</keywords>
 
-	<asset src="www/js/signalpg.js" target="js/signalpg.js" />
-
 	<!-- ios -->
 	<platform name="ios">
+		<asset src="www/js/signalpg.js" target="js/signalpg.js" />
 		<config-file target="config.xml" parent="/widget/plugins">
+		<!-- <config-file target="config.xml" parent="/*"> -->
 			<feature name="SignalPG">
 				<param name="ios-package" value="SignalPG"/>
 			</feature>
