@@ -1,22 +1,24 @@
+var cordova = require('cordova');
+
 var SignalPG = {
 
 	didHearCodeCB: null,
 
-  didReceiveActivationsCB: null,
+	didReceiveActivationsCB: null,
 
-  didStatusChangeCB: null,
+	didStatusChangeCB: null,
 
-  didGeoFenceEnteredCB: null,
+	didGeoFenceEnteredCB: null,
 
-  didGeoFenceExitedCB: null,
+	didGeoFenceExitedCB: null,
 
-  didGeoFencesUpdatedCB: null,
+	didGeoFencesUpdatedCB: null,
 
-  didCompleteRegistrationCB: null,
+	didCompleteRegistrationCB: null,
 
-  didUpdateConfigurationCB: null,
+	didUpdateConfigurationCB: null,
 
-  getTagsForCodeCB: null,
+	getTagsForCodeCB: null,
 
 	/**
 	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
@@ -35,26 +37,26 @@ var SignalPG = {
 	},
 
 	/**
- 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
- 	 */
- 	start: function () {
- 		cordova.exec (null, null, "SignalPG", "start", []);
- 	},
+	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
+	 */
+	start: function () {
+		cordova.exec (null, null, "SignalPG", "start", []);
+	},
 
- 	/**
- 	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
- 	 */
+	/**
+	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
+	 */
 	stop: function () {
 		cordova.exec (null, null, "SignalPG", "stop", []);
 	},
 
 	/**
- 	 * Called to determine if start has been called
- 	 * @return BOOL whether or not start has been called
- 	 */
- 	isOn: function () {
- 		cordova.exec (null, null, "SignalPG", "isOn", []);
- 	},
+	 * Called to determine if start has been called
+	 * @return BOOL whether or not start has been called
+	 */
+	isOn: function () {
+		cordova.exec (null, null, "SignalPG", "isOn", []);
+	},
 
 	/**
 	 * Called to determine if Bluetooth is enabled on the device
@@ -86,8 +88,8 @@ var SignalPG = {
 	},
 
 	/**
- 	 * Enable advertising identifier
- 	 */
+	 * Enable advertising identifier
+	 */
 	enableAdvertisingIdentifier: function () {
 		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
 	},
