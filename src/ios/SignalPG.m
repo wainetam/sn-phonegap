@@ -329,7 +329,7 @@
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code {
     NSString *jsString = nil;
     NSString *jsonString = [self serializeSignalCodeHeard:code];
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode(\"%d\");", jsonString]; // serialize SignalCodeHeard
+    jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode(\"%@\");", jsonString]; // serialize SignalCodeHeard
     [self.commandDelegate evalJs:jsString];
 }
 

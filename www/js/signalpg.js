@@ -1,5 +1,3 @@
-var cordova = require('cordova');
-
 var SignalPG = {
 
 	didHearCodeCB: null,

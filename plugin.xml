@@ -8,9 +8,9 @@
 
 	<asset src="www/js/signalpg.js" target="js/signalpg.js" />
 	<!-- ios -->
-	<platform name="ios">
-		<!-- <config-file target="config.xml" parent="/widget/plugins"> -->
-		<config-file target="config.xml" parent="/*">
+	<platform name="ios"<name />
+		<config-file target="config.xml" parent="/widget/plugins">
+		<!-- <config-file target="config.xml" parent="/*"> -->
 			<feature name="SignalPG">
 				<param name="ios-package" value="SignalPG"/>
 			</feature>
