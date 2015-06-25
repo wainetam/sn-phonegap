@@ -13,10 +13,12 @@
 #pragma mark Signal methods for Cordova JS Bridge
 
 - (void) initialize:(CDVInvokedUrlCommand *)command {
+    NSLog(@"triggered by JS!");
     NSString *applicationGuid = [command.arguments objectAtIndex:0];
-    BOOL makeQuiet = false;
+    bool makeQuiet = false;
     if([command.arguments count] > 1) {
-        makeQuiet = [command.arguments objectAtIndex:1 withDefault:nil];
+//        makeQuiet = [command.arguments objectAtIndex:1 withDefault:nil];
+        makeQuiet = [command argumentAtIndex:1];
     }
     
     [[SignalUI sharedInstance] initializeWithDelegate:[[UIApplication sharedApplication] delegate]];
@@ -24,6 +26,7 @@
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
+    NSLog(@"starting!");
     [[Signal sharedInstance] start];
 }
 
@@ -35,11 +38,11 @@
  * Called to determine if start has been called
  * @return BOOL whether or not start has been called
  */
-- (void) isOn:(CDVInvokedUrlCommand *)command {
-    BOOL on = [[Signal sharedInstance] isOn];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-};
+//- (void) isOn:(CDVInvokedUrlCommand *)command {
+//    BOOL on = [[Signal sharedInstance] isOn];
+//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
+//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//};
 
 /**
  * Called to determine if Bluetooth is enabled on the device
@@ -51,39 +54,39 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void) userOptOut:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] userOptOut];
-}
-
-- (void) userOptIn:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] userOptIn];
-}
+//- (void) userOptOut:(CDVInvokedUrlCommand *)command {
+//    [[Signal sharedInstance] userOptOut];
+//}
+//
+//- (void) userOptIn:(CDVInvokedUrlCommand *)command {
+//    [[Signal sharedInstance] userOptIn];
+//}
 
 /**
  * @return BOOL whether or not user has opted out
  */
-- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
-    BOOL *optedOut = [[Signal sharedInstance] isUserOptedOut];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
+//- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
+//    BOOL *optedOut = [[Signal sharedInstance] isUserOptedOut];
+//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
+//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//}
 
-- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] enableAdvertisingIdentifier];
-}
-
-- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] disableAdvertisingIdentifier];
-}
+//- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
+//    [[Signal sharedInstance] enableAdvertisingIdentifier];
+//}
+//
+//- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
+//    [[Signal sharedInstance] disableAdvertisingIdentifier];
+//}
 
 /**
  * @return BOOL whether or not advertising identifier is enabled
  */
-- (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL *enabled = [[Signal sharedInstance] useAdvertisingIdentifier];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
+//- (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
+//    BOOL *enabled = [[Signal sharedInstance] useAdvertisingIdentifier];
+//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//}
 
 - (void) setCustomerIdentifier:(CDVInvokedUrlCommand *)command {
     NSString *customerIdentifier = [command.arguments objectAtIndex:0];
@@ -100,12 +103,12 @@
 //- (void) checkConfig:(void (^)(SignalFetchResult))completionHandler;
 - (void) checkConfig:(CDVInvokedUrlCommand *)command {
     // how to ensure 'block function' written in JS is converted to Obj C object?
-    void (^completionHandler)(SignalFetchResult) = [command.arguments objectAtIndex:0 withDefault: nil];
+    void (^completionHandler)(SignalFetchResult) = [command argumentAtIndex:0];
     [[Signal sharedInstance] checkConfig:completionHandler];
 }
 
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command {
-    int beaconCode = [command.arguments objectAtIndex:0];
+    int beaconCode = (int)[command argumentAtIndex:0];
     
     if (beaconCode != 0) {
         [[Signal sharedInstance] getActivationsWithCodeHeard:[[SignalCodeHeard alloc] initWithBeaconCode:beaconCode]];
@@ -127,13 +130,13 @@
 - (NSString *)serializeSignalCodeHeard:(SignalCodeHeard *)code {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-    if ([code respondsToSelector:@selector(beaconCode)]) {
-        [dict setObject:code.beaconCode forKey:@"beaconCode"];
-    }
-    
-    if ([code respondsToSelector:@selector(timeCodeHeard)]) {
-        [dict setObject:code.timeCodeHeard forKey:@"timeCodeHeard"];
-    }
+//    if ([code respondsToSelector:@selector(beaconCode)]) {
+//        [dict setObject:code.beaconCode forKey:@"beaconCode"];
+//    }
+//    
+//    if ([code respondsToSelector:@selector(timeCodeHeard)]) {
+//        [dict setObject:code.timeCodeHeard forKey:@"timeCodeHeard"];
+//    }
     
     if ([code respondsToSelector:@selector(codesHeard)]) {
         [dict setObject:code.codesHeard forKey:@"codesHeard"];
@@ -203,9 +206,9 @@
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
     
-    if ([location respondsToSelector:@selector(identifier)]) {
-        [dict setObject:location.identifier forKey:@"identifier"];
-    }
+//    if ([location respondsToSelector:@selector(identifier)]) {
+//        [dict setObject:location.identifier forKey:@"identifier"];
+//    }
     
     if ([location respondsToSelector:@selector(name)]) {
         [dict setObject:location.name forKey:@"name"];
@@ -237,9 +240,9 @@
         [dict setObject:location.state forKey:@"state"];
     }
     
-    if ([location respondsToSelector:@selector(programId)]) {
-        [dict setObject:location.programId forKey:@"programId"];
-    }
+//    if ([location respondsToSelector:@selector(programId)]) {
+//        [dict setObject:location.programId forKey:@"programId"];
+//    }
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
