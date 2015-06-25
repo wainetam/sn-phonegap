@@ -27,9 +27,9 @@ var SignalPG = {
 	initialize: function (applicationGuid, option) {
 		if (applicationGuid && typeof applicationGuid === "string") {
 			if (option && typeof option === "boolean") {
-					cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, option]);
+				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, option]);
 			} else {
-					cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid]);
+				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid]);
 			}
 		}
 	},

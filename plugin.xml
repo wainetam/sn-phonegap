@@ -17,6 +17,21 @@
 		</config-file>
 		<header-file src="src/ios/SignalPG.h" />
 		<source-file src="src/ios/SignalPG.m" />
+		
+		<framework src="AudioToolbox" />
+		<framework src="CoreAudio" />
+		<framework src="Foundation" />
+		<framework src="AdSupport" />
+		<framework src="CoreLocation" />
+		<framework src="CoreBluetooth" />
+		<framework src="Accelerate" />
+		<framework src="MobileCoreServices" />
+		<framework src="SystemConfiguration" />
+		<framework src="CoreGraphics" />
+		<framework src="UIKit" />
+		<framework src="AVFoundation" />
+		<framework src="libsqlite3.dylib" />
+		<framework src="libstdc++.dylib" />
+		<framework src="libz.dylib" />
 	</platform>
-
 </plugin>
