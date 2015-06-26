@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
 
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+
 #import <SignalUI/SignalShared.h>
 #import <SignalUI/SignalUI.h>
 #import <SignalUI/SignalActivation.h>
@@ -26,6 +29,8 @@
 
 @interface SignalPG : CDVPlugin <SignalDelegate>
 
+//@property(nonatomic, strong) CLLocationManager *locationManager;
+
 - (void) initialize:(CDVInvokedUrlCommand *)command;
 
 - (void) start:(CDVInvokedUrlCommand *)command;
@@ -36,7 +41,7 @@
  * Called to determine if start has been called
  * @return BOOL whether or not start has been called
  */
-- (void) isOn:(CDVInvokedUrlCommand *)command;
+//- (void) isOn:(CDVInvokedUrlCommand *)command;
 
 /**
  * Called to determine if Bluetooth is enabled on the device
@@ -44,18 +49,18 @@
  */
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command;
 
-- (void) userOptOut:(CDVInvokedUrlCommand *)command;
+//- (void) userOptOut:(CDVInvokedUrlCommand *)command;
 
-- (void) userOptIn:(CDVInvokedUrlCommand *)command;
+//- (void) userOptIn:(CDVInvokedUrlCommand *)command;
 
 /**
  * @return BOOL whether or not user has opted out
  */
-- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command;
+//- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command;
 
-- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
+//- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
 
-- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
+//- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
 
 /**
  * @return BOOL whether or not advertising identifier is enabled
@@ -172,5 +177,7 @@
  * @param code code for which to provide tags
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code;
+
+
 
 @end

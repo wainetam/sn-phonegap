@@ -35,7 +35,6 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     }
     
-    // set defaults
     NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
@@ -129,7 +128,6 @@
 
 - (void) checkConfig:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        // how to ensure 'block function' written in JS is converted to Obj C object?
         void (^completionHandler)(SignalFetchResult) = [command argumentAtIndex:0];
         [[Signal sharedInstance] checkConfig:completionHandler];
     }];
@@ -162,13 +160,13 @@
 - (NSString *)serializeSignalCodeHeard:(SignalCodeHeard *)code {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-//    if ([code respondsToSelector:@selector(beaconCode)]) {
-//        [dict setObject:code.beaconCode forKey:@"beaconCode"];
-//    }
-//    
-//    if ([code respondsToSelector:@selector(timeCodeHeard)]) {
-//        [dict setObject:code.timeCodeHeard forKey:@"timeCodeHeard"];
-//    }
+    if ([code respondsToSelector:@selector(beaconCode)]) {
+        [dict setObject:[NSNumber numberWithLong:code.beaconCode] forKey:@"beaconCode"];
+    }
+
+    if ([code respondsToSelector:@selector(timeCodeHeard)]) {
+        [dict setObject:[NSNumber numberWithLong:code.timeCodeHeard] forKey:@"timeCodeHeard"];
+    }
     
     if ([code respondsToSelector:@selector(codesHeard)]) {
         [dict setObject:code.codesHeard forKey:@"codesHeard"];
@@ -250,9 +248,9 @@
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
     
-//    if ([location respondsToSelector:@selector(identifier)]) {
-//        [dict setObject:location.identifier forKey:@"identifier"];
-//    }
+    if ([location respondsToSelector:@selector(identifier)]) {
+        [dict setObject:[NSNumber numberWithLongLong:location.identifier] forKey:@"identifier"];
+    }
     
     if ([location respondsToSelector:@selector(name)]) {
         [dict setObject:location.name forKey:@"name"];
@@ -268,25 +266,25 @@
         [dict setObject:startTimeString forKey:@"startTime"];
     }
     
-//    if ([location respondsToSelector:@selector(latitude)]) {
-//        [dict setObject:location.latitude forKey:@"latitude"];
-//    }
-//    
-//    if ([location respondsToSelector:@selector(longitude)]) {
-//        [dict setObject:location.longitude forKey:@"longitude"];
-//    }
-//    
-//    if ([location respondsToSelector:@selector(radius)]) {
-//        [dict setObject:location.radius forKey:@"radius"];
-//    }
+    if ([location respondsToSelector:@selector(latitude)]) {
+        [dict setObject:[NSNumber numberWithDouble:location.latitude] forKey:@"latitude"];
+    }
+
+    if ([location respondsToSelector:@selector(longitude)]) {
+        [dict setObject:[NSNumber numberWithDouble:location.longitude] forKey:@"longitude"];
+    }
+
+    if ([location respondsToSelector:@selector(radius)]) {
+        [dict setObject:[NSNumber numberWithDouble:location.radius] forKey:@"radius"];
+    }
     
     if ([location respondsToSelector:@selector(state)]) {
         [dict setObject:location.state forKey:@"state"];
     }
     
-//    if ([location respondsToSelector:@selector(programId)]) {
-//        [dict setObject:location.programId forKey:@"programId"];
-//    }
+    if ([location respondsToSelector:@selector(programId)]) {
+        [dict setObject:[NSNumber numberWithLongLong:location.programId] forKey:@"programId"];
+    }
     
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
