@@ -60,7 +60,7 @@
 /**
  * @return BOOL whether or not advertising identifier is enabled
  */
-- (BOOL) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command;
+- (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command;
 
 
 //- (void) setCustomerIdentifier: (NSString *) customerIdentifier;
@@ -172,7 +172,5 @@
  * @param code code for which to provide tags
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code;
-
-
 
 @end

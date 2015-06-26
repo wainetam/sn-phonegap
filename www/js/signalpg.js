@@ -24,7 +24,7 @@ var SignalPG = {
 	 * @param applicationGuid unique identifier provided by Signal360 CMS
 	 * @param option boolean for sdk to prevent os popups
 	 */
-	initialize: function (applicationGuid, option) {
+	initialize: function (applicationGuid, option) { // tested
 		if (applicationGuid && typeof applicationGuid === "string") {
 			if (option && typeof option === "boolean") {
 				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, option]);
@@ -37,14 +37,14 @@ var SignalPG = {
 	/**
 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
-	start: function () {
+	start: function () { // tested
 		cordova.exec (null, null, "SignalPG", "start", []);
 	},
 
 	/**
 	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
-	stop: function () {
+	stop: function () { // tested
 		cordova.exec (null, null, "SignalPG", "stop", []);
 	},
 
@@ -60,7 +60,7 @@ var SignalPG = {
 	 * Called to determine if Bluetooth is enabled on the device
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
-	isBluetoothEnabled: function () {
+	isBluetoothEnabled: function () { // tested
 		cordova.exec (null, null, "SignalPG", "isBluetoothEnabled", []);
 	},
 

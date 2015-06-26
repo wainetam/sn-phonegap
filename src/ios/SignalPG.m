@@ -13,12 +13,10 @@
 #pragma mark Signal methods for Cordova JS Bridge
 
 - (void) initialize:(CDVInvokedUrlCommand *)command {
-    NSLog(@"triggered by JS!");
     NSString *applicationGuid = [command.arguments objectAtIndex:0];
     bool makeQuiet = false;
     if([command.arguments count] > 1) {
-//        makeQuiet = [command.arguments objectAtIndex:1 withDefault:nil];
-        makeQuiet = [command argumentAtIndex:1];
+        makeQuiet = [command argumentAtIndex:1 withDefault:nil];
     }
     
     [[SignalUI sharedInstance] initializeWithDelegate:[[UIApplication sharedApplication] delegate]];
@@ -26,8 +24,9 @@
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
-    NSLog(@"starting!");
-    [[Signal sharedInstance] start];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] start];
+    }];
 }
 
 - (void) stop:(CDVInvokedUrlCommand *)command {
@@ -49,9 +48,11 @@
  * @return BOOL whether or not Bluetooth is Enabled
  */
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command {
-    BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 //- (void) userOptOut:(CDVInvokedUrlCommand *)command {
@@ -79,40 +80,50 @@
 //    [[Signal sharedInstance] disableAdvertisingIdentifier];
 //}
 
+
+
 /**
  * @return BOOL whether or not advertising identifier is enabled
  */
-//- (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
-//    BOOL *enabled = [[Signal sharedInstance] useAdvertisingIdentifier];
-//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//}
+- (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
+    bool enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
 - (void) setCustomerIdentifier:(CDVInvokedUrlCommand *)command {
-    NSString *customerIdentifier = [command.arguments objectAtIndex:0];
-    customerIdentifier = ((customerIdentifier == [NSNull null] || customerIdentifier.length == 0) ? nil : customerIdentifier);
-    if(customerIdentifier) {
-        [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
-    }
+    [self.commandDelegate runInBackground:^{
+        NSString *customerIdentifier = [command.arguments objectAtIndex:0];
+        customerIdentifier = (([customerIdentifier isEqual: [NSNull null]] || customerIdentifier.length == 0) ? nil : customerIdentifier);
+        if(customerIdentifier) {
+            [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
+        }
+    }];
 }
 
 - (void) reset:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] reset];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] reset];
+    }];
 }
 
 //- (void) checkConfig:(void (^)(SignalFetchResult))completionHandler;
 - (void) checkConfig:(CDVInvokedUrlCommand *)command {
-    // how to ensure 'block function' written in JS is converted to Obj C object?
-    void (^completionHandler)(SignalFetchResult) = [command argumentAtIndex:0];
-    [[Signal sharedInstance] checkConfig:completionHandler];
+    [self.commandDelegate runInBackground:^{
+        // how to ensure 'block function' written in JS is converted to Obj C object?
+        void (^completionHandler)(SignalFetchResult) = [command argumentAtIndex:0];
+        [[Signal sharedInstance] checkConfig:completionHandler];
+    }];
 }
 
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command {
-    int beaconCode = (int)[command argumentAtIndex:0];
-    
-    if (beaconCode != 0) {
-        [[Signal sharedInstance] getActivationsWithCodeHeard:[[SignalCodeHeard alloc] initWithBeaconCode:beaconCode]];
-    }
+    [self.commandDelegate runInBackground:^{
+        int beaconCode = (int)[command argumentAtIndex:0];
+        
+        if (beaconCode != 0) {
+            [[Signal sharedInstance] getActivationsWithCodeHeard:[[SignalCodeHeard alloc] initWithBeaconCode:beaconCode]];
+        }
+    }];
 }
 
 /**
@@ -120,9 +131,11 @@
  */
 
 - (void) allActiveContent:(CDVInvokedUrlCommand *)command {
-    NSArray *content = [[Signal sharedInstance] allActiveContent];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:content];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        NSArray *content = [[Signal sharedInstance] allActiveContent];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:content];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 #pragma mark SignalDelegate methods for Cordova JS Bridge
@@ -168,11 +181,13 @@
  *
  */
 - (BOOL) signal: (Signal *)signal didHearCode: (SignalCodeHeard *) code {
-    NSString *jsString = nil;
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
 
-    NSString *jsonString = [self serializeSignalCodeHeard:code];
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall(\"%@\");", jsonString]; // serialize SignalCodeHeard
-    [self.commandDelegate evalJs:jsString];
+        NSString *jsonString = [self serializeSignalCodeHeard:code];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall(\"%@\");", jsonString]; // serialize SignalCodeHeard
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -184,9 +199,11 @@
  * @param activations instances of SignalActivation that contain, delivery time, content, etc
  */
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
-    NSString *jsString = nil;
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(\"%@\");", [activations description]]; // array of SignalActivation
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(\"%@\");", [activations description]]; // array of SignalActivation
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -196,9 +213,11 @@
  * @param status new status of the SDK
  */
 - (void) signal: (Signal *)signal didStatusChange: (SignalSdkStatus) status {
-    NSString *jsString = nil;
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange(\"%ld\");", status]; // SignalSdkStatus is an NSInteger
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange(\"%ld\");", status]; // SignalSdkStatus is an NSInteger
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 - (NSString *)serializeSignalLocation:(SignalLocation *) location {
@@ -266,10 +285,12 @@
  * @param location of the geo fence entered
  */
 - (void) signal: (Signal *)signal didGeoFenceEntered: (SignalLocation *) location {
-    NSString *jsString = nil;
-    NSString *jsonString = [self serializeSignalLocation:location];
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEntered(\"%@\");", jsonString]; // serialize SignalLocation
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        NSString *jsonString = [self serializeSignalLocation:location];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEntered(\"%@\");", jsonString]; // serialize SignalLocation
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -281,10 +302,12 @@
  * @param location of the geo fence exited
  */
 - (void) signal: (Signal *)signal didGeoFenceExited: (SignalLocation *) location {
-    NSString *jsString = nil;
-    NSString *jsonString = [self serializeSignalLocation:location];
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExited(\"%@\");", jsonString]; // serialize SignalLocation
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        NSString *jsonString = [self serializeSignalLocation:location];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExited(\"%@\");", jsonString]; // serialize SignalLocation
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -294,9 +317,11 @@
  * @param locations of the geo fences to monitor
  */
 - (void) signal: (Signal *)signal didGeoFencesUpdated: (NSArray *) locations {
-    NSString *jsString = nil;
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(\"%@\");", [locations description]]; // array of SignalLocation
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(\"%@\");", [locations description]]; // array of SignalLocation
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -306,9 +331,11 @@
  * @param success whether or not sdk succeeded to register
  */
 - (void) signal: (Signal *)signal didCompleteRegistration:(BOOL)success {
-    NSString *jsString = nil;
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistration(\"%d\");", success];
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistration(\"%d\");", success];
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -318,9 +345,11 @@
  * @param changed whether or not configuration changed
  */
 - (void) signal: (Signal *)signal didUpdateConfiguration:(BOOL)changed {
-    NSString *jsString = nil;
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfiguration(\"%d\");", changed];
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfiguration(\"%d\");", changed];
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 /**
@@ -330,10 +359,12 @@
  * @param code code for which to provide tags
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code {
-    NSString *jsString = nil;
-    NSString *jsonString = [self serializeSignalCodeHeard:code];
-    jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode(\"%@\");", jsonString]; // serialize SignalCodeHeard
-    [self.commandDelegate evalJs:jsString];
+    [self.commandDelegate runInBackground:^{
+        NSString *jsString = nil;
+        NSString *jsonString = [self serializeSignalCodeHeard:code];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode(\"%@\");", jsonString]; // serialize SignalCodeHeard
+        [self.commandDelegate evalJs:jsString];
+    }];
 }
 
 @end
