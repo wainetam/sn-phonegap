@@ -8,6 +8,10 @@
 
 #import "SignalPG.h"
 
+@interface SignalPG()
+    @property(nonatomic, strong) CLLocationManager *locationManager;
+@end
+
 @implementation SignalPG
 
 #pragma mark Signal methods for Cordova JS Bridge
@@ -19,8 +23,24 @@
         makeQuiet = [command argumentAtIndex:1 withDefault:nil];
     }
     
-    [[SignalUI sharedInstance] initializeWithDelegate:[[UIApplication sharedApplication] delegate]];
-    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:[[UIApplication sharedApplication] delegate] quietOption:makeQuiet];
+    // setup location mgr
+    self.locationManager = [[CLLocationManager alloc] init];
+    if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    
+    // setup notificatinons
+    if([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    
+    // set defaults
+    NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
+    [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)[[UIApplication sharedApplication] delegate]];
+    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)[[UIApplication sharedApplication] delegate] quietOption:makeQuiet];
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
@@ -107,7 +127,6 @@
     }];
 }
 
-//- (void) checkConfig:(void (^)(SignalFetchResult))completionHandler;
 - (void) checkConfig:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         // how to ensure 'block function' written in JS is converted to Obj C object?
@@ -188,6 +207,12 @@
         jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall(\"%@\");", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
+    
+    if (code) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -215,7 +240,7 @@
 - (void) signal: (Signal *)signal didStatusChange: (SignalSdkStatus) status {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange(\"%ld\");", status]; // SignalSdkStatus is an NSInteger
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange(\"%ld\");", (long)status]; // SignalSdkStatus is an NSInteger
         [self.commandDelegate evalJs:jsString];
     }];
 }
