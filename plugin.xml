@@ -17,7 +17,7 @@
 		<header-file src="src/ios/SignalPG.h" />
 		<source-file src="src/ios/SignalPG.m" />
 
-		<framework src="AudioToolbox" />
+		<framework src="AudioToolbox.framework" />
 		<framework src="CoreAudio" />
 		<framework src="Foundation" />
 		<framework src="AdSupport" />
