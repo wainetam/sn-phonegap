@@ -38,8 +38,8 @@
     NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
-    [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)[[UIApplication sharedApplication] delegate]];
-    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)[[UIApplication sharedApplication] delegate] quietOption:makeQuiet];
+    [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)self];
+    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)self];
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
@@ -155,37 +155,38 @@
     }];
 }
 
-#pragma mark SignalDelegate methods for Cordova JS Bridge
-
+#pragma mark SignalDelegate Implementation
 - (NSString *)serializeSignalCodeHeard:(SignalCodeHeard *)code {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-    if ([code respondsToSelector:@selector(beaconCode)]) {
+    if ([code respondsToSelector:@selector(beaconCode)] && code.beaconCode) {
         [dict setObject:[NSNumber numberWithLong:code.beaconCode] forKey:@"beaconCode"];
     }
 
-    if ([code respondsToSelector:@selector(timeCodeHeard)]) {
+    if ([code respondsToSelector:@selector(timeCodeHeard)] && code.timeCodeHeard) {
         [dict setObject:[NSNumber numberWithLong:code.timeCodeHeard] forKey:@"timeCodeHeard"];
     }
     
-    if ([code respondsToSelector:@selector(codesHeard)]) {
+    if ([code respondsToSelector:@selector(codesHeard)] && code.codesHeard) {
         [dict setObject:code.codesHeard forKey:@"codesHeard"];
     }
     
     NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
+    NSData *jsonData;
     NSString *jsonString = nil;
     
-    if (!jsonData) {
-        NSLog(@"Got an error: %@", error);
-        jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
-    } else {
-        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    if ([NSJSONSerialization isValidJSONObject:dict]) {
+        jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
+
+        if (!jsonData) {
+            NSLog(@"Got an error: %@", error);
+            jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+        } else {
+            jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
     }
-    
     return jsonString;
 }
-
 /**
  * This is called when a signal is heard and provides a code heard object
  *
@@ -202,16 +203,17 @@
         NSString *jsString = nil;
 
         NSString *jsonString = [self serializeSignalCodeHeard:code];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall(\"%@\");", jsonString]; // serialize SignalCodeHeard
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall('%@');", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
-    
+
     if (code) {
         return true;
     } else {
         return false;
     }
 }
+
 
 /**
  * Did receive activations is called after URL#signal:didHearCode:withTimeInterval returns YES.
@@ -222,9 +224,11 @@
  * @param activations instances of SignalActivation that contain, delivery time, content, etc
  */
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
+    NSLog(@"received activation");
+    NSLog(@"activations: %@", activations);
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(\"%@\");", [activations description]]; // array of SignalActivation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(%@);", [activations description]]; // array of SignalActivation -- not JSON, just string
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -238,7 +242,7 @@
 - (void) signal: (Signal *)signal didStatusChange: (SignalSdkStatus) status {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange(\"%ld\");", (long)status]; // SignalSdkStatus is an NSInteger
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange('%ld');", (long)status]; // SignalSdkStatus is an NSInteger
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -287,16 +291,19 @@
     }
     
     NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
+    NSData *jsonData;
     NSString *jsonString = nil;
     
-    if (!jsonData) {
-        NSLog(@"Got an error: %@", error);
-        jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
-    } else {
-        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    if ([NSJSONSerialization isValidJSONObject:dict]) {
+        jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
+        
+        if (!jsonData) {
+            NSLog(@"Got an error: %@", error);
+            jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+        } else {
+            jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
     }
-    
     return jsonString;
 }
 
@@ -308,6 +315,7 @@
  * @param location of the geo fence entered
  */
 - (void) signal: (Signal *)signal didGeoFenceEntered: (SignalLocation *) location {
+    NSLog(@"entered geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
@@ -325,10 +333,11 @@
  * @param location of the geo fence exited
  */
 - (void) signal: (Signal *)signal didGeoFenceExited: (SignalLocation *) location {
+    NSLog(@"exited geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExited(\"%@\");", jsonString]; // serialize SignalLocation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExited('%@');", jsonString]; // serialize SignalLocation
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -340,9 +349,10 @@
  * @param locations of the geo fences to monitor
  */
 - (void) signal: (Signal *)signal didGeoFencesUpdated: (NSArray *) locations {
+    NSLog(@"updated geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(\"%@\");", [locations description]]; // array of SignalLocation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(%@);", [locations description]]; // array of SignalLocation -- not JSON, just string
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -356,7 +366,7 @@
 - (void) signal: (Signal *)signal didCompleteRegistration:(BOOL)success {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistration(\"%d\");", success];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistration('%d');", success];
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -370,7 +380,7 @@
 - (void) signal: (Signal *)signal didUpdateConfiguration:(BOOL)changed {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfiguration(\"%d\");", changed];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfiguration('%d');", changed];
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -385,9 +395,11 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalCodeHeard:code];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode(\"%@\");", jsonString]; // serialize SignalCodeHeard
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode('%@');", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
+    
+    return nil;
 }
 
 @end

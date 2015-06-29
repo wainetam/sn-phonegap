@@ -1,10 +1,10 @@
 var SignalPG = {
 
-	didHearCodeCB: null,
+    didHearCodeCB: null,
 
-	didReceiveActivationsCB: null,
+    didReceiveActivationsCB: null,
 
-	didStatusChangeCB: null,
+    didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
 
 	didGeoFenceEnteredCB: null,
 
@@ -12,11 +12,11 @@ var SignalPG = {
 
 	didGeoFencesUpdatedCB: null,
 
-	didCompleteRegistrationCB: null,
+    didCompleteRegistrationCB: null,
 
-	didUpdateConfigurationCB: null,
+    didUpdateConfigurationCB: null,
 
-	getTagsForCodeCB: null,
+    getTagsForCodeCB: null,
 
 	/**
 	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
@@ -29,7 +29,7 @@ var SignalPG = {
 			if (option && typeof option === "boolean") {
 				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, option]);
 			} else {
-				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid]);
+				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, false]);
 			}
 		}
 	},
@@ -37,14 +37,14 @@ var SignalPG = {
 	/**
 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
-	start: function () { // tested
+	start: function () {
 		cordova.exec (null, null, "SignalPG", "start", []);
 	},
 
 	/**
 	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
-	stop: function () { // tested
+	stop: function () {
 		cordova.exec (null, null, "SignalPG", "stop", []);
 	},
 
@@ -60,7 +60,7 @@ var SignalPG = {
 	 * Called to determine if Bluetooth is enabled on the device
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
-	isBluetoothEnabled: function () { // tested
+	isBluetoothEnabled: function () {
 		cordova.exec (null, null, "SignalPG", "isBluetoothEnabled", []);
 	},
 
