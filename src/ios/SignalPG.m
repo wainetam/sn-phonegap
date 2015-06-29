@@ -313,7 +313,6 @@
  * @param location of the geo fence entered
  */
 - (void) signal: (Signal *)signal didGeoFenceEntered: (SignalLocation *) location {
-    NSLog(@"entered geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
@@ -331,7 +330,6 @@
  * @param location of the geo fence exited
  */
 - (void) signal: (Signal *)signal didGeoFenceExited: (SignalLocation *) location {
-    NSLog(@"exited geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
@@ -347,7 +345,6 @@
  * @param locations of the geo fences to monitor
  */
 - (void) signal: (Signal *)signal didGeoFencesUpdated: (NSArray *) locations {
-    NSLog(@"updated geofence");
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(%@);", [locations description]]; // array of SignalLocation -- not JSON, just string

@@ -67,13 +67,10 @@
  */
 - (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command;
 
-
-//- (void) setCustomerIdentifier: (NSString *) customerIdentifier;
 - (void) setCustomerIdentifier:(CDVInvokedUrlCommand *)command;
 
 - (void) reset:(CDVInvokedUrlCommand *)command;
 
-//- (void) checkConfig:(void (^)(SignalFetchResult))completionHandler; TBD
 - (void) checkConfig:(CDVInvokedUrlCommand *)command;
 
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command;
@@ -85,6 +82,7 @@
 
 
 // SignalDelegate methods below
+
 /**
  * This is called when a signal is heard and provides a code heard object
  *
@@ -96,9 +94,7 @@
  * @return whether or not you are interested in receiving content for this signal, it is the implementers responsibility for throttling
  *
  */
-//- (BOOL) signal: (Signal *)signal didHearCode: (SignalCodeHeard *) code;
-//- (void) didHearCode:(CDVInvokedUrlCommand *)command;
-
+- (void) didHearCode:(CDVInvokedUrlCommand *)command;
 
 /**
  * Did receive activations is called after URL#signal:didHearCode:withTimeInterval returns YES.
@@ -108,7 +104,7 @@
  * @param signal - the configured running instance of signal
  * @param activations instances of SignalActivation that contain, delivery time, content, etc
  */
-//- (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations;
+- (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations;
 
 /**
  * When offline content is receive and cached internally (signal only caches the raw data)
@@ -177,7 +173,5 @@
  * @param code code for which to provide tags
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code;
-
-
 
 @end

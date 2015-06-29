@@ -1,22 +1,22 @@
 var SignalPG = {
 
-    didHearCodeCB: null,
+		didHearCodeCB: null,
 
-    didReceiveActivationsCB: null,
+		didReceiveActivationsCB: null,
 
-    didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
+		didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
 
-	didGeoFenceEnteredCB: null,
+		didGeoFenceEnteredCB: null,
 
-	didGeoFenceExitedCB: null,
+		didGeoFenceExitedCB: null,
 
-	didGeoFencesUpdatedCB: null,
+		didGeoFencesUpdatedCB: null,
 
-    didCompleteRegistrationCB: null,
+		didCompleteRegistrationCB: null,
 
-    didUpdateConfigurationCB: null,
+		didUpdateConfigurationCB: null,
 
-    getTagsForCodeCB: null,
+		getTagsForCodeCB: null,
 
 	/**
 	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
@@ -52,9 +52,9 @@ var SignalPG = {
 	 * Called to determine if start has been called
 	 * @return BOOL whether or not start has been called
 	 */
-	isOn: function () {
-		cordova.exec (null, null, "SignalPG", "isOn", []);
-	},
+//	isOn: function () {
+//		cordova.exec (null, null, "SignalPG", "isOn", []);
+//	},
 
 	/**
 	 * Called to determine if Bluetooth is enabled on the device
@@ -67,37 +67,37 @@ var SignalPG = {
 	/**
 	 * User opts out
 	 */
-	userOptOut: function () {
-		cordova.exec (null, null, "SignalPG", "userOptOut", []);
-	},
+//	userOptOut: function () {
+//		cordova.exec (null, null, "SignalPG", "userOptOut", []);
+//	},
 
 	/**
 	 * User opts in
 	 */
-	userOptIn: function () {
-		cordova.exec (null, null, "SignalPG", "userOptIn", []);
-	},
+//	userOptIn: function () {
+//		cordova.exec (null, null, "SignalPG", "userOptIn", []);
+//	},
 
 	/**
 	 * @return BOOL whether or not user has opted out
 	 */
-	isUserOptedOut: function () {
-		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
-	},
+//	isUserOptedOut: function () {
+//		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
+//	},
 
 	/**
 	 * Enable advertising identifier
 	 */
-	enableAdvertisingIdentifier: function () {
-		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
-	},
+//	enableAdvertisingIdentifier: function () {
+//		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
+//	},
 
 	/**
 	 * Disable advertising identifier
 	 */
-	disableAdvertisingIdentifier: function () {
-		cordova.exec (null, null, "SignalPG", "disableAdvertisingIdentifier", []);
-	},
+//	disableAdvertisingIdentifier: function () {
+//		cordova.exec (null, null, "SignalPG", "disableAdvertisingIdentifier", []);
+//	},
 
 	/**
 	 * @return BOOL whether or not advertising identifier is enabled
@@ -186,11 +186,11 @@ var SignalPG = {
 		}
 	},
 
-	// _nativeDidGeoFencesUpdated: function (location) {
-	// 	if (this.didGeoFencesUpdatedCB) {
-	// 		this.didGeoFencesUpdatedCB.apply (null, [location]);
-	// 	}
-	// },
+	 _nativeDidGeoFencesUpdated: function (location) {
+		if (this.didGeoFencesUpdatedCB) {
+			this.didGeoFencesUpdatedCB.apply (null, [location]);
+		}
+	 },
 
 	_nativeDidCompleteRegistration: function (success) {
 		if (this.didCompleteRegistrationCB) {
