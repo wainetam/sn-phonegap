@@ -9,7 +9,7 @@
 #import "SignalPG.h"
 
 @interface SignalPG()
-    @property(nonatomic, strong) CLLocationManager *locationManager;
+//    @property(nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 @implementation SignalPG
@@ -224,8 +224,6 @@
  * @param activations instances of SignalActivation that contain, delivery time, content, etc
  */
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
-    NSLog(@"received activation");
-    NSLog(@"activations: %@", activations);
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(%@);", [activations description]]; // array of SignalActivation -- not JSON, just string
@@ -252,41 +250,41 @@
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
     
-    if ([location respondsToSelector:@selector(identifier)]) {
+    if ([location respondsToSelector:@selector(identifier)] && location.identifier) {
         [dict setObject:[NSNumber numberWithLongLong:location.identifier] forKey:@"identifier"];
     }
     
-    if ([location respondsToSelector:@selector(name)]) {
+    if ([location respondsToSelector:@selector(name)] && location.name) {
         [dict setObject:location.name forKey:@"name"];
     }
     
-    if ([location respondsToSelector:@selector(endTime)]) {
+    if ([location respondsToSelector:@selector(endTime)] && location.endTime) {
         NSString* endTimeString = [dateFormatter stringFromDate:location.endTime];
         [dict setObject:endTimeString forKey:@"endTime"];
     }
     
-    if ([location respondsToSelector:@selector(startTime)]) {
+    if ([location respondsToSelector:@selector(startTime)] && location.startTime) {
         NSString* startTimeString = [dateFormatter stringFromDate:location.startTime];
         [dict setObject:startTimeString forKey:@"startTime"];
     }
     
-    if ([location respondsToSelector:@selector(latitude)]) {
+    if ([location respondsToSelector:@selector(latitude)] && location.latitude) {
         [dict setObject:[NSNumber numberWithDouble:location.latitude] forKey:@"latitude"];
     }
 
-    if ([location respondsToSelector:@selector(longitude)]) {
+    if ([location respondsToSelector:@selector(longitude)] && location.longitude) {
         [dict setObject:[NSNumber numberWithDouble:location.longitude] forKey:@"longitude"];
     }
 
-    if ([location respondsToSelector:@selector(radius)]) {
+    if ([location respondsToSelector:@selector(radius)] && location.radius) {
         [dict setObject:[NSNumber numberWithDouble:location.radius] forKey:@"radius"];
     }
     
-    if ([location respondsToSelector:@selector(state)]) {
+    if ([location respondsToSelector:@selector(state)] && location.state) {
         [dict setObject:location.state forKey:@"state"];
     }
     
-    if ([location respondsToSelector:@selector(programId)]) {
+    if ([location respondsToSelector:@selector(programId)] && location.programId) {
         [dict setObject:[NSNumber numberWithLongLong:location.programId] forKey:@"programId"];
     }
     
@@ -319,7 +317,7 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEntered(\"%@\");", jsonString]; // serialize SignalLocation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEntered('%@');", jsonString]; // serialize SignalLocation
         [self.commandDelegate evalJs:jsString];
     }];
 }

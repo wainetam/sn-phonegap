@@ -29,7 +29,7 @@
 
 @interface SignalPG : CDVPlugin <SignalDelegate>
 
-//@property(nonatomic, strong) CLLocationManager *locationManager;
+@property(nonatomic, strong) CLLocationManager *locationManager;
 
 - (void) initialize:(CDVInvokedUrlCommand *)command;
 
