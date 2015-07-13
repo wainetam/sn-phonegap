@@ -34,4 +34,15 @@
 		<framework src="libz.dylib" />
 		<!-- add appropriate Signal360 SDK into XCode -->
 	</platform>
+
+	<!-- android -->
+	<platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SignalPG">
+        <param name="android-package" value="com.signal360.plugin.SignalPG"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/SignalPG.java" target-dir="src/com/signal360/plugin/"/>
+  </platform>
 </plugin>

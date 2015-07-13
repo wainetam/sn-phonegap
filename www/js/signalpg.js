@@ -112,7 +112,7 @@ var SignalPG = {
 	 */
 	setCustomerIdentifier: function (customerIdentifier) {
 		if (customerIdentifier && typeof customerIdentifier === "string") {
-			cordova.exec (null, null, "SignalPG", "reset", [setCustomerIdentifier]);
+			cordova.exec (null, null, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
 		}
 	},
 
@@ -156,55 +156,55 @@ var SignalPG = {
 
 	// DELEGATE METHODS
 
-	_nativeDidHearCodeCall: function (code) {
+	_nativeDidHearCodeCB: function (code) {
 		if (this.didHearCodeCB) {
 			this.didHearCodeCB.apply (null, [code]);
 		}
 	},
 
-	_nativeDidReceiveActivationsCall: function (activations) {
+	_nativeDidReceiveActivationsCB: function (activations) {
 		if (this.didReceiveActivationsCB) {
 			this.didReceiveActivationsCB.apply (null, [activations]);
 		}
 	},
 
-	_nativeDidStatusChange: function (status) {
+	_nativeDidStatusChangeCB: function (status) {
 		if (this.didStatusChangeCB) {
 			this.didStatusChangeCB.apply (null, [status]);
 		}
 	},
 
-	_nativeDidGeoFenceEntered: function (location) {
+	_nativeDidGeoFenceEnteredCB: function (location) {
 		if (this.didGeoFenceEnteredCB) {
 			this.didGeoFenceEnteredCB.apply (null, [location]);
 		}
 	},
 
-	_nativeDidGeoFenceExited: function (location) {
+	_nativeDidGeoFenceExitedCB: function (location) {
 		if (this.didGeoFenceExitedCB) {
 			this.didGeoFenceExitedCB.apply (null, [location]);
 		}
 	},
 
-	 _nativeDidGeoFencesUpdated: function (location) {
+	 _nativeDidGeoFencesUpdatedCB: function (location) {
 		if (this.didGeoFencesUpdatedCB) {
 			this.didGeoFencesUpdatedCB.apply (null, [location]);
 		}
 	 },
 
-	_nativeDidCompleteRegistration: function (success) {
+	_nativeDidCompleteRegistrationCB: function (success) {
 		if (this.didCompleteRegistrationCB) {
 			this.didCompleteRegistrationCB.apply (null, [success]);
 		}
 	},
 
-	_nativeDidUpdateConfiguration: function (changed) {
+	_nativeDidUpdateConfigurationCB: function (changed) {
 		if (this.didUpdateConfigurationCB) {
 			this.didUpdateConfigurationCB.apply (null, [changed]);
 		}
 	},	
 
-	_nativeGetTagsForCode: function (code) {
+	_nativeGetTagsForCodeCB: function (code) {
 		if (this.getTagsForCodeCB) {
 			this.getTagsForCodeCB.apply (null, [code]);
 		}

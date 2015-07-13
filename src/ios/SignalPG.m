@@ -1,4 +1,4 @@
-//
+    //
 //  SignalPG.m
 //  signal-phonegap
 //
@@ -29,7 +29,7 @@
         [self.locationManager requestAlwaysAuthorization];
     }
     
-    // setup notificatinons
+    // setup notifications
     if([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
@@ -203,7 +203,7 @@
         NSString *jsString = nil;
 
         NSString *jsonString = [self serializeSignalCodeHeard:code];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCall('%@');", jsonString]; // serialize SignalCodeHeard
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
 
@@ -226,7 +226,7 @@
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCall(%@);", [activations description]]; // array of SignalActivation -- not JSON, just string
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCB(%@);", [activations description]]; // array of SignalActivation -- not JSON, just string
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -240,7 +240,7 @@
 - (void) signal: (Signal *)signal didStatusChange: (SignalSdkStatus) status {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChange('%ld');", (long)status]; // SignalSdkStatus is an NSInteger
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidStatusChangeCB('%ld');", (long)status]; // SignalSdkStatus is an NSInteger
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -316,7 +316,7 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEntered('%@');", jsonString]; // serialize SignalLocation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceEnteredCB('%@');", jsonString]; // serialize SignalLocation
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -333,7 +333,7 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalLocation:location];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExited('%@');", jsonString]; // serialize SignalLocation
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFenceExitedCB('%@');", jsonString]; // serialize SignalLocation
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -347,7 +347,7 @@
 - (void) signal: (Signal *)signal didGeoFencesUpdated: (NSArray *) locations {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdated(%@);", [locations description]]; // array of SignalLocation -- not JSON, just string
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdatedCB(%@);", [locations description]]; // array of SignalLocation -- not JSON, just string
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -361,7 +361,7 @@
 - (void) signal: (Signal *)signal didCompleteRegistration:(BOOL)success {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistration('%d');", success];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidCompleteRegistrationCB('%d');", success];
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -375,7 +375,7 @@
 - (void) signal: (Signal *)signal didUpdateConfiguration:(BOOL)changed {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfiguration('%d');", changed];
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidUpdateConfigurationCB('%d');", changed];
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -390,7 +390,7 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
         NSString *jsonString = [self serializeSignalCodeHeard:code];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCode('%@');", jsonString]; // serialize SignalCodeHeard
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
     
