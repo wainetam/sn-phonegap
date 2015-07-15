@@ -202,8 +202,8 @@
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
 
-        NSString *jsonString = [self serializeSignalCodeHeard:code];
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
+        NSString *jsonString = [self serializeSignalCodeHeard:code];  // serialize SignalCodeHeard
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidHearCodeCB('%@');", jsonString];
         [self.commandDelegate evalJs:jsString];
     }];
 
