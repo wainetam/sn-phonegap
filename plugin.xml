@@ -12,6 +12,7 @@
 		<config-file target="config.xml" parent="/widget/plugins">
 			<feature name="SignalPG">
 				<param name="ios-package" value="SignalPG"/>
+				<param name="onload" value="true" />
 			</feature>
 		</config-file>
 		<header-file src="src/ios/SignalPG.h" />
@@ -40,6 +41,7 @@
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="SignalPG">
         <param name="android-package" value="com.signal360.plugin.SignalPG"/>
+        <param name="onload" value="true" />
       </feature>
     </config-file>
 

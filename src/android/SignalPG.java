@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import com.google.gson.Gson;
+// need reference to R.class of app TBD
 
 import android.app.Application;
 import android.app.Notification;
