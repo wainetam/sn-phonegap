@@ -1,6 +1,8 @@
 package com.signal360.plugin;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaActivity;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
@@ -38,6 +40,9 @@ import com.signal360.sdk.core.objects.SignalBluetoothCodeHeard;
 import com.signal360.sdk.core.objects.SignalCodeHeard;
 import com.signal360.sdk.core.objects.SignalLocation;
 import com.signal360.sdk.ui.SignalUI;
+import com.signal360.sdk.ui.SignalUIClient;
+import com.signal360.sdk.ui.activities.SignalContentNavigatorActivity;
+import com.signal360.sdk.ui.activities.SignalContentWebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +53,10 @@ import java.util.Iterator;
 /**
  * Created by wainetam on 6/30/15.
  */
-public class SignalPG extends CordovaPlugin implements SignalClient {
+public class SignalPG extends CordovaPlugin implements SignalClient, SignalUIClient {
 
     private static final String TAG = "PhoneGap/Signal360";
-    
+
     // Signal methods
     private static final String INITIALIZE="initialize";
     private static final String START="start";
@@ -81,8 +86,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
                     isQuiet = arguments.getBoolean(1);
                 }
 
-                Signal.get().initialize(this, this, appID);
-                SignalUI.get().initialize(this, this, R.class);
+                Signal.get().initialize(cordova.getActivity(), this, appID);
+                SignalUI.get().initialize(cordova.getActivity(), this, R.class);
 
                 SignalInternal.getInternal().setQuiet(isQuiet);
 
@@ -147,7 +152,6 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
             return false;
         }
-        return false;
     }
 
     /**
@@ -167,7 +171,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(codeHeard);
 
         String js = String.format("javascript:SignalPG._nativeDidHearCodeCall('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
 
         if (codeHeard != null) {
             return true;
@@ -189,7 +193,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(activations);
 
         String js = String.format("javascript:SignalPG._nativeDidReceiveActivationsCall('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -223,7 +227,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(location);
 
         String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -237,7 +241,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(location);
 
         String js = String.format("javascript:SignalPG._nativeDidGeoFenceExited('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -252,7 +256,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(locations);
 
         String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -268,7 +272,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(newStatus);
 
         String js = String.format("javascript:SignalPG._nativeDidStatusChange('%ld')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -279,7 +283,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
     @Override
     public void didCompleteRegistration(boolean success) {
         String js = String.format("javascript:SignalPG._nativeDidCompleteRegistration('%d')", success);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -289,7 +293,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
     @Override
     public void didUpdateConfiguration(boolean changed) {
         String js = String.format("javascript:SignalPG._nativeDidUpdateConfiguration('%d')", changed);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
     }
 
     /**
@@ -306,8 +310,65 @@ public class SignalPG extends CordovaPlugin implements SignalClient {
         String json = gson.toJson(codeHeard);
 
         String js = String.format("javascript:SignalPG._nativeGetTagsForCode('%s')", json);
-        this.webView.loadUrl(js);
+        webView.loadUrl(js);
 
         return null;
     }
+
+    @Override
+    public View getContentNavigatorRowView(View convertView, ViewGroup viewGroup, SignalActivation content) {
+        return null;
+    }
+
+    @Override
+    public void decorateContentNavigatorActivity(SignalContentNavigatorActivity activity) {
+        View headerView = activity.findViewById(R.id.signal_content_navigator_header);
+        headerView.setBackgroundColor(0xFFFFFFFF);
+    }
+
+    @Override
+    public void decorateContentWebViewActivity(SignalContentWebViewActivity activity) {
+
+    }
+
+    @Override
+    public JSONObject decorateCard(JSONObject object) {
+        return null;
+    }
+
+    @Override
+    public Intent decorateNotificationIntent(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public Notification decorateNotification(Notification notification) {
+        return null;
+    }
+
+    @Override
+    public int getNotificationIconResourceId() {
+        return 0;
+    }
+
+    @Override
+    public Boolean canActivateContent(SignalActivation activation) {
+        return null;
+    }
+
+    @Override
+    public Boolean canDeleteListCard(SignalActivation var1) {
+        return null;
+    }
+
+    @Override
+    public String willExpandSplashCard(SignalActivation var1, String var2) {
+        return null;
+    }
+
+    @Override
+    public void didCloseSplashCard(SignalActivation var1, boolean var2) {
+
+    }
+
 }
