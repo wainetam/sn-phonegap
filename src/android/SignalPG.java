@@ -1,5 +1,4 @@
-package com.example.hello;
-//package com.signal360.plugin;
+package com.signal360.plugin;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
