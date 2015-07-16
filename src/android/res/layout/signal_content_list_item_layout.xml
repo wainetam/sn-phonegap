@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#393939">
+
+	<com.signal360.sdk.ui.views.SignalCacheImageView
+        	android:id="@+id/signal_content_list_background_image"
+  			android:layout_width="fill_parent"
+  			android:layout_height="140dp"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentRight="true"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+
+			/>
+
+
+	<TextView
+			android:id="@+id/signal_content_list_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:maxLines="2"
+			android:singleLine="false"
+			android:textColor="#000000"
+			android:textStyle="bold"
+			android:textSize="14sp"
+			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			/>
+
+	<LinearLayout
+            android:id="@+id/signal_content_list_description_bg"
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentRight="true"
+			android:background="#99000000">
+		<TextView
+				android:id="@+id/signal_content_list_description"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:maxLines="2"
+				android:singleLine="true"
+				android:textColor="#e8e5e5"
+				android:textStyle="bold"
+				android:textSize="12sp"
+				android:layout_marginLeft="5dp"/>
+
+
+
+	</LinearLayout>
+
+
+
+
+	<ImageView
+			android:id="@+id/divider"
+			android:layout_width="fill_parent"
+			android:layout_height="2dp"
+			android:background="#131313"
+			android:layout_alignParentBottom="true"
+
+	/>
+</RelativeLayout>
