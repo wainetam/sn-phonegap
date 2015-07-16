@@ -106,9 +106,9 @@
     <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
     <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
     <!-- copy jniLib resources -->
-    <source-file src="src/android/jniLibs/arm64-v8a/*.*" target-dir="jniLibs" />
-    <source-file src="src/android/jniLibs/armeabi/*.*" target-dir="jniLibs" />
-    <source-file src="src/android/jniLibs/armeabi-v7a/*.*" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/arm64-v8a/*.so" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/armeabi/*.so" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/armeabi-v7a/*.so" target-dir="jniLibs" />
     <!-- copy layout resources -->
     <source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
     <source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
