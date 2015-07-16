@@ -38,16 +38,17 @@
 
 	<!-- android -->
 	<platform name="android">
-		<config-file target="res/xml/config.xml" parent="plugins">
-			<feature name="SignalPG">
-				<param name="android-package" value="com.signal360.plugin.SignalPG"/>
-				<param name="onload" value="true" />
-			</feature>
-		</config-file>
+    <!-- <config-file target="res/xml/config.xml" parent="/*"> -->
+    <config-file target="res/xml/config.xml" parent="plugins">
+      <feature name="SignalPG">
+        <param name="android-package" value="com.signal360.plugin.SignalPG"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
 
-		<!-- add to /manifest/application -->
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<!--
+    <!-- add to /manifest/application -->
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+  		<!--
 			SignalUI includes two activities that are required in order for the user interface elements to work
 			-->
 			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentNavigatorActivity"
@@ -83,10 +84,10 @@
 			</receiver>
 
 			<meta-data android:name="com.google.android.gms.version" android:value="7095000" />
-		</config-file>
+    </config-file>
 
-		<!-- add to /manifest -->
-		<config-file target="AndroidManifest.xml" parent="/manifest">
+    <!-- add to /manifest -->
+    <config-file target="AndroidManifest.xml" parent="/manifest">
 			<!-- For retrieval of contents and configuration -->
 			<uses-permission android:name="android.permission.INTERNET" />
 			<!-- For offline content caching -->
@@ -100,24 +101,24 @@
 			<!-- For Bluetooth LE signals -->
 			<uses-permission android:name="android.permission.BLUETOOTH" />
 			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-		</config-file>
+    </config-file>
 
-		<!-- copy lib resources -->
-		<source-file src="src/android/libs/signal-core-android-v4.90.122-prod.jar" target-dir="libs" />
-		<source-file src="src/android/libs/signal-ui-android-v4.90.122-prod.jar" target-dir="libs" />
-		<source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
-		<source-file src="src/android/libs/ormlite-android-4.24.jar" target-dir="libs" />
-		<source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
-		<source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
-		<!-- copy jniLib resources -->
-		<!-- <source-file src="src/android/libs/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs" /> -->
-		<!-- <source-file src="src/android/libs/jniLibs/armeabi/libsn.so" target-dir="jniLibs" /> -->
-		<!-- <source-file src="src/android/libs/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs" /> -->
-		<!-- copy layout resources -->
-		<source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
-		<source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
-		<source-file src="src/android/res/layout/signal_content_web_view_layout.xml" target-dir="res/layout" />
-		<!-- add plugin source code -->
-		<source-file src="src/android/SignalPG.java" target-dir="src/com/signal360/plugin/" />
-	</platform>
+    <!-- copy lib resources -->
+    <source-file src="src/android/libs/signal-core-android-v4.90.122-prod.jar" target-dir="libs" />
+    <source-file src="src/android/libs/signal-ui-android-v4.90.122-prod.jar" target-dir="libs" />
+    <source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
+    <source-file src="src/android/libs/ormlite-android-4.24.jar" target-dir="libs" />
+    <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
+    <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
+    <!-- copy jniLib resources -->
+    <source-file src="src/android/libs/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs" />
+    <source-file src="src/android/libs/jniLibs/armeabi/libsn.so" target-dir="jniLibs" />
+    <source-file src="src/android/libs/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs" />
+    <!-- copy layout resources -->
+    <source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
+    <source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
+    <source-file src="src/android/res/layout/signal_content_web_view_layout.xml" target-dir="res/layout" />
+    <!-- add plugin source code -->
+    <source-file src="src/android/SignalPG.java" target-dir="src/com/signal360/plugin/" />
+  </platform>
 </plugin>
