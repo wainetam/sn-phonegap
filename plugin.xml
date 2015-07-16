@@ -38,7 +38,6 @@
 
 	<!-- android -->
 	<platform name="android">
-    <!-- <config-file target="res/xml/config.xml" parent="/*"> -->
     <config-file target="res/xml/config.xml" parent="plugins">
       <feature name="SignalPG">
         <param name="android-package" value="com.signal360.plugin.SignalPG"/>
@@ -51,13 +50,9 @@
   		<!--
 			SignalUI includes two activities that are required in order for the user interface elements to work
 			-->
-			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentNavigatorActivity"
-			android:configChanges="screenLayout|orientation|keyboard|keyboardHidden"
-			android:launchMode="singleTop"/>
+			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentNavigatorActivity" android:configChanges="screenLayout|orientation|keyboard|keyboardHidden" android:launchMode="singleTop"/>
 
-			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentWebViewActivity"
-			android:configChanges="screenLayout|orientation|keyboard|keyboardHidden"
-			android:launchMode="singleTop"/>
+			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentWebViewActivity" android:configChanges="screenLayout|orientation|keyboard|keyboardHidden" android:launchMode="singleTop"/>
 
 			<receiver android:enabled="true" android:name="com.signal360.sdk.ui.SignalUIBroadcastReceiver">
 				<intent-filter>
@@ -111,9 +106,9 @@
     <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
     <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
     <!-- copy jniLib resources -->
-    <source-file src="src/android/libs/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs" />
-    <source-file src="src/android/libs/jniLibs/armeabi/libsn.so" target-dir="jniLibs" />
-    <source-file src="src/android/libs/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/armeabi/libsn.so" target-dir="jniLibs" />
+    <source-file src="src/android/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs" />
     <!-- copy layout resources -->
     <source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
     <source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
