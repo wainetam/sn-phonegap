@@ -4,13 +4,13 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
 import com.google.gson.Gson;
-// need reference to R.class of app TBD
 
 import android.app.Application;
 import android.app.Notification;
@@ -70,16 +70,21 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     private static final String GET_ACTIVATIONS_WITH_CODEHEARD="getActivationsWithCodeHeard";
     private static final String ALL_ACTIVE_CONTENT="allActiveContent";
 
-    private SharedPreferences prefs;
-    static final String PREF_APPLICATION_GUID = "sonic.guid";
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
+        Signal.get().initialize(cordova.getActivity().getApplication(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
+        SignalUI.get().initialize(cordova.getActivity().getApplication(), this, cordova.getActivity().getApplication().getResources().getClass());
+//        Signal.get().start();
+        // your init code here
+    }
 
     @Override
     public boolean execute(String action, JSONArray arguments, CallbackContext callbackContext) throws JSONException {
 
         try {
             if (INITIALIZE.equals(action)) {
-//                prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
                 String appID = arguments.getString(0);
                 Boolean isQuiet = false;
 
@@ -87,14 +92,11 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                     isQuiet = arguments.getBoolean(1);
                 }
 
-                Signal.get().initialize(cordova.getActivity(), this, appID);
-                SignalUI.get().initialize(cordova.getActivity(), this, R.class);
+                Signal.get().initialize(cordova.getActivity().getApplication(), this, appID);
+                SignalUI.get().initialize(cordova.getActivity().getApplication(), this, cordova.getActivity().getResources().getClass());
 
                 SignalInternal.getInternal().setQuiet(isQuiet);
-
 //                Signal.get().start();
-
-                // do I need to save guid in preferences, or does by default?
 
                 callbackContext.success("");
                 return true;
@@ -155,6 +157,77 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         }
     }
 
+    @Override
+    public void onPause(boolean multitasking) {
+        super.onPause(multitasking);
+        Signal.get().onActivityPause(cordova.getActivity());
+    }
+
+    /**
+     * Called when the activity will start interacting with the user.
+     *
+     * @param multitasking      Flag indicating if multitasking is turned on for app
+     */
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+        Signal.get().onActivityResume(cordova.getActivity());
+    }
+
+    /**
+     * Called when the WebView does a top-level navigation or refreshes.
+     *
+     * Plugins should stop any long-running processes and clean up internal state.
+     *
+     * Does nothing by default.
+     */
+    @Override
+    public void onReset() {
+        super.onReset();
+    }
+
+    /**
+     * Called when the activity is becoming visible to the user.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    /**
+     * Called when the activity is no longer visible to the user.
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    /**
+     * Called when the activity receives a new intent.
+     */
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+    }
+
+    /**
+     * The final call you receive before your activity is destroyed.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    /**
+     * Called by the system when the device configuration changes while your activity is running.
+     *
+     * @param newConfig     The new device configuration
+     */
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
     /**
      * Called every time the SDK successfully decodes a valid code. To receive the associated
      * piece of content which is tied to this beaconCode, then return true. Otherwise return false.  If true
@@ -166,13 +239,16 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public Boolean didHearCode(Signal signal, SignalCodeHeard codeHeard) {
-//        Log.v(TAG, "Heard Signal" + codeHeard);
-//        return null;
         Gson gson = new Gson();
         String json = gson.toJson(codeHeard);
 
-        String js = String.format("javascript:SignalPG._nativeDidHearCodeCall('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidHearCodeCall('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
 
         if (codeHeard != null) {
             return true;
@@ -193,8 +269,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(activations);
 
-        String js = String.format("javascript:SignalPG._nativeDidReceiveActivationsCall('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidReceiveActivationsCall('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -215,20 +296,16 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public void geoFenceEntered(SignalLocation location) {
-//        try {
-//            SignalAudioCodeHeard codeHeard = new SignalAudioCodeHeard(Long.valueOf(location.getName()), null, null);
-//            Signal.get().getActivationsWithCodeHeard(codeHeard);
-//            String jsString;
-//            String jsonString = nil;
-//            jsString = jsonString;
-//
-//        } catch(NumberFormatException e) {
-//        }
         Gson gson = new Gson();
         String json = gson.toJson(location);
 
-        String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -241,8 +318,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(location);
 
-        String js = String.format("javascript:SignalPG._nativeDidGeoFenceExited('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceExited('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -256,8 +338,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(locations);
 
-        String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -272,8 +359,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(newStatus);
 
-        String js = String.format("javascript:SignalPG._nativeDidStatusChange('%ld')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidStatusChange('%i')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -283,8 +375,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public void didCompleteRegistration(boolean success) {
-        String js = String.format("javascript:SignalPG._nativeDidCompleteRegistration('%d')", success);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidCompleteRegistration('%b')", success);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -293,8 +390,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public void didUpdateConfiguration(boolean changed) {
-        String js = String.format("javascript:SignalPG._nativeDidUpdateConfiguration('%d')", changed);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeDidUpdateConfiguration('%b')", changed);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
     }
 
     /**
@@ -310,8 +412,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(codeHeard);
 
-        String js = String.format("javascript:SignalPG._nativeGetTagsForCode('%s')", json);
-        webView.loadUrl(js);
+        final String js = String.format("javascript:SignalPG._nativeGetTagsForCode('%s')", json);
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                webView.loadUrl(js);
+            }
+        });
 
         return null;
     }
@@ -323,8 +430,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public void decorateContentNavigatorActivity(SignalContentNavigatorActivity activity) {
-        View headerView = activity.findViewById(R.id.signal_content_navigator_header);
-        headerView.setBackgroundColor(0xFFFFFFFF);
+//        View headerView = activity.findViewById(cordova.getActivity().getResources().getClass().id.signal_content_navigator_header);
+//        headerView.setBackgroundColor(0xFFFFFFFF);
     }
 
     @Override
@@ -350,6 +457,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public int getNotificationIconResourceId() {
         return 0;
+//        return R.drawable.signal_notification_icon;
     }
 
     @Override
