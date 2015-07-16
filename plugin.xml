@@ -45,11 +45,72 @@
         <param name="onload" value="true" />
       </feature>
     </config-file>
+
+    <!-- add to /manifest/application -->
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+  		<!--
+			SignalUI includes two activities that are required in order for the user interface elements to work
+			-->
+			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentNavigatorActivity"
+			android:configChanges="screenLayout|orientation|keyboard|keyboardHidden"
+			android:launchMode="singleTop"/>
+
+			<activity android:enabled="true" android:name="com.signal360.sdk.ui.activities.SignalContentWebViewActivity"
+			android:configChanges="screenLayout|orientation|keyboard|keyboardHidden"
+			android:launchMode="singleTop"/>
+
+			<receiver android:enabled="true" android:name="com.signal360.sdk.ui.SignalUIBroadcastReceiver">
+				<intent-filter>
+					<!-- Internal Signal broadcasts -->
+					<action android:name="com.signal360.sdk.ACTION_ACTIVATIONS_RECEIVED"/>
+				</intent-filter>
+			</receiver>
+			<!--
+			The Signal Service is the Guts of the Signal System and if you want to be able to hear Signal
+			Signals this is a required component as are all the other elements described within
+			-->
+			<service android:enabled="true" android:name="com.signal360.sdk.core.SignalService"/>
+
+			<!--
+			The Signal Broadcast Receiver is used to manage internal dispatch messages, time ticks,
+			connectivity changes and IPC between Signal Apps
+			-->
+			<receiver android:enabled="true" android:name="com.signal360.sdk.core.SignalBroadcastReceiver">
+				<intent-filter>
+					<!-- Internal Signal broadcasts -->
+					<action android:name="com.signal360.sdk.ACTION_IPC"/>
+					<action android:name="com.signal360.sdk.ACTION_GEO_UPDATE"/>
+				</intent-filter>
+			</receiver>
+
+			<meta-data android:name="com.google.android.gms.version" android:value="7095000" />
+    </config-file>
+
+    <!-- add to /manifest -->
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+			<!-- For retrieval of contents and configuration -->
+			<uses-permission android:name="android.permission.INTERNET" />
+			<!-- For offline content caching -->
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+			<!-- For enabling Signal based on location, GPS is NOT turned on.  -->
+			<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+			<!-- For audio signal decoding -->
+			<uses-permission android:name="android.permission.RECORD_AUDIO" />
+			<!-- For background processing of signal -->
+			<uses-permission android:name="android.permission.WAKE_LOCK" />
+			<!-- For Bluetooth LE signals -->
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    </config-file>
+
     <!-- copy lib resources -->
-<!--     <source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
+    <source-file src="src/android/libs/signal-core-android-v4.90.122-prod.jar" target-dir="libs" />
+    <source-file src="src/android/libs/signal-ui-android-v4.90.122-prod.jar" target-dir="libs" />
+    <source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
+    <source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
     <source-file src="src/android/libs/ormlite-android-4.24.jar" target-dir="libs" />
     <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
-    <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" /> -->
+    <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
     <!-- copy layout resources -->
     <source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
     <source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
