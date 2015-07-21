@@ -95,7 +95,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 SignalUI.get().initialize(cordova.getActivity().getApplication(), this, cordova.getActivity().getResources().getClass());
 
                 SignalInternal.getInternal().setQuiet(isQuiet);
-//                Signal.get().start();
+                Signal.get().start();
 
                 callbackContext.success("");
                 return true;
@@ -159,7 +159,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
-        Signal.get().onActivityPause(cordova.getActivity());
+        Signal.get().onActivityPause(this.cordova.getActivity());
     }
 
     /**
@@ -170,7 +170,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
-        Signal.get().onActivityResume(cordova.getActivity());
+        Signal.get().onActivityResume(this.cordova.getActivity());
     }
 
     /**

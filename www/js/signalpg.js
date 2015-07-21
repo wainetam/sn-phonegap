@@ -1,22 +1,22 @@
 var SignalPG = {
 
-		didHearCodeCB: null,
+	didHearCodeCB: null,
 
-		didReceiveActivationsCB: null,
+	didReceiveActivationsCB: null,
 
-		didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
+	didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
 
-		didGeoFenceEnteredCB: null,
+	didGeoFenceEnteredCB: null,
 
-		didGeoFenceExitedCB: null,
+	didGeoFenceExitedCB: null,
 
-		didGeoFencesUpdatedCB: null,
+	didGeoFencesUpdatedCB: null,
 
-		didCompleteRegistrationCB: null,
+	didCompleteRegistrationCB: null,
 
-		didUpdateConfigurationCB: null,
+	didUpdateConfigurationCB: null,
 
-		getTagsForCodeCB: null,
+	getTagsForCodeCB: null,
 
 	/**
 	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
