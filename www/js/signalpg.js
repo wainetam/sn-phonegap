@@ -157,7 +157,6 @@ var SignalPG = {
 	// DELEGATE METHODS
 
 	_nativeDidHearCodeCB: function (code) {
-		window.alert('in did hear code');
 		if (this.didHearCodeCB) {
 			this.didHearCodeCB.apply (null, [code]);
 		}
@@ -211,3 +210,5 @@ var SignalPG = {
 		}
 	}
 }
+
+module.exports = SignalPG;
