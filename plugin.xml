@@ -106,13 +106,13 @@
     <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
     <source-file src="src/android/libs/gson-2.3.1.jar" target-dir="libs" />
     <!-- copy jniLib resources -->
-    <source-file src="src/android/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs/arm64-v8a" />
-    <source-file src="src/android/jniLibs/armeabi/libsn.so" target-dir="jniLibs/armeabi" />
-    <source-file src="src/android/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs/armeabi-v7a" />
+    <lib-file src="src/android/jniLibs/arm64-v8a/libsn.so" target-dir="jniLibs/arm64-v8a" />
+    <lib-file src="src/android/jniLibs/armeabi/libsn.so" target-dir="jniLibs/armeabi" />
+    <lib-file src="src/android/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs/armeabi-v7a" />
     <!-- copy layout resources -->
-    <source-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
-    <source-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
-    <source-file src="src/android/res/layout/signal_content_web_view_layout.xml" target-dir="res/layout" />
+    <resource-file target="src/android/res/layout/signal_content_list_item_layout.xml" src="signal_content_list_item_layout.xml" />
+    <resource-file target="src/android/res/layout/signal_content_navigator_layout.xml" src="signal_content_list_item_layout.xml" />
+    <resource-file target="src/android/res/layout/signal_content_web_view_layout.xml" src="signal_content_list_item_layout.xml" />
     <!-- add plugin source code -->
     <source-file src="src/android/SignalPG.java" target-dir="src/com/signal360/plugin/" />
   </platform>
