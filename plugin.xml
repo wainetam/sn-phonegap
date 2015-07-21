@@ -110,9 +110,9 @@
     <lib-file src="src/android/jniLibs/armeabi/libsn.so" target-dir="jniLibs/armeabi" />
     <lib-file src="src/android/jniLibs/armeabi-v7a/libsn.so" target-dir="jniLibs/armeabi-v7a" />
     <!-- copy layout resources -->
-    <resource-file src="src/android/res/layout/signal_content_list_item_layout.xml" target-dir="res/layout" />
-    <resource-file src="src/android/res/layout/signal_content_navigator_layout.xml" target-dir="res/layout" />
-    <resource-file src="src/android/res/layout/signal_content_web_view_layout.xml" target-dir="res/layout" />
+    <resource-file src="src/android/res/layout/signal_content_list_item_layout.xml" target="res/layout/signal_content_list_item_layout.xml" />
+    <resource-file src="src/android/res/layout/signal_content_navigator_layout.xml" target="res/layout/signal_content_navigator_layout.xml" />
+    <resource-file src="src/android/res/layout/signal_content_web_view_layout.xml" target="res/layout/signal_content_web_view_layout.xml" />
 <!--     <resource-file target="res/layout/signal_content_list_item_layout.xml" src="src/android/res/layout/signal_content_list_item_layout.xml" />
     <resource-file target="res/layout/signal_content_navigator_layout.xml" src="src/android/res/layout/signal_content_navigator_layout.xml" />
     <resource-file target="res/layout/signal_content_web_view_layout.xml" src="src/android/res/layout/signal_content_web_view_layout.xml" /> -->
