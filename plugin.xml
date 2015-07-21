@@ -38,7 +38,7 @@
 
 	<!-- android -->
 	<platform name="android">
-		<js-module src="www/js/signaljs.js" name="plugin">
+		<js-module src="www/js/signalpg.js" name="plugin">
 		   <clobbers target="com.signal360" />
 		</js-module>
     <config-file target="res/xml/config.xml" parent="plugins">
