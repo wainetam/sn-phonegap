@@ -241,7 +241,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(codeHeard);
 
-        final String js = String.format("javascript:SignalPG._nativeDidHearCodeCall('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidHearCodeCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -268,7 +268,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(activations);
 
-        final String js = String.format("javascript:SignalPG._nativeDidReceiveActivationsCall('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidReceiveActivationsCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -298,7 +298,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(location);
 
-        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEnteredCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -317,7 +317,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(location);
 
-        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceExited('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceExitedCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -337,7 +337,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(locations);
 
-        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEntered('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidGeoFenceEnteredCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -358,7 +358,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(newStatus);
 
-        final String js = String.format("javascript:SignalPG._nativeDidStatusChange('%i')", json);
+        final String js = String.format("javascript:SignalPG._nativeDidStatusChangeCB('%i')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -374,7 +374,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public void didCompleteRegistration(boolean success) {
-        final String js = String.format("javascript:SignalPG._nativeDidCompleteRegistration('%b')", success);
+        final String js = String.format("javascript:SignalPG._nativeDidCompleteRegistrationCB('%b')", success);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -389,7 +389,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
      */
     @Override
     public void didUpdateConfiguration(boolean changed) {
-        final String js = String.format("javascript:SignalPG._nativeDidUpdateConfiguration('%b')", changed);
+        final String js = String.format("javascript:SignalPG._nativeDidUpdateConfigurationCB('%b')", changed);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -411,7 +411,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Gson gson = new Gson();
         String json = gson.toJson(codeHeard);
 
-        final String js = String.format("javascript:SignalPG._nativeGetTagsForCode('%s')", json);
+        final String js = String.format("javascript:SignalPG._nativeGetTagsForCodeCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
