@@ -38,8 +38,8 @@
 
 	<!-- android -->
 	<platform name="android">
-		<js-module src="www/js/signalpg.js" name="plugin">
-		   <clobbers target="com.signal360" />
+		<js-module src="www/js/signalpg.js">
+		   <clobbers target="SignalPG" />
 		</js-module>
     <config-file target="res/xml/config.xml" parent="plugins">
       <feature name="SignalPG">
