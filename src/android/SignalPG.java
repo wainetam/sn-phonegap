@@ -76,7 +76,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         super.initialize(cordova, webView);
 
         Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
+        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getPackageName());
         // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, R.class);
         Signal.get().start();
     }
@@ -433,6 +433,9 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     public void decorateContentNavigatorActivity(SignalContentNavigatorActivity activity) {
        // View headerView = activity.findViewById($PACKAGE_NAME.R.id.signal_content_navigator_header);
        // headerView.setBackgroundColor(0xFFFFFFFF);
+
+    // TextView toastTitleView = (TextView) appearance.findViewById(resources.getIdentifier("toastTitle","id",packageName));
+                        // toastTitleView.setText(toastTitle);
     }
 
     @Override
