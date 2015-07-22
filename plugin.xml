@@ -43,8 +43,8 @@
 		</js-module>
     <config-file target="res/xml/config.xml" parent="plugins">
       <feature name="SignalPG">
-        <!-- <param name="android-package" value="com.signal360.plugin.SignalPG"/> -->
-        <param name="android-package" value="com.signal360.SignalPGPlugin"/>
+        <param name="android-package" value="com.signal360.plugin.SignalPG"/>
+        <!-- <param name="android-package" value="com.signal360.SignalPGPlugin"/> -->
         <param name="onload" value="true" />
       </feature>
     </config-file>
