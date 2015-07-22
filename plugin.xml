@@ -9,7 +9,7 @@
 	<js-module src="www/js/signalpg.js" name="SignalPG">
 	  <clobbers target="SignalPG" />
 	</js-module>
-	
+
 	<asset src="www/js/signalpg.js" target="js/signalpg.js" />
 	<!-- ios -->
 	<platform name="ios">
@@ -38,6 +38,7 @@
 		<framework src="libstdc++.dylib" />
 		<framework src="libz.dylib" />
 		<!-- add appropriate Signal360 SDK into XCode -->
+		<framework src="src/ios/sdk/SignalUIFramework.framework" />
 	</platform>
 
 	<!-- android -->

@@ -40,6 +40,7 @@
 
     [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)self];
     [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)self];
+    [[Signal sharedInstance] start];
 };
 
 - (void) start:(CDVInvokedUrlCommand *)command {
