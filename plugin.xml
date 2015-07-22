@@ -39,7 +39,7 @@
 		<framework src="libstdc++.dylib" />
 		<framework src="libz.dylib" />
 		<!-- add appropriate Signal360 SDK into XCode -->
-		<framework src="src/ios/sdk/SignalUI.framework" custom="true" />
+		<framework src="src/ios/sdk/SignalUI.framework" />
 	</platform>
 
 	<!-- android -->
