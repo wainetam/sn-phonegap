@@ -1,5 +1,6 @@
 package com.signal360.plugin;
 
+import com.example.hello.R;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaInterface;
