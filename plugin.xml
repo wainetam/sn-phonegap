@@ -21,6 +21,7 @@
 		</config-file>
 		<header-file src="src/ios/SignalPG.h" />
 		<source-file src="src/ios/SignalPG.m" />
+		<source-file src="src/ios/sdk/SignalUI.framework" framework="true" />
 
 		<framework src="AudioToolbox.framework" />
 		<framework src="CoreAudio.framework" />
