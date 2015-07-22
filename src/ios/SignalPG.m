@@ -17,7 +17,7 @@
 #pragma mark Signal methods for Cordova JS Bridge
 
 - (void) pluginInitialize {
-    NSString *applicationGuid = "035af909-caee-455d-8640-d9b9c5f9e0b7";
+    NSString *applicationGuid = @"035af909-caee-455d-8640-d9b9c5f9e0b7";
     bool makeQuiet = false;
 
     self.locationManager = [[CLLocationManager alloc] init];
