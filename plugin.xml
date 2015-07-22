@@ -43,7 +43,8 @@
 		</js-module>
     <config-file target="res/xml/config.xml" parent="plugins">
       <feature name="SignalPG">
-        <param name="android-package" value="com.signal360.plugin.SignalPG"/>
+        <!-- <param name="android-package" value="com.signal360.plugin.SignalPG"/> -->
+        <param name="android-package" value="com.signal360.SignalPGPlugin"/>
         <param name="onload" value="true" />
       </feature>
     </config-file>
@@ -116,10 +117,6 @@
     <resource-file src="src/android/res/layout/signal_content_list_item_layout.xml" target="res/layout/signal_content_list_item_layout.xml" />
     <resource-file src="src/android/res/layout/signal_content_navigator_layout.xml" target="res/layout/signal_content_navigator_layout.xml" />
     <resource-file src="src/android/res/layout/signal_content_web_view_layout.xml" target="res/layout/signal_content_web_view_layout.xml" />
-<!--     <resource-file target="res/layout/signal_content_list_item_layout.xml" src="src/android/res/layout/signal_content_list_item_layout.xml" />
-    <resource-file target="res/layout/signal_content_navigator_layout.xml" src="src/android/res/layout/signal_content_navigator_layout.xml" />
-    <resource-file target="res/layout/signal_content_web_view_layout.xml" src="src/android/res/layout/signal_content_web_view_layout.xml" /> -->
-    <!-- add plugin source code -->
     <source-file src="src/android/SignalPG.java" target-dir="src/com/signal360/plugin/" />
   </platform>
 </plugin>
