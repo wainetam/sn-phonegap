@@ -76,7 +76,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         super.initialize(cordova, webView);
 
         Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
+        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().class);
         // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, R.class);
         Signal.get().start();
     }
@@ -93,8 +93,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                     isQuiet = arguments.getBoolean(1);
                 }
 
-                Signal.get().initialize(cordova.getActivity().getApplication(), this, appID);
-                SignalUI.get().initialize(cordova.getActivity().getApplication(), this, cordova.getActivity().getResources().getClass());
+                Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, appID);
+                SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
 
                 SignalInternal.getInternal().setQuiet(isQuiet);
                 Signal.get().start();
