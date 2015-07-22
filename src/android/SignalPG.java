@@ -75,7 +75,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         super.initialize(cordova, webView);
 
         Signal.get().initialize(cordova.getActivity().getApplication(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        SignalUI.get().initialize(cordova.getActivity().getApplication(), this, Class.forName(getPackageName()));
+        SignalUI.get().initialize(cordova.getActivity().getApplication(), this, Class.forName(cordova.getActivity().getApplication().getPackageName()));
         Signal.get().start();
     }
 
