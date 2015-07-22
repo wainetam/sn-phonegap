@@ -31,6 +31,8 @@
 
 @property(nonatomic, strong) CLLocationManager *locationManager;
 
+- (void) pluginInitialize;
+
 - (void) initialize:(CDVInvokedUrlCommand *)command;
 
 - (void) start:(CDVInvokedUrlCommand *)command;

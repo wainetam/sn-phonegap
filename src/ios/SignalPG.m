@@ -16,6 +16,29 @@
 
 #pragma mark Signal methods for Cordova JS Bridge
 
+- (void) pluginInitialize {
+    NSString *applicationGuid = "035af909-caee-455d-8640-d9b9c5f9e0b7";
+    bool makeQuiet = false;
+
+    self.locationManager = [[CLLocationManager alloc] init];
+    if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    
+    // setup notifications
+    if([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    
+    NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
+    [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)self];
+    [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)self];
+    [[Signal sharedInstance] start];
+}
+
 - (void) initialize:(CDVInvokedUrlCommand *)command {
     NSString *applicationGuid = [command.arguments objectAtIndex:0];
     bool makeQuiet = false;
