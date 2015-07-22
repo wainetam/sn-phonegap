@@ -74,20 +74,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        String mainpackage = "";
-
-        try {
-            ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            mainpackage = bundle.getString("com.signal360.plugin.mainpackage");
-        } catch (NameNotFoundException e) {
-            Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());         
-        }
-
         Signal.get().initialize(cordova.getActivity().getApplication(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        SignalUI.get().initialize(cordova.getActivity().getApplication(), this, Class.forName(mainpackage));
+        SignalUI.get().initialize(cordova.getActivity().getApplication(), this, Class.forName(getPackageName()));
         Signal.get().start();
     }
 
