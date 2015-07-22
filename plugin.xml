@@ -83,6 +83,7 @@
 			</receiver>
 
 			<meta-data android:name="com.google.android.gms.version" android:value="7095000" />
+			<meta-data android:name="zoo" android:value="@string/$PACKAGE_NAME" />
     </config-file>
 
     <!-- add to /manifest -->
