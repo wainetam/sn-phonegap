@@ -429,7 +429,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public void decorateContentNavigatorActivity(SignalContentNavigatorActivity activity) {
-       View headerView = activity.findViewById(cordova.getActivity().getApplication().getResources().getClass().id.signal_content_navigator_header);
+       View headerView = activity.findViewById(cordova.getActivity().getApplication().getResources().id.signal_content_navigator_header);
        headerView.setBackgroundColor(0xFFFFFFFF);
     }
 
