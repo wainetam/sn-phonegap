@@ -1,6 +1,6 @@
 package com.signal360.plugin;
 
-// import com.example.hello.R;
+import com.example.hello.R;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaInterface;
@@ -22,8 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+// import android.content.pm.ApplicationInfo;
+// import android.content.pm.PackageManager;
 
 import android.preference.PreferenceManager;
 import android.view.View;
