@@ -463,8 +463,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public int getNotificationIconResourceId() {
-        return 0;
-//        return R.drawable.signal_notification_icon;
+        // return 0;
+       return R.drawable.signal_notification_icon;
     }
 
     @Override
