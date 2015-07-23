@@ -1,6 +1,6 @@
 package com.signal360.plugin;
 
-import com.example.hello.R;
+// import com.example.hello.R;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaInterface;
@@ -85,9 +85,9 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         // Bundle aBundle=ai.metaData;
         // String aValue=aBundle.getString("com.signal360.plugin.mainpackage");
 
-        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, Class.forName("com.example.hello.R"));
+        // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, Class.forName("com.example.hello.R"));
         
-        // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, R.class);
+        SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, com.example.hello.R.class);
         Signal.get().start();
     }
 
