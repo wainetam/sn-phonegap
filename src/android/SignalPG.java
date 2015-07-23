@@ -117,7 +117,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 return true;
             } else if (IS_BLUETOOTH_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isBluetoothEnabled();
-                callbackContext.success(hello);
+                callbackContext.success(enabled);
                 // callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
                 return true;
             } else if (IS_ADVERTISING_IDENTIFIER_ENABLED.equals(action)) {
