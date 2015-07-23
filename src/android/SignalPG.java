@@ -22,9 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +78,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
         Signal.get().initialize(context, this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
         // SignalUI.get().initialize(context, this, (context.getPackageName().concat(".R")).getClass());
-        SignalUI.get().initialize(context, this, cordova.getActivity().getResources().getClass());
+        // SignalUI.get().initialize(context, this, cordova.getActivity().getResources().getClass());
+        SignalUI.get().initialize(context, this, context.getResources().getClass());
         // Log.d("SIGNALPG",cordova.getActivity().getResources().getClass());
         Signal.get().start();
         
