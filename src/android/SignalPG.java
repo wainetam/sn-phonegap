@@ -90,7 +90,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         try {      
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);       
             Bundle bundle = ai.metaData;       
-            mainpackage = bundle.getString("com.signal360.plugin.mainpackage");        
+            mainpackage = bundle.getString("mainpackage");        
         } catch (NameNotFoundException e) {        
             Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());       
         } catch (NullPointerException e) {     
