@@ -22,8 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-// import android.content.pm.ApplicationInfo;
-// import android.content.pm.PackageManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -80,7 +80,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
         // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
 
-        // Context context = cordova.getActivity().getApplicationContext();
+        Context context = cordova.getActivity().getApplicationContext();
         // ApplicationInfo ai = context.getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
         // Bundle aBundle=ai.metaData;
         // String aValue=aBundle.getString("com.signal360.plugin.mainpackage");
@@ -88,7 +88,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         String mainpackage = "";        
 
         try {      
-            ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);       
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);       
             Bundle bundle = ai.metaData;       
             mainpackage = bundle.getString("com.signal360.plugin.mainpackage");        
         } catch (NameNotFoundException e) {        
