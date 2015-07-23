@@ -74,17 +74,17 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
 
         Context context = cordova.getActivity().getApplicationContext();
 
         Signal.get().initialize(context, this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
         // SignalUI.get().initialize(context, this, (context.getPackageName().concat(".R")).getClass());
         // SignalUI.get().initialize(context, this, cordova.getActivity().getResources().getClass());
-        SignalUI.get().initialize(context, this, context.getResources().getClass());
+        // SignalUI.get().initialize(context, this, context.getResources().getClass());
         SignalUI.get().initialize(context, this, R.class);
         Signal.get().start();
         
-        super.initialize(cordova, webView);
     }
 
     @Override
@@ -463,8 +463,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public int getNotificationIconResourceId() {
-        // return 0;
        return R.drawable.signal_notification_icon;
+        // return 0;
     }
 
     @Override
