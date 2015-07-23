@@ -106,7 +106,7 @@
 
     <!-- copy lib resources -->
     <source-file src="src/android/libs/signal-core-android-v4.90.122-prod.jar" target-dir="libs" />
-    <!-- <source-file src="src/android/libs/signal-ui-android-v4.90.122-prod.jar" target-dir="libs" /> -->
+    <source-file src="src/android/libs/signal-ui-android-v4.90.122-prod.jar" target-dir="libs" />
     <source-file src="src/android/libs/google-play-services.jar" target-dir="libs" />
     <source-file src="src/android/libs/ormlite-android-4.24.jar" target-dir="libs" />
     <source-file src="src/android/libs/ormlite-core-4.24.jar" target-dir="libs" />
