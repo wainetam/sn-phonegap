@@ -76,34 +76,16 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
 
         Context context = cordova.getActivity().getApplicationContext();
 
         Signal.get().initialize(context, this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
-
-        
-        // ApplicationInfo ai = context.getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
-        // Bundle aBundle=ai.metaData;
-        // String aValue=aBundle.getString("com.signal360.plugin.mainpackage");
-
-        // String mainpackage = "";        
-
-        // try {      
-        //     ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);       
-        //     Bundle bundle = ai.metaData;       
-        //     mainpackage = bundle.getString("com.signal360.plugin.mainpackage");        
-        // } catch (NameNotFoundException e) {        
-        //     Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());       
-        // } catch (NullPointerException e) {     
-        //     Log.e(TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());                
-        // }
-
-        // SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, Class.forName(mainpackage.concat(".R")));
         // SignalUI.get().initialize(context, this, (context.getPackageName().concat(".R")).getClass());
-        SignalUI.get().initialize(context, this, com.example.hello.R.class);
+        SignalUI.get().initialize(context, this, cordova.getActivity().getResources().getClass());
+        Log.d("SIGNALPG",cordova.getActivity().getResources().getClass());
         Signal.get().start();
+        
+        super.initialize(cordova, webView);
     }
 
     @Override
