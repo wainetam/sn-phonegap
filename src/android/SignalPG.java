@@ -133,15 +133,14 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 callbackContext.success("");
                 return true;
             } else if (CHECK_CONFIG.equals(action)) {
-//                Signal.get().reset();
-                // is there an equivalent in android?
+                // no android equiv as there is in iOS
                 callbackContext.success("");
                 return true;
             } else if (GET_ACTIVATIONS_WITH_CODEHEARD.equals(action)) {
                 int beaconCode = arguments.getInt(0);
 
                 if (beaconCode != 0) {
-                    // how to treat both Audio vs Bluetooth how to get rssi value, or just set value to create code?
+                    // use hardcoded rssi to create CodeHeard from beaconCode int
                     SignalCodeHeard code = new SignalBluetoothCodeHeard(beaconCode, -50);
                     Signal.get().getActivationsWithCodeHeard(code);
                     callbackContext.success("");
@@ -167,7 +166,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
-        Signal.get().onActivityPause(cordova.getActivity());
+        Signal.get().onActivityPause(this, cordova.getActivity());
     }
 
     /**
@@ -178,7 +177,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
-        Signal.get().onActivityResume(cordova.getActivity());
+        Signal.get().onActivityResume(this, cordova.getActivity());
     }
 
     /**
