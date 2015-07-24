@@ -258,11 +258,11 @@ var SignalPG = {
 		}
 	},
 
-	 _nativeDidGeoFencesUpdatedCB: function (location) {
+	_nativeDidGeoFencesUpdatedCB: function (location) {
 		if (this.didGeoFencesUpdatedCB) {
 			this.didGeoFencesUpdatedCB.apply (null, [location]);
 		}
-	 },
+	},
 
 	_nativeDidCompleteRegistrationCB: function (success) {
 		if (this.didCompleteRegistrationCB) {

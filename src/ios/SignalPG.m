@@ -129,9 +129,11 @@
  * @return BOOL whether or not advertising identifier is enabled
  */
 - (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
-    bool enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        BOOL enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void) setCustomerIdentifier:(CDVInvokedUrlCommand *)command {
@@ -250,7 +252,7 @@
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCB(%@);", [activations description]]; // array of SignalActivation -- not JSON, just string
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCB(%@);", [activations description]]; // stringified array of SignalActivation
         [self.commandDelegate evalJs:jsString];
     }];
 }
@@ -371,7 +373,7 @@
 - (void) signal: (Signal *)signal didGeoFencesUpdated: (NSArray *) locations {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdatedCB(%@);", [locations description]]; // array of SignalLocation -- not JSON, just string
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidGeoFencesUpdatedCB(%@);", [locations description]]; // stringified array of SignalLocation
         [self.commandDelegate evalJs:jsString];
     }];
 }
