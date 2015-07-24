@@ -280,7 +280,61 @@ var SignalPG = {
 		if (this.getTagsForCodeCB) {
 			this.getTagsForCodeCB.apply (null, [code]);
 		}
-	}
+	},
+
+	registerDidHearCodeCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didHearCodeCB = callback;
+    }
+  },
+
+	registerDidReceiveActivationsCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didReceiveActivationsCB = callback;
+    }
+  },
+
+	registerDidStatusChangeCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didStatusChangeCB = callback;
+    }
+  },
+
+	registerDidGeoFenceEnteredCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didGeoFenceEnteredCB = callback;
+    }
+  },
+
+	registerDidGeoFenceExitedCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didGeoFenceExitedCB = callback;
+    }
+  },
+
+	registerDidGeoFencesUpdatedCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didGeoFencesUpdatedCB = callback;
+    }
+  },
+
+  registerDidCompleteRegistrationCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didCompleteRegistrationCB = callback;
+    }
+  },
+
+  registerDidUpdateConfigurationCB: function (callback) {
+    if (typeof callback === "function") {
+      this.didUpdateConfigurationCB = callback;
+    }
+  },
+
+	registerGetTagsForCodeCB: function (callback) {
+    if (typeof callback === "function") {
+      this.getTagsForCodeCB = callback;
+    }
+  },
 }
 
 module.exports = SignalPG;
