@@ -1,5 +1,7 @@
 package com.signal360.plugin;
 
+// import <packagename>.R
+// so cordova has access to the application's R class; for example...
 import com.example.hello.R;
 
 import org.apache.cordova.CallbackContext;
@@ -59,7 +61,6 @@ import java.util.Iterator;
 public class SignalPG extends CordovaPlugin implements SignalClient, SignalUIClient {
 
     private static final String TAG = "PhoneGap/Signal360";
-    // private CallbackContext callbackContext;
     // Signal methods
     private static final String INITIALIZE="initialize";
     private static final String START="start";
@@ -77,14 +78,15 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
         Context context = cordova.getActivity().getApplicationContext();
 
-        Signal.get().initialize(context, this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
+        // enter in your appID, assigned by Signal360
+        String appID = "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1";
+        Signal.get().initialize(context, this, appID);
         SignalUI.get().initialize(context, this, R.class);
         Signal.get().start();  
     }
 
     @Override
     public boolean execute(String action, JSONArray arguments, CallbackContext callbackContext) throws JSONException {
-        // this.callbackContext = callbackContext;
         try {
             if (INITIALIZE.equals(action)) {
                 String appID = arguments.getString(0);
@@ -139,10 +141,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 return true;
             } else if (ALL_ACTIVE_CONTENT.equals(action)) {
                 List content = Signal.get().getAllActiveContent();
-                Log.d("CONTENT SIZE: ", Integer.toString(content.size()));
                 Gson gson = new Gson();
                 String json = gson.toJson(content);
-                Log.d("JSON: ", json);
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
                 return true;
             } else {
@@ -159,7 +159,6 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
         Signal.get().onActivityPause(cordova.getActivity());
-        // Log.d("SIGNALPG", "onPause" + (cordova.getActivity() == null ? "NULL" : ""));
     }
 
     /**
@@ -171,7 +170,6 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     public void onResume(boolean multitasking) {
         super.onResume(multitasking);
         Signal.get().onActivityResume(cordova.getActivity());
-        // Log.d("SIGNALPG", "onResume" + (cordova.getActivity() == null ? "NULL" : ""));
     }
 
     /**
@@ -456,7 +454,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public int getNotificationIconResourceId() {
-       // return R.drawable.signal_notification_icon;
+        // personalize by returning your own icon at R.drawable.your_icon_file
+        // ie return R.drawable.signal_notification_icon
         return 0;
     }
 
