@@ -21,7 +21,7 @@
     NSString *applicationGuid = @"035af909-caee-455d-8640-d9b9c5f9e0b7";
     bool makeQuiet = false;
 
-    [self commonInitTasks];
+    [self commonInitTasks:applicationGuid];
 }
 
 // used for manual init
@@ -32,10 +32,10 @@
         makeQuiet = [command argumentAtIndex:1 withDefault:nil];
     }
     
-    [self commonInitTasks];
+    [self commonInitTasks:applicationGuid];
 };
 
-- (void) commonInitTasks {
+- (void) commonInitTasks:(NSString *)applicationGuid {
     // setup location mgr
     self.locationManager = [[CLLocationManager alloc] init];
     if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
