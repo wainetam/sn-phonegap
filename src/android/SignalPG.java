@@ -148,10 +148,10 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 return true;
             } else if (ALL_ACTIVE_CONTENT.equals(action)) {
                 List content = Signal.get().getAllActiveContent();
-                Log.d("CONTENT: ", content);
+                Log.d("CONTENT: ", content.toString());
                 Gson gson = new Gson();
                 String json = gson.toJson(content);
-                Log.d("CONTENTJSON: ", json);
+                Log.d("JSON: ", json);
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
                 return true;
             } else {
