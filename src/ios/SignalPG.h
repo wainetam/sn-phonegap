@@ -73,8 +73,6 @@
 
 - (void) reset:(CDVInvokedUrlCommand *)command;
 
-- (void) checkConfig:(CDVInvokedUrlCommand *)command;
-
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command;
 
 /**

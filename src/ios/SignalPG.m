@@ -142,13 +142,6 @@
     }];
 }
 
-- (void) checkConfig:(CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{
-        void (^completionHandler)(SignalFetchResult) = [command argumentAtIndex:0];
-        [[Signal sharedInstance] checkConfig:completionHandler];
-    }];
-}
-
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         int beaconCode = (int)[command argumentAtIndex:0];

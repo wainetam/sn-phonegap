@@ -68,7 +68,6 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     private static final String IS_ADVERTISING_IDENTIFIER_ENABLED="isAdvertisingIdentifierEnabled";
     private static final String SET_CUSTOMER_IDENTIFIER="setCustomerIdentifier";
     private static final String RESET="reset";
-    private static final String CHECK_CONFIG="checkConfig";
     private static final String GET_ACTIVATIONS_WITH_CODEHEARD="getActivationsWithCodeHeard";
     private static final String ALL_ACTIVE_CONTENT="allActiveContent";
 
@@ -79,12 +78,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Context context = cordova.getActivity().getApplicationContext();
 
         Signal.get().initialize(context, this, "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1");
-        // SignalUI.get().initialize(context, this, (context.getPackageName().concat(".R")).getClass());
-        // SignalUI.get().initialize(context, this, cordova.getActivity().getResources().getClass());
-        // SignalUI.get().initialize(context, this, context.getResources().getClass());
         SignalUI.get().initialize(context, this, R.class);
-        Signal.get().start();
-        
+        Signal.get().start();  
     }
 
     @Override
@@ -130,10 +125,6 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 return true;
             } else if (RESET.equals(action)) {
                 Signal.get().reset();
-                callbackContext.success("");
-                return true;
-            } else if (CHECK_CONFIG.equals(action)) {
-                // no android equiv as there is in iOS
                 callbackContext.success("");
                 return true;
             } else if (GET_ACTIVATIONS_WITH_CODEHEARD.equals(action)) {

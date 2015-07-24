@@ -174,18 +174,6 @@ var SignalPG = {
 	},
 
 	/**
-	 * Manually update cached configuration
-	 * @param block function (completionHandler) that accepts an integer<SignalFetchResult>
-	 */
-	checkConfig: function (completionHandler) {
-		if (completionHandler && typeof completionHandler === "object") {
-			cordova.exec (null, null, "SignalPG", "checkConfig", [completionHandler]);
-		} else {
-			cordova.exec (null, null, "SignalPG", "checkConfig", []);
-		}
-	},
-
-	/**
 	 * Simulate code heard
 	 *
 	 * @param integer code
