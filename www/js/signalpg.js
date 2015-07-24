@@ -1,5 +1,11 @@
 var SignalPG = {
 
+	isBluetoothEnabledCB: null,
+
+	isAdvertisingIdentifierEnabledCB: null,
+
+	allActiveContentCB: null,
+
 	didHearCodeCB: null,
 
 	didReceiveActivationsCB: null,
@@ -61,8 +67,30 @@ var SignalPG = {
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
 	isBluetoothEnabled: function () {
-		cordova.exec (null, null, "SignalPG", "isBluetoothEnabled", []);
+		var callback = this.isBluetoothEnabledCB;
+		cordova.exec (function (bool) {
+			if (callback) {
+        callback.apply (this, [bool]);
+      }
+		}, null, "SignalPG", "isBluetoothEnabled", []);
 	},
+
+	/**
+   * Provide function callback for isBluetoothEnabled.
+   * You need to pass a callback function to receive the boolean return value.
+   *
+   * @param {function} callback function to receive the boolean value
+   *
+   * @example function isBluetoothEnabledCB(bool) {
+   *    alert(bool);
+   *  }
+   *  SignalPG.registerIsBluetoothEnabledCB(isBluetoothEnabledCB);
+   */
+  registerIsBluetoothEnabledCB: function (callback) {
+    if (typeof callback === "function") {
+      this.isBluetoothEnabledCB = callback;
+    }
+  },
 
 	/**
 	 * User opts out
@@ -103,8 +131,30 @@ var SignalPG = {
 	 * @return BOOL whether or not advertising identifier is enabled
 	 */
 	isAdvertisingIdentifierEnabled: function() {
-		cordova.exec (null, null, "SignalPG", "isAdvertisingIdentifierEnabled", []);
+		var callback = this.isAdvertisingIdentifierEnabledCB;
+		cordova.exec (function (bool) {
+			if (callback) {
+        callback.apply (this, [bool]);
+      }
+		}, null, "SignalPG", "isAdvertisingIdentifierEnabled", []);
 	},
+
+	/**
+   * Provide function callback for isAdvertisingIdentifierEnabled.
+   * You need to pass a callback function to receive the boolean return value.
+   *
+   * @param {function} callback function to receive the boolean value
+   *
+   * @example function isAdvertisingIdentifierEnabledCB(bool) {
+   *    alert(bool);
+   *  }
+   *  SignalPG.registerIsAdvertisingIdentifierEnabledCB(isAdvertisingIdentifierEnabledCB);
+   */
+  registerIsAdvertisingIdentifierEnabledCB: function (callback) {
+    if (typeof callback === "function") {
+      this.isAdvertisingIdentifierEnabledCB = callback;
+    }
+  },
 
 	/**
 	 * This allows SDK integrator to pass in customer identifier
@@ -148,11 +198,35 @@ var SignalPG = {
 
 	/**
 	 * All active activations
-	 * @return NSArray of <SignalActivation>
+	 * @return Array of <SignalActivation>
 	 */
 	allActiveContent: function () {
-		cordova.exec (null, null, "SignalPG", "allActiveContent", []);
+		var callback = this.allActiveContentCB;
+		cordova.exec (function (json) {
+			console.log("JSON");
+			console.log(json);
+			if (callback) {
+        callback.apply (this, [json]);
+      }
+		}, null, "SignalPG", "allActiveContent", []);
 	},
+
+	/**
+   * Provide function callback for allActiveContent.
+   * You need to pass a callback function to receive the array of Sonic Activation objects in JSON as its return value.
+   *
+   * @param {function} callback function to receive the array
+   *
+   * @example function allActiveContentCB(arr) {
+   *    alert(arr);
+   *  }
+   *  SignalPG.registerAllActiveContentCB(allActiveContentCB);
+   */
+  registerAllActiveContentCB: function (callback) {
+    if (typeof callback === "function") {
+      this.allActiveContentCB = callback;
+    }
+  },
 
 	// DELEGATE METHODS
 

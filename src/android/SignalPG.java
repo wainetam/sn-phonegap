@@ -117,12 +117,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 return true;
             } else if (IS_BLUETOOTH_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isBluetoothEnabled();
-                Log.d("SIGNALPG", "isBluetoothEnabled " + enabled);
-                // cordova.getActivity().runOnUiThread(new Runnable() {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
-                    // callbackContext.success((boolean)enabled);
-                // });
-
                 return true;
             } else if (IS_ADVERTISING_IDENTIFIER_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isAdvertisingIdentifierEnabled();
@@ -156,6 +151,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
                 Gson gson = new Gson();
                 String json = gson.toJson(content);
+                Log.d("CONTENTJSON: ", json);
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
                 return true;
             } else {
