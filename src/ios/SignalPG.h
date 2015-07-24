@@ -96,7 +96,8 @@
  * @return whether or not you are interested in receiving content for this signal, it is the implementers responsibility for throttling
  *
  */
-- (void) didHearCode:(CDVInvokedUrlCommand *)command;
+// - (void) didHearCode:(CDVInvokedUrlCommand *)command;
+- (BOOL) signal: (Signal *)signal didHearCode: (SignalCodeHeard *)code;
 
 /**
  * Did receive activations is called after URL#signal:didHearCode:withTimeInterval returns YES.
