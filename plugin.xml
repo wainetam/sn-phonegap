@@ -15,13 +15,12 @@
 	<!-- ios -->
 	<platform name="ios">
 		<config-file target="config.xml" parent="/widget/plugins">
-		<!-- <config-file target="config.xml" parent="/*"> -->
 			<feature name="SignalPG">
 				<param name="ios-package" value="SignalPG"/>
 				<param name="onload" value="true" />
 			</feature>
 		</config-file>
-		
+
 		<header-file src="src/ios/SignalPG.h" />
 		<source-file src="src/ios/SignalPG.m" />
 
@@ -40,7 +39,6 @@
 		<framework src="libsqlite3.dylib" />
 		<framework src="libstdc++.dylib" />
 		<framework src="libz.dylib" />
-		<!-- add appropriate Signal360 SDK into XCode -->
 		<framework src="src/ios/sdk/SignalUI.framework" custom="true" />
 	</platform>
 

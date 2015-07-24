@@ -1,4 +1,4 @@
-    //
+//
 //  SignalPG.m
 //  signal-phonegap
 //
@@ -9,7 +9,7 @@
 #import "SignalPG.h"
 
 @interface SignalPG()
-//    @property(nonatomic, strong) CLLocationManager *locationManager;
+
 @end
 
 @implementation SignalPG

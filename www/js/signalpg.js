@@ -270,6 +270,7 @@ var SignalPG = {
 		}
 	},
 
+	// helper methods to set the callbacks
 	registerDidHearCodeCB: function (callback) {
     if (typeof callback === "function") {
       this.didHearCodeCB = callback;
