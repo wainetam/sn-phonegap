@@ -59,7 +59,7 @@ import java.util.Iterator;
 public class SignalPG extends CordovaPlugin implements SignalClient, SignalUIClient {
 
     private static final String TAG = "PhoneGap/Signal360";
-
+    private CallbackContext callbackContext;
     // Signal methods
     private static final String INITIALIZE="initialize";
     private static final String START="start";
@@ -89,7 +89,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
 
     @Override
     public boolean execute(String action, JSONArray arguments, CallbackContext callbackContext) throws JSONException {
-
+        this.callbackContext = callbackContext;
+        
         try {
             if (INITIALIZE.equals(action)) {
                 String appID = arguments.getString(0);
