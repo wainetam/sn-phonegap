@@ -203,8 +203,6 @@ var SignalPG = {
 	allActiveContent: function () {
 		var callback = this.allActiveContentCB;
 		cordova.exec (function (json) {
-			console.log("JSON");
-			console.log(json);
 			if (callback) {
         callback.apply (this, [json]);
       }
