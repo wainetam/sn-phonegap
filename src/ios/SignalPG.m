@@ -400,26 +400,26 @@
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code {
     [self.commandDelegate runInBackground:^{
+        if (self.tagsForContent) {
+            NSError *error;
+            NSData *jsonData;
+            NSString *jsonString = nil;
 
-        NSUserDefaults *defaultsTags = [NSUserDefaults standardUserDefaults];
-        NSDictionary *tags = [defaultsTags objectForKey:@"tags"];
+            if ([NSJSONSerialization isValidJSONObject:tags]) {
+                jsonData = [NSJSONSerialization dataWithJSONObject:[tags copy] options:0 error:&error];
 
-        NSError *error;
-
-        if ([NSJSONSerialization isValidJSONObject:tags]) {
-            jsonData = [NSJSONSerialization dataWithJSONObject:[tags copy] options:0 error:&error];
-
-            if (!jsonData) {
-                NSLog(@"Got an error: %@", error);
-                jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
-            } else {
-                jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                if (!jsonData) {
+                    NSLog(@"Got an error: %@", error);
+                    jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+                } else {
+                    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                }
             }
-        }
 
-        NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
-        [self.commandDelegate evalJs:jsString];
+            NSString *jsString = nil;
+            jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
+            [self.commandDelegate evalJs:jsString];
+        }
     }];
     
     return nil;
