@@ -30,6 +30,7 @@
 @interface SignalPG : CDVPlugin <SignalDelegate>
 
 @property(nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSDictionary * tagsForContent;
 
 - (void) pluginInitialize;
 
@@ -167,6 +168,12 @@
  */
 - (void) signal: (Signal *)signal didUpdateConfiguration:(BOOL)changed;
 
+/**
+ * Set tags for content
+ *
+ * @param dictionary of tags
+ */
+- (void) setTags:(NSDictionary *) tags;
 /**
  * Get tags for code
  *

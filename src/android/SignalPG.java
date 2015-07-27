@@ -1,7 +1,7 @@
 package com.signal360.plugin;
 
 // import <packagename>.R
-// so cordova has access to the application's R class; for example...
+// so cordova has access to the application's R class; for example, the line below
 import com.example.hello.R;
 
 import org.apache.cordova.CallbackContext;

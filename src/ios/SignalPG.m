@@ -51,6 +51,9 @@
     NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
+    NSUserDefaults *defaultsTags = [NSUserDefaults standardUserDefaults];
+    [self setTags:[defaultsTags objectForKey:@"tags"]];
+
     [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)self];
     [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)self];
     [[Signal sharedInstance] start];
@@ -397,13 +400,33 @@
  */
 - (NSDictionary*) signal: (Signal *)signal getTagsForCode:(SignalCodeHeard*)code {
     [self.commandDelegate runInBackground:^{
+
+        NSUserDefaults *defaultsTags = [NSUserDefaults standardUserDefaults];
+        NSDictionary *tags = [defaultsTags objectForKey:@"tags"];
+
+        NSError *error;
+
+        if ([NSJSONSerialization isValidJSONObject:tags]) {
+            jsonData = [NSJSONSerialization dataWithJSONObject:[tags copy] options:0 error:&error];
+
+            if (!jsonData) {
+                NSLog(@"Got an error: %@", error);
+                jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+            } else {
+                jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            }
+        }
+
         NSString *jsString = nil;
-        NSString *jsonString = [self serializeSignalCodeHeard:code];
         jsString = [NSString stringWithFormat:@"SignalPG._nativeGetTagsForCodeCB('%@');", jsonString]; // serialize SignalCodeHeard
         [self.commandDelegate evalJs:jsString];
     }];
     
     return nil;
+}
+
+- (void) setTags:(NSDictionary *)tags {
+    self.tagsForContent = tags;
 }
 
 @end

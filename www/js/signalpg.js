@@ -323,7 +323,7 @@ var SignalPG = {
     if (typeof callback === "function") {
       this.getTagsForCodeCB = callback;
     }
-  },
+  }
 }
 
 module.exports = SignalPG;
