@@ -1,0 +1,150 @@
+# sn-phonegap
+
+sn-phonegap is the PhoneGap plugin for the Signal360 SDK for iOS and Android.
+
+## PhoneGap CLI
+Per <http://docs.phonegap.com/getting-started/1-install-phonegap/cli/>
+
+The PhoneGap CLI provides a command line interface for creating PhoneGap apps as an alternative to using the PhoneGap Desktop App for those who prefer working at the command line. The PhoneGap CLI has additional features over the PhoneGap Desktop for building, running, and packaging your PhoneGap applications on multiple platforms. If you're comfortable using a CLI this option may be best going forward.
+
+### Quick Start
+To download and install CLI:
+```sh
+# OS X / Linux
+$ sudo npm install -g phonegap@latest
+```
+
+You will also need to install [node.js](nodejs.org)
+
+### Getting Started
+```sh
+$ phonegap create my-app    # create a PhoneGap project
+$ cd my-app                 # change to project directory
+$ phonegap run ios          # build and install the app to iOS
+$ phonegap run android      # build and install the app to Android
+
+# create a PhoneGap project using the PhoneGap 'hello world' template
+$ phonegap create my-ios-hello-world --template hello-world
+$ phonegap template list    # see existing PhoneGap standard templates
+```
+
+Additional commands and getting started resources:
+
+  - <http://phonegap.com/blog/2014/11/13/phonegap-cli-3-6-3/>
+  - <https://github.com/phonegap/phonegap-cli>
+
+## PhoneGap Plugin (sn-phonegap)
+To install the Signal360 PhoneGap plugin in an new/existing app:
+
+  - **1. Add the plugin**
+  - **2. Modify either Signal.m (iOS) or SignalPG.java (Android)**
+  - **3. Optional: Modify index.html**
+  - **4. Run and build app**
+
+### Add/Remove Plugin
+```sh
+# first, cd into the project folder
+
+$ phonegap plugin add <enter repo https address>
+$ phonegap plugin list                        # shows the currently installed plugins
+$ phonegap plugin remove <enter package name> # i.e., com.signal360.SignalPGPlugin
+```
+
+### iOS-specific Implementation
+  - **Set appID manually in the 'pluginInitialize' method in SignalPG.m**
+```sh
+- (void) pluginInitialize {
+    NSString *applicationGuid = @"<appId>";
+    bool makeQuiet = false;
+
+    [self commonInitTasks:applicationGuid];
+}
+```
+
+### Android-specific Implementation
+  - **Import R file of the application package in SignalPG.java**
+```sh
+# SignalPG.java
+package com.signal360.plugin;
+
+# add import statement below to SignalPG.java
+import <full-package-name>.R;
+```
+
+  - **Set appID manually in the 'initialize' method in SignalPG.java**
+
+```sh
+public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    super.initialize(cordova, webView);
+
+    Context context = cordova.getActivity().getApplicationContext();
+
+    # enter in your appID, assigned by Signal360, for your app
+    String appID = "xxxxxxxxxxxxxxxxx";
+    Signal.get().initialize(context, this, appID);
+    SignalUI.get().initialize(context, this, R.class);
+    Signal.get().start();
+}
+```
+  - **Optional: customize the icon that appears on the left side of a Notification**
+  
+Include a R.drawable file in the resources (res) folder and reference the filename in getNotificationIconResourceId() in SignalPG.java.
+        
+```sh
+public int getNotificationIconResourceId() {
+    // personalize by returning your own icon at R.drawable.your_icon_file
+    // ie return R.drawable.signal_notification_icon
+    return 0;
+}
+```
+
+### Note: Almost Done
+At this point, the Signal360 SDK should be implemented. 
+
+All the frameworks and library dependencies that one would need for iOS and Android SDK do not have to be added manually, nor does the Android Manifest need to be modified. That's all taken care of. You should, however make sure that the versions of the SDKs included with the plugin in the directories below are the latest versions:
+
+```sh
+src/ios/sdk
+src/android/sdk/libs
+```
+
+### Optional: Edit index.html to Set Callbacks or Call SDK Methods
+Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add another parameter to the body element in the index.html file:
+
+```sh
+<body onload="init()">
+
+# within script tag (or separate js file), add the init function
+<script type="text/javascript">
+    function init() {
+        var callback = function(json) {
+            alert(json);
+        };
+
+        SignalPG.registerDidHearCodeCB(callback); # register delegate/callback method in JS
+    }
+</script>
+```
+
+You do not need to add signalpg.js in a script tag because it was already included due to the settings of plugin.xml
+
+All the frameworks and library dependences you need for iOS and Android SDK do not have to be added manually, nor does the Android Manifest need to be modified. That's all taken care of. You may want to make sure the versions of the SDKs that are included with the plugin are the latest versions. If not, just ask us to update it.
+
+### Run/Build PhoneGap App
+```sh
+# first, cd into the project folder
+
+# check to see plugin installed
+$ phonegap plugin list                        # shows the currently installed plugins
+
+$ phonegap build android
+$ phonegap run android
+
+# for ios, you can use xcode to build and run
+# for android, you can't use android studio to debug build
+```
+
+## Official Reference for PhoneGap
+  - [Official Android PhoneGap Platform Guide](http://docs.phonegap.com/en/4.0.0/guide_platforms_android_index.md.html)
+  - [Official iOS PhoneGap Platform Guide](http://docs.phonegap.com/en/4.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide)
+
