@@ -198,6 +198,16 @@ var SignalPG = {
 	},
 
 	/**
+	 * Set tags for advanced targeting
+	 * @param object with key-value pairs of tags
+	 */
+	setTags: function (obj) {
+		if (obj && typeof obj === "object") {
+			cordova.exec (null, null, "SignalPG", "setTags", [obj]);
+		}
+	},
+
+	/**
    * Provide function callback for allActiveContent.
    * You need to pass a callback function to receive the array of Sonic Activation objects in JSON as its return value.
    *

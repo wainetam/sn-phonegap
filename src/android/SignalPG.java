@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import android.app.Application;
 import android.app.Notification;
@@ -71,6 +72,9 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     private static final String RESET="reset";
     private static final String GET_ACTIVATIONS_WITH_CODEHEARD="getActivationsWithCodeHeard";
     private static final String ALL_ACTIVE_CONTENT="allActiveContent";
+    private static final String SET_TAGS="setTags";
+
+    private Map customerTags;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -145,6 +149,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 String json = gson.toJson(content);
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
                 return true;
+            } else if (SET_TAGS.equals(action)) {
+                String jsonTags = arguments.getString(0);
+                if (isJSONValid(jsonTags)) {
+                    Gson gson = new GsonBuilder().create();
+                    Map<String,String> tags = gson.fromJson(jsonTags, Map.class);
+                    this.customerTags = tags;
+                }
             } else {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION));
                 return false;
@@ -408,8 +419,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public Map<String, String> getTagsForCode(SignalCodeHeard codeHeard) {
         Gson gson = new Gson();
-        String json = gson.toJson(codeHeard);
-
+        // String json = gson.toJson(codeHeard);
+        String json = gson.toJson(this.customerTags);
         final String js = String.format("javascript:SignalPG._nativeGetTagsForCodeCB('%s')", json);
 
         cordova.getActivity().runOnUiThread(new Runnable() {
@@ -477,6 +488,19 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     @Override
     public void didCloseSplashCard(SignalActivation var1, boolean var2) {
 
+    }
+
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

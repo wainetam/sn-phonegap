@@ -51,8 +51,8 @@
     NSDictionary *defaults = [NSDictionary dictionaryWithObject:applicationGuid forKey:@"sonicApplicationGuid"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
-    NSUserDefaults *defaultsTags = [NSUserDefaults standardUserDefaults];
-    [self setTags:[defaultsTags objectForKey:@"tags"]];
+    // NSUserDefaults *defaultsTags = [NSUserDefaults standardUserDefaults];
+    // [self setTags:[defaultsTags objectForKey:@"tags"]];
 
     [[SignalUI sharedInstance] initializeWithDelegate:(id<SignalUIDelegate>)self];
     [[Signal sharedInstance] initializeWithApplicationGUID:applicationGuid andDelegate:(id<SignalDelegate>)self];
@@ -426,6 +426,8 @@
 }
 
 - (void) setTags:(NSDictionary *)tags {
+    NSMutableDictionary *tags = [command argumentAtIndex:0];
+
     self.tagsForContent = tags;
 }
 
