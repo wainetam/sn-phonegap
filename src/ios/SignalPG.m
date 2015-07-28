@@ -199,6 +199,68 @@
     }
     return jsonString;
 }
+
+- (NSString *)serializeSignalActivation:(SignalActivation *)activation {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
+    
+    if ([activation respondsToSelector:@selector(identifier)] && activation.identifier) {
+        [dict setObject:[NSNumber numberWithLongLong:activation.identifier] forKey:@"identifier"];
+    }
+
+    if ([activation respondsToSelector:@selector(startDate)] && activation.startDate) {
+        NSString* startDateString = [dateFormatter stringFromDate:activation.startDate];
+        [dict setObject:startDateString forKey:@"startDate"];
+    }
+    
+    if ([activation respondsToSelector:@selector(endDate)] && activation.endDate) {
+        NSString* endDateString = [dateFormatter stringFromDate:activation.endDate];
+        [dict setObject:endDateString forKey:@"endDate"];
+    }
+    
+    if ([activation respondsToSelector:@selector(code)] && activation.code) {
+        [dict setObject:[NSNumber numberWithLong:activation.code] forKey:@"code"];
+    }
+    
+    if ([activation respondsToSelector:@selector(contentId)] && activation.contentId) {
+        [dict setObject:[NSNumber numberWithLongLong:activation.contentId] forKey:@"contentId"];
+    }
+    
+    if ([activation respondsToSelector:@selector(contentType)] && activation.contentType) {
+        [dict setObject:activation.contentType forKey:@"contentType"];
+    }
+    
+    if ([activation respondsToSelector:@selector(programId)] && activation.programId) {
+        [dict setObject:[NSNumber numberWithLongLong:activation.programId] forKey:@"programId"];
+    }
+    
+    if ([activation respondsToSelector:@selector(sequenceNumber)] && activation.sequenceNumber) {
+        [dict setObject:[NSNumber numberWithLong:activation.sequenceNumber] forKey:@"sequenceNumber"];
+    }
+    
+    if ([activation respondsToSelector:@selector(fields)] && activation.fields) {
+        [dict setObject:activation.fields forKey:@"fields"];
+    }
+
+    NSError *error;
+    NSData *jsonData;
+    NSString *jsonString = nil;
+    
+    if ([NSJSONSerialization isValidJSONObject:dict]) {
+        jsonData = [NSJSONSerialization dataWithJSONObject:[dict copy] options:0 error:&error];
+        
+        if (!jsonData) {
+            NSLog(@"Got an error: %@", error);
+            jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+        } else {
+            jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+    }
+    return jsonString;
+
+}
+
 /**
  * This is called when a signal is heard and provides a code heard object
  *
@@ -238,7 +300,33 @@
 - (void) signal: (Signal *)signal didReceiveActivations: (NSArray *) activations {
     [self.commandDelegate runInBackground:^{
         NSString *jsString = nil;
-        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCB(%@);", [activations description]]; // stringified array of SignalActivation
+        
+        NSMutableArray *jsonArray = [[NSMutableArray alloc] init];
+        
+        for (SignalActivation *activation in activations) {
+            NSString *json = [self serializeSignalActivation:activation];
+            [jsonArray addObject:json];
+        }
+        
+        NSError *error;
+        NSData *jsonData;
+        NSString *jsonString = nil;
+        
+        if ([NSJSONSerialization isValidJSONObject:jsonArray]) {
+            jsonData = [NSJSONSerialization dataWithJSONObject:[jsonArray copy] options:0 error:&error];
+            
+            if (!jsonData) {
+                NSLog(@"Got an error: %@", error);
+                jsonString = [[NSString alloc] initWithString:[error localizedDescription]];
+            } else {
+                jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            }
+        }
+        
+        NSLog(@"jsonData as string:\n%@", jsonString);
+        
+        jsString = [NSString stringWithFormat:@"SignalPG._nativeDidReceiveActivationsCB('%@');", jsonString];
+        
         [self.commandDelegate evalJs:jsString];
     }];
 }
