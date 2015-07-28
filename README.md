@@ -8,7 +8,7 @@ Per <http://docs.phonegap.com/getting-started/1-install-phonegap/cli/>
 The PhoneGap CLI provides a command line interface for creating PhoneGap apps as an alternative to using the PhoneGap Desktop App for those who prefer working at the command line. The PhoneGap CLI has additional features over the PhoneGap Desktop for building, running, and packaging your PhoneGap applications on multiple platforms. If you're comfortable using a CLI this option may be best going forward.
 
 ### Quick Start
-To download and install CLI:
+To download and install the PhoneGap CLI:
 ```sh
 # OS X / Linux
 $ sudo npm install -g phonegap@latest
@@ -28,7 +28,7 @@ $ phonegap create my-ios-hello-world --template hello-world
 $ phonegap template list    # see existing PhoneGap standard templates
 ```
 
-Additional commands and getting started resources:
+Additional CLI commands and getting started resources:
 
   - <http://phonegap.com/blog/2014/11/13/phonegap-cli-3-6-3/>
   - <https://github.com/phonegap/phonegap-cli>
@@ -116,7 +116,7 @@ src/android/res
 
 ### Optional: Register Callbacks or Call Additional SDK Methods
 #### Edit index.html or reference new JS file
-Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add another parameter to the body element in the index.html file:
+Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add an **onload** parameter to the **body** element in the index.html file:
 
 ```sh
 <body onload="init()">
@@ -176,7 +176,7 @@ Plugin.xml is the config file that populates the iOS and/or Android app with the
 #### Updating the Plugin
 If there is a update to included libraries or files included in Signal SDK or the SDK itself (ie, the jar or SignalUI.framework) that is included with the plugin, the filenames referenced in plugin.xml **must be updated**.
 
-[Cordova plugin specs & documentation](https://cordova.apache.org/docs/en/4.0.0/plugin_ref_spec.md.html)
+[Cordova plugin specs and documentation](https://cordova.apache.org/docs/en/4.0.0/plugin_ref_spec.md.html)
 
 
 ## Additional Reference
