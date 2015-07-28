@@ -155,6 +155,8 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                     Gson gson = new GsonBuilder().create();
                     Map<String,String> tags = gson.fromJson(jsonTags, Map.class);
                     this.customerTags = tags;
+                    callbackContext.success("");
+                    return true;
                 }
             } else {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION));
