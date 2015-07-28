@@ -3,7 +3,7 @@
 sn-phonegap is the PhoneGap plugin for the Signal360 SDK for iOS and Android.
 
 ## PhoneGap CLI
-Per <http://docs.phonegap.com/getting-started/1-install-phonegap/cli/>
+[PhoneGap CLI Install Guide](http://docs.phonegap.com/getting-started/1-install-phonegap/cli/)
 
 The PhoneGap CLI provides a command line interface for creating PhoneGap apps as an alternative to using the PhoneGap Desktop App for those who prefer working at the command line. The PhoneGap CLI has additional features over the PhoneGap Desktop for building, running, and packaging your PhoneGap applications on multiple platforms. If you're comfortable using a CLI this option may be best going forward.
 
@@ -40,6 +40,32 @@ To install the Signal360 PhoneGap plugin in an new/existing app:
   - **2. Modify either Signal.m (iOS) or SignalPG.java (Android)**
   - **3. Optional: Modify index.html**
   - **4. Run and build app**
+
+### JS <-> Native
+In signalpg.js, the **cordova.exec** function is used to define the following:
+
+ - success callback (if necessary)
+ - error callback (if necessary)
+ - "native class" aka "service"
+ - "native class method" aka "action"
+ - arguments array to pass into native environment
+
+####Example: JS Method (isBluetoothEnabled) in signalpg.js
+```sh
+isBluetoothEnabled: function () {
+    # callback that is registered (see 'Register Callbacks' section below)
+    var callback = this.isBluetoothEnabledCB;
+    
+  cordova.exec (function (bool) {
+    if (callback) {
+            callback.apply (this, [bool]);
+        }
+  }, null, "SignalPG", "isBluetoothEnabled", []);
+},
+```
+
+####How JS method call passes args to native environment
+The plugin class (SignalPG) performs the 'action' (e.g., the native method, _isBluetoothEnabled_, is called with no parameters. Upon success, the JavaScript success callback method is called. In this case, the success callback named isBluetoothEnabledCB is called in the JS environment with the boolean return value as a parameter.
 
 ### Add/Remove Plugin
 ```sh
