@@ -99,16 +99,23 @@ public int getNotificationIconResourceId() {
 ```
 
 ### Note: Almost Done
-At this point, the Signal360 SDK should be implemented. 
+At this point, the Signal360 SDK should be implemented and deliver content. 
 
-All the frameworks and library dependencies that one would need for iOS and Android SDK do not have to be added manually, nor does the Android Manifest need to be modified. That's all taken care of. You should, however make sure that the versions of the SDKs included with the plugin in the directories below are the latest versions:
+
+#### Other Setup (Libraries/Frameworks, plugin.xml, signalpg.js)
+You do not need to add signalpg.js in a script tag because it was already included due to the settings of plugin.xml
+
+All the frameworks and library dependences you need for iOS and Android SDK do not have to be added manually, nor does the Android Manifest of the app need to be modified. That's all taken care of by plugin.xml. You may want to make sure the versions of the SDKs that are included with the plugin are the latest versions. If not, just ask us to update it.
 
 ```sh
 src/ios/sdk
-src/android/sdk/libs
+src/android/libs
+src/android/jniLibs
+src/android/res
 ```
 
-### Optional: Edit index.html to Set Callbacks or Call SDK Methods
+### Optional: Register Callbacks or Call Additional SDK Methods
+#### Edit index.html or reference new JS file
 Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add another parameter to the body element in the index.html file:
 
 ```sh
@@ -125,10 +132,21 @@ Create an init() function within the script tags that is called either when the 
     }
 </script>
 ```
+#### Available Callbacks to Register
+Associated JS helper method in italics
 
-You do not need to add signalpg.js in a script tag because it was already included due to the settings of plugin.xml
-
-All the frameworks and library dependences you need for iOS and Android SDK do not have to be added manually, nor does the Android Manifest need to be modified. That's all taken care of. You may want to make sure the versions of the SDKs that are included with the plugin are the latest versions. If not, just ask us to update it.
+ - isBluetoothEnabled (_registerIsBluetoothEnabledCB_)
+ - isAdvertisingIdentifierEnabled (_registerIsAdvertisingIdentifierEnabledCB_)
+ - allActiveContent (_registerAllActiveContentCB_)
+ - didHearCode (_registerDidHearCodeCB_)
+ - didReceiveActivations (_registerDidReceiveActivationsCB_)
+ - didStatusChange (_registerDidStatusChangeCB_)
+ - didGeoFenceEntered (_registerDidGeoFenceEnteredCB_)
+ - didGeoFenceExited (_registerDidGeoFenceExitedCB_)
+ - didGeoFencesUpdated (_registerDidGeoFencesUpdatedCB_)
+ - didCompleteRegistration (_registerDidCompleteRegistrationCB_)
+ - didUpdateConfiguration (_registerDidUpdateConfigurationCB_)
+ - getTagsForCode (_registerGetTagsForCodeCB_)
 
 ### Run/Build PhoneGap App
 ```sh
@@ -144,7 +162,23 @@ $ phonegap run android
 # for android, you can't use android studio to debug build
 ```
 
-## Official Reference for PhoneGap
+### Addendum: PhoneGap Plugin Mechanics and Plugin.xml 
+```sh
+plugin.xml
+src/ios/sdk             # SignalUI framework here
+src/android/libs        # Android jars here
+src/android/jniLibs
+src/android/res         # _layout.xml files
+```
+
+Plugin.xml is the config file that populates the iOS and/or Android app with the necessary libraries/frameworks and resources to run properly. 
+
+#### Updating the Plugin
+If there is a update to included libraries or files included in Signal SDK or the SDK itself (ie, the jar or SignalUI.framework) that is included with the plugin, the filenames referenced in plugin.xml **must be updated**.
+
+[Cordova plugin specs & documentation](https://cordova.apache.org/docs/en/4.0.0/plugin_ref_spec.md.html)
+
+
+## Additional Reference
   - [Official Android PhoneGap Platform Guide](http://docs.phonegap.com/en/4.0.0/guide_platforms_android_index.md.html)
   - [Official iOS PhoneGap Platform Guide](http://docs.phonegap.com/en/4.0.0/guide_platforms_ios_index.md.html#iOS%20Platform%20Guide)
-
