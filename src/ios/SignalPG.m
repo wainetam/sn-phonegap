@@ -405,8 +405,8 @@
             NSData *jsonData;
             NSString *jsonString = nil;
 
-            if ([NSJSONSerialization isValidJSONObject:tags]) {
-                jsonData = [NSJSONSerialization dataWithJSONObject:[tags copy] options:0 error:&error];
+            if ([NSJSONSerialization isValidJSONObject:self.tagsForContent]) {
+                jsonData = [NSJSONSerialization dataWithJSONObject:[self.tagsForContent copy] options:0 error:&error];
 
                 if (!jsonData) {
                     NSLog(@"Got an error: %@", error);
@@ -425,7 +425,7 @@
     return nil;
 }
 
-- (void) setTags:(NSDictionary *)tags {
+- (void) setTags:(CDVInvokedUrlCommand *)command {
     NSMutableDictionary *tags = [command argumentAtIndex:0];
 
     self.tagsForContent = tags;
