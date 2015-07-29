@@ -61,7 +61,6 @@ var SignalPG = {
 	 * @return BOOL whether or not start has been called
 	 */
 	isOn: function () {
-		alert('in isOn');
 		var callback = this.isOnCB;
 		cordova.exec (function (bool) {
 			if (callback) {
@@ -81,9 +80,9 @@ var SignalPG = {
    *    alert(bool);
    *  }
    *  SignalPG.registerIsOnCB(isOnCB);
+   *  SignalPG.isOn();
    */
   registerIsOnCB: function (callback) {
-  	alert('register isOn');
     if (typeof callback === "function") {
       this.isOnCB = callback;
     }
@@ -94,7 +93,6 @@ var SignalPG = {
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
 	isBluetoothEnabled: function () {
-		alert('in BLE');
 		var callback = this.isBluetoothEnabledCB;
 		cordova.exec (function (bool) {
 			if (callback) {
@@ -113,9 +111,9 @@ var SignalPG = {
    *    alert(bool);
    *  }
    *  SignalPG.registerIsBluetoothEnabledCB(isBluetoothEnabledCB);
+   *  SignalPG.isBluetoothEnabled(); // then call the method
    */
   registerIsBluetoothEnabledCB: function (callback) {
-  	alert('register BLE enabled');
     if (typeof callback === "function") {
       this.isBluetoothEnabledCB = callback;
     }
@@ -142,7 +140,14 @@ var SignalPG = {
 		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
 	},
 
+	/**
+   * Provide function callback for isUserOptedOut.
+   * You need to pass a callback function to receive the boolean return value.
+   *
+   * @param {function} callback function to receive the boolean value
+   */
   registerIsUserOptedOutCB: function (callback) {
+  	alert('register isUserOptedOut');
     if (typeof callback === "function") {
       this.isUserOptedOutCB = callback;
     }
@@ -184,6 +189,7 @@ var SignalPG = {
    *    alert(bool);
    *  }
    *  SignalPG.registerIsAdvertisingIdentifierEnabledCB(isAdvertisingIdentifierEnabledCB);
+   *  SignalPG.isAdvertisingIdentifierEnabled() // then call the method
    */
   registerIsAdvertisingIdentifierEnabledCB: function (callback) {
     if (typeof callback === "function") {
@@ -252,6 +258,7 @@ var SignalPG = {
    *    alert(arr);
    *  }
    *  SignalPG.registerAllActiveContentCB(allActiveContentCB);
+   *  SignalPG.allActiveContent(); // then call the method
    */
   registerAllActiveContentCB: function (callback) {
     if (typeof callback === "function") {
