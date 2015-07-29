@@ -274,6 +274,12 @@ typedef NS_ENUM(NSInteger, SignalFetchResult) {
  */
 - (void) stop;
 
+/**
+ * Called to determine if start has been called
+ * @return BOOL whether or not start has been called
+ */
+- (BOOL) isOn;
+
 - (void) changeApplicationGUID: (NSString *) guid;
 
 /**
@@ -283,82 +289,29 @@ typedef NS_ENUM(NSInteger, SignalFetchResult) {
 - (BOOL) isBluetoothEnabled;
 
 /**
- * @return BOOL whether or not force audio is off
+ * User opts out
  */
-- (BOOL) isForceAudioOff;
+- (void) userOptOut;
 
 /**
- * Force Audio Off, so that Audio is not used even if the Server States to use Audio
- * @param forceAudio whether or not to fully disable audio
+ * User opts in
  */
-- (void) forceAudioOff:(BOOL) forceAudio;
+- (void) userOptIn;
 
 /**
- * @return BOOL whether or not force location is off
+ * @return BOOL whether or not user has opted out
  */
-- (BOOL) isForceLocationOff;
+- (BOOL) isUserOptedOut;
 
 /**
- * Force location service off, this is a good opt-out opportunity
- * for users
- *
- * @param forceLocationOff whether or not to fully disable location services
+ * Enable advertising identifier
  */
-- (void) forceLocationOff: (BOOL) forceLocationOff;
+- (void) enableAdvertisingIdentifier;
 
 /**
- * @return BOOL whether or not background is forced off
+ * Disable advertising identifier
  */
-- (BOOL) isForceBackgroundOff;
-
-/**
- * Force background service off, this is a good opt-out opportunity
- * for users. This will shut off all decoding by sdk, both audio and bluetooth.
- *
- * @param forceBackgroundOff whether or not to fully disable background
- */
-- (void) forceBackgroundOff: (BOOL) forceBackgroundOff;
-
-/**
- * @return BOOL whether or not background audio is forced off
- */
-- (BOOL) isForceBackgroundAudioOff;
-
-/**
- * This will overide the CMS value and prevent audio usage going from foreground to background.
- *
- * @param forceBackgroundAudioOff whether or not to fully disable background
- */
-- (void) forceBackgroundAudioOff: (BOOL) forceBackgroundAudioOff;
-
-/**
- * @return BOOL whether or not location audio is forced off
- */
-- (BOOL) isForceLocationAudioOff;
-
-/**
- * This will overide the CMS value and prevent audio usage in the background due to location updates
- *
- * @param forceLocationAudioOff whether or not to fully disable background
- */
-- (void) forceLocationAudioOff: (BOOL) forceLocationAudioOff;
-
-/**
- * @return BOOL whether or not bluetooth is forced off
- */
-- (BOOL) isForceBluetoothOff;
-
-/**
- * This will overide the CMS value and prevent bluetooth usage in the background
- *
- * @param forceBluetoothOff whether or not to fully disable bluetooth
- */
-- (void) forceBluetoothOff: (BOOL) forceBluetoothOff;
-
-/**
- * Disable advertising identifier; default value = false
- */
-- (void) setAdvertisingIdentifierDisabled: (BOOL) advertisingIdentifierDisabled;
+- (void) disableAdvertisingIdentifier;
 
 /**
  * @return BOOL whether or not advertising identifier is enabled
