@@ -143,11 +143,11 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, optedOut));
                 return true;
             } else if (ENABLE_ADVERTISING_IDENTIFIER.equals(action)) {
-                Boolean enabled = Signal.get().enableAdvertisingIdentifier();
+                Signal.get().enableAdvertisingIdentifier();
                 callbackContext.success("");
                 return true;
             } else if (DISABLE_ADVERTISING_IDENTIFIER.equals(action)) {
-                Boolean enabled = Signal.get().disableAdvertisingIdentifier();
+                Signal.get().disableAdvertisingIdentifier();
                 callbackContext.success("");
                 return true;
             } else if (IS_ADVERTISING_IDENTIFIER_ENABLED.equals(action)) {
