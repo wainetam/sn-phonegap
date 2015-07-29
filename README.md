@@ -36,10 +36,10 @@ Additional CLI commands and getting started resources:
 ## PhoneGap Plugin (sn-phonegap)
 To install the Signal360 PhoneGap plugin in an new/existing app:
 
-  - **1. Add the plugin**
-  - **2. Modify either Signal.m (iOS) or SignalPG.java (Android)**
-  - **3. Optional: Modify index.html**
-  - **4. Run and build app**
+####1. Add the plugin
+####2. Modify either Signal.m (iOS) or SignalPG.java (Android)
+####3. Optional: Modify index.html
+####4. Run and build app
 
 ### JS <-> Native
 In signalpg.js, the **cordova.exec** function is used to define the following:
@@ -63,6 +63,8 @@ isBluetoothEnabled: function () {
   }, null, "SignalPG", "isBluetoothEnabled", []);
 },
 ```
+
+More detail from the [Plugin Development Guide](https://cordova.apache.org/docs/en/5.0.0/guide_hybrid_plugins_index.md.html)
 
 ####How JS method call passes args to native environment
 The plugin class (SignalPG) performs the 'action' (e.g., the native method, _isBluetoothEnabled_, is called with no parameters. Upon success, the JavaScript success callback method is called. In this case, the success callback named isBluetoothEnabledCB is called in the JS environment with the boolean return value as a parameter.
