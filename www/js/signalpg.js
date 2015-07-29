@@ -61,6 +61,7 @@ var SignalPG = {
 	 * @return BOOL whether or not start has been called
 	 */
 	isOn: function () {
+		alert('in isOn');
 		var callback = this.isOnCB;
 		cordova.exec (function (bool) {
 			if (callback) {
@@ -82,6 +83,7 @@ var SignalPG = {
    *  SignalPG.registerIsOnCB(isOnCB);
    */
   registerIsOnCB: function (callback) {
+  	alert('register isOn');
     if (typeof callback === "function") {
       this.isOnCB = callback;
     }
@@ -92,6 +94,7 @@ var SignalPG = {
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
 	isBluetoothEnabled: function () {
+		alert('in BLE');
 		var callback = this.isBluetoothEnabledCB;
 		cordova.exec (function (bool) {
 			if (callback) {
@@ -112,6 +115,7 @@ var SignalPG = {
    *  SignalPG.registerIsBluetoothEnabledCB(isBluetoothEnabledCB);
    */
   registerIsBluetoothEnabledCB: function (callback) {
+  	alert('register BLE enabled');
     if (typeof callback === "function") {
       this.isBluetoothEnabledCB = callback;
     }
