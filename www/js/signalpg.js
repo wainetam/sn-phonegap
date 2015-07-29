@@ -139,7 +139,12 @@ var SignalPG = {
 	 * @return BOOL whether or not user has opted out
 	 */
 	isUserOptedOut: function () {
-		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
+		var callback = this.isUserOptedOutCB;
+		cordova.exec (function (bool) {
+			if (callback) {
+        callback.apply (this, [bool]);
+      }
+		}, null, "SignalPG", "isUserOptedOut", []);
 	},
 
 	/**
