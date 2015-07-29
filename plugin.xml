@@ -39,6 +39,7 @@
 		<framework src="libsqlite3.dylib" />
 		<framework src="libstdc++.dylib" />
 		<framework src="libz.dylib" />
+		<framework src="src/ios/sdk/Signal.framework" custom="true" />
 		<framework src="src/ios/sdk/SignalUI.framework" custom="true" />
 	</platform>
 

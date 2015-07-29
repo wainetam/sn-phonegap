@@ -197,7 +197,7 @@ $ phonegap run android
 ### Addendum: PhoneGap Plugin Mechanics and Plugin.xml 
 ```sh
 plugin.xml
-src/ios/sdk             # SignalUI framework here
+src/ios/sdk             # Signal and SignalUI frameworks here
 src/android/libs        # Android jars here
 src/android/jniLibs
 src/android/res         # _layout.xml files
