@@ -66,7 +66,13 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
     private static final String INITIALIZE="initialize";
     private static final String START="start";
     private static final String STOP="stop";
+    private static final String IS_ON="isOn";
     private static final String IS_BLUETOOTH_ENABLED="isBluetoothEnabled";
+    private static final String USER_OPT_OUT="userOptOut";
+    private static final String USER_OPT_IN="userOptIn";
+    private static final String IS_USER_OPTED_OUT="isUserOptedOut";
+    private static final String ENABLE_ADVERTISING_IDENTIFIER="enableAdvertisingIdentifier";
+    private static final String DISABLE_ADVERTISING_IDENTIFIER="disableAdvertisingIdentifier";
     private static final String IS_ADVERTISING_IDENTIFIER_ENABLED="isAdvertisingIdentifierEnabled";
     private static final String SET_CUSTOMER_IDENTIFIER="setCustomerIdentifier";
     private static final String RESET="reset";
@@ -116,9 +122,33 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                 Signal.get().stop();
                 callbackContext.success("");
                 return true;
+            } else if (IS_ON.equals(action)) {
+                Boolean enabled = Signal.get().isOn();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+                return true;
             } else if (IS_BLUETOOTH_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isBluetoothEnabled();
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+                return true;
+            } else if (USER_OPT_OUT.equals(action)) {
+                Signal.get().userOptOut();
+                callbackContext.success("");
+                return true;
+            } else if (USER_OPT_IN.equals(action)) {
+                Signal.get().userOptIn();
+                callbackContext.success("");
+                return true;
+            } else if (IS_USER_OPTED_OUT.equals(action)) {
+                Boolean optedOut = Signal.get().isUserOptedOut();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, optedOut));
+                return true;
+            } else if (ENABLE_ADVERTISING_IDENTIFIER.equals(action)) {
+                Boolean enabled = Signal.get().enableAdvertisingIdentifier();
+                callbackContext.success("");
+                return true;
+            } else if (DISABLE_ADVERTISING_IDENTIFIER.equals(action)) {
+                Boolean enabled = Signal.get().disableAdvertisingIdentifier();
+                callbackContext.success("");
                 return true;
             } else if (IS_ADVERTISING_IDENTIFIER_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isAdvertisingIdentifierEnabled();

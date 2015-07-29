@@ -1,5 +1,7 @@
 var SignalPG = {
 
+	isOnCB: null,
+
 	isBluetoothEnabledCB: null,
 
 	isAdvertisingIdentifierEnabledCB: null,
@@ -58,9 +60,32 @@ var SignalPG = {
 	 * Called to determine if start has been called
 	 * @return BOOL whether or not start has been called
 	 */
-//	isOn: function () {
-//		cordova.exec (null, null, "SignalPG", "isOn", []);
-//	},
+	isOn: function () {
+		var callback = this.isOnCB;
+		cordova.exec (function (bool) {
+			if (callback) {
+        callback.apply (this, [bool]);
+      }
+		}, null, "SignalPG", "isOn", []);
+		cordova.exec (null, null, "SignalPG", "isOn", []);
+	},
+
+	/**
+   * Provide function callback for isOn.
+   * You need to pass a callback function to receive the boolean return value.
+   *
+   * @param {function} callback function to receive the boolean value
+   *
+   * @example function isOnCB(bool) {
+   *    alert(bool);
+   *  }
+   *  SignalPG.registerIsOnCB(isOnCB);
+   */
+  registerIsOnCB: function (callback) {
+    if (typeof callback === "function") {
+      this.isOnCB = callback;
+    }
+  },
 
 	/**
 	 * Called to determine if Bluetooth is enabled on the device
@@ -95,37 +120,43 @@ var SignalPG = {
 	/**
 	 * User opts out
 	 */
-//	userOptOut: function () {
-//		cordova.exec (null, null, "SignalPG", "userOptOut", []);
-//	},
+	userOptOut: function () {
+		cordova.exec (null, null, "SignalPG", "userOptOut", []);
+	},
 
 	/**
 	 * User opts in
 	 */
-//	userOptIn: function () {
-//		cordova.exec (null, null, "SignalPG", "userOptIn", []);
-//	},
+	userOptIn: function () {
+		cordova.exec (null, null, "SignalPG", "userOptIn", []);
+	},
 
 	/**
 	 * @return BOOL whether or not user has opted out
 	 */
-//	isUserOptedOut: function () {
-//		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
-//	},
+	isUserOptedOut: function () {
+		cordova.exec (null, null, "SignalPG", "isUserOptedOut", []);
+	},
+
+  registerIsUserOptedOutCB: function (callback) {
+    if (typeof callback === "function") {
+      this.isUserOptedOutCB = callback;
+    }
+  },
 
 	/**
 	 * Enable advertising identifier
 	 */
-//	enableAdvertisingIdentifier: function () {
-//		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
-//	},
+	enableAdvertisingIdentifier: function () {
+		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
+	},
 
 	/**
 	 * Disable advertising identifier
 	 */
-//	disableAdvertisingIdentifier: function () {
-//		cordova.exec (null, null, "SignalPG", "disableAdvertisingIdentifier", []);
-//	},
+	disableAdvertisingIdentifier: function () {
+		cordova.exec (null, null, "SignalPG", "disableAdvertisingIdentifier", []);
+	},
 
 	/**
 	 * @return BOOL whether or not advertising identifier is enabled

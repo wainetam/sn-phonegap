@@ -165,8 +165,9 @@ Create an init() function within the script tags that is called either when the 
 ```
 #### Available Callbacks to Register
 Associated JS helper method in italics
-
+ - isOn (_registerIsOnCB_)
  - isBluetoothEnabled (_registerIsBluetoothEnabledCB_)
+ - isUserOptedOut (_registerIsUserOptedOutCB_)
  - isAdvertisingIdentifierEnabled (_registerIsAdvertisingIdentifierEnabledCB_)
  - allActiveContent (_registerAllActiveContentCB_)
  - didHearCode (_registerDidHearCodeCB_)

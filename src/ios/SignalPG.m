@@ -73,11 +73,13 @@
  * Called to determine if start has been called
  * @return BOOL whether or not start has been called
  */
-//- (void) isOn:(CDVInvokedUrlCommand *)command {
-//    BOOL on = [[Signal sharedInstance] isOn];
-//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
-//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//};
+- (void) isOn:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+       BOOL on = [[Signal sharedInstance] isOn];
+       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
+       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+};
 
 /**
  * Called to determine if Bluetooth is enabled on the device
@@ -91,32 +93,32 @@
     }];
 }
 
-//- (void) userOptOut:(CDVInvokedUrlCommand *)command {
-//    [[Signal sharedInstance] userOptOut];
-//}
-//
-//- (void) userOptIn:(CDVInvokedUrlCommand *)command {
-//    [[Signal sharedInstance] userOptIn];
-//}
+- (void) userOptOut:(CDVInvokedUrlCommand *)command {
+   [[Signal sharedInstance] userOptOut];
+}
+
+- (void) userOptIn:(CDVInvokedUrlCommand *)command {
+   [[Signal sharedInstance] userOptIn];
+}
 
 /**
  * @return BOOL whether or not user has opted out
  */
-//- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
-//    BOOL *optedOut = [[Signal sharedInstance] isUserOptedOut];
-//    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
-//    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//}
+- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        BOOL optedOut = [[Signal sharedInstance] isUserOptedOut];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
 
-//- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-//    [[Signal sharedInstance] enableAdvertisingIdentifier];
-//}
-//
-//- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-//    [[Signal sharedInstance] disableAdvertisingIdentifier];
-//}
+- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
+    [[Signal sharedInstance] enableAdvertisingIdentifier];
+}
 
-
+- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
+    [[Signal sharedInstance] disableAdvertisingIdentifier];
+}
 
 /**
  * @return BOOL whether or not advertising identifier is enabled

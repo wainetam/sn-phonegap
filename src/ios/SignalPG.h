@@ -44,7 +44,7 @@
  * Called to determine if start has been called
  * @return BOOL whether or not start has been called
  */
-//- (void) isOn:(CDVInvokedUrlCommand *)command;
+- (void) isOn:(CDVInvokedUrlCommand *)command;
 
 /**
  * Called to determine if Bluetooth is enabled on the device
@@ -52,18 +52,30 @@
  */
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command;
 
-//- (void) userOptOut:(CDVInvokedUrlCommand *)command;
+/**
+ * User opts out
+ */
+- (void) userOptOut:(CDVInvokedUrlCommand *)command;
 
-//- (void) userOptIn:(CDVInvokedUrlCommand *)command;
+/**
+ * User opts in
+ */
+- (void) userOptIn:(CDVInvokedUrlCommand *)command;
 
 /**
  * @return BOOL whether or not user has opted out
  */
-//- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command;
+- (void) isUserOptedOut:(CDVInvokedUrlCommand *)command;
 
-//- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
+/**
+ * Enable advertising identifier
+ */
+- (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
 
-//- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
+/**
+ * Disable advertising identifier
+ */
+- (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command;
 
 /**
  * @return BOOL whether or not advertising identifier is enabled
