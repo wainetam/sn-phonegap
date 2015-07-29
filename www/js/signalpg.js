@@ -4,6 +4,8 @@ var SignalPG = {
 
 	isBluetoothEnabledCB: null,
 
+	isUserOptedOutCB: null,
+
 	isAdvertisingIdentifierEnabledCB: null,
 
 	allActiveContentCB: null,
@@ -147,7 +149,6 @@ var SignalPG = {
    * @param {function} callback function to receive the boolean value
    */
   registerIsUserOptedOutCB: function (callback) {
-  	alert('register isUserOptedOut');
     if (typeof callback === "function") {
       this.isUserOptedOutCB = callback;
     }
