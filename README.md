@@ -36,10 +36,13 @@ Additional CLI commands and getting started resources:
 ## PhoneGap Plugin (sn-phonegap)
 To install the Signal360 PhoneGap plugin in an new/existing app:
 
-####1. Add the plugin
-####2. Modify either Signal.m (iOS) or SignalPG.java (Android)
-####3. Optional: Modify index.html
-####4. Run and build app
+**1. Add the plugin**
+
+**2. Modify either Signal.m (iOS) or SignalPG.java (Android)**
+
+**3. Optional: Modify index.html**
+
+**4. Run and build app**
 
 ### JS <-> Native
 In signalpg.js, the **cordova.exec** function is used to define the following:
