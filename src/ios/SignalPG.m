@@ -32,7 +32,16 @@
         makeQuiet = [command argumentAtIndex:1 withDefault:nil];
     }
     
-    [self commonInitTasks:applicationGuid];
+    @try {
+        [self commonInitTasks:applicationGuid];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+    }
+
+    @catch ( NSException *e ) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 };
 
 - (void) commonInitTasks:(NSString *)applicationGuid {
@@ -100,13 +109,16 @@
 - (void) isOn:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
-        BOOL on = [[Signal sharedInstance] isOn];
 
-        if (on != nil) {
+        @try {
+            BOOL on = [[Signal sharedInstance] isOn];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
         }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+        }
+
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 };
@@ -118,12 +130,14 @@
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
-        BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
 
-        if (enabled != nil) {
+        @try {
+            BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -170,12 +184,14 @@
 - (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* pluginResult = nil;
-        BOOL optedOut = [[Signal sharedInstance] isUserOptedOut];
 
-        if (enabled != nil) {
+        @try {
+            BOOL optedOut = [[Signal sharedInstance] isUserOptedOut];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -221,14 +237,15 @@
  */
 - (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        CDVPluginResult* pluginResult = nil;
+        CDVPluginResult* pluginResult = nil;      
 
-        BOOL enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
-
-        if (enabled != nil) {
+        @try {
+            BOOL enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
-        } else {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
