@@ -97,13 +97,15 @@
 
 - (void) userOptOut:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
         @try {
             [[Signal sharedInstance] userOptOut];
-            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
         }
 
         @catch ( NSException *e ) {
-            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception in calling function"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception in calling function"];
 
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
