@@ -18,7 +18,6 @@
 
 // called by cordova automatically
 - (void) pluginInitialize {
-    // NSString *applicationGuid = @"035af909-caee-455d-8640-d9b9c5f9e0b7";
     NSString *applicationGuid = @"<INSERT-APPGUID>";
     bool makeQuiet = false;
 
@@ -37,7 +36,7 @@
     
     @try {
         [self commonInitTasks:applicationGuid];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
     }
 
     @catch ( NSException *e ) {
@@ -77,7 +76,7 @@
 
         @try {
             [[Signal sharedInstance] start];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -94,7 +93,7 @@
 
         @try {
             [[Signal sharedInstance] stop];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -153,7 +152,7 @@
 
         @try {
             [[Signal sharedInstance] userOptOut];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -170,7 +169,7 @@
 
         @try {
             [[Signal sharedInstance] userOptIn];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -207,7 +206,7 @@
 
         @try {
             [[Signal sharedInstance] enableAdvertisingIdentifier];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -224,7 +223,7 @@
 
         @try {
             [[Signal sharedInstance] disableAdvertisingIdentifier];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -264,7 +263,7 @@
 
         if(customerIdentifier) {
             [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         } else {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
@@ -279,7 +278,7 @@
 
         @try {
             [[Signal sharedInstance] reset];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         }
 
         @catch ( NSException *e ) {
@@ -297,7 +296,7 @@
         
         if (beaconCode != 0) {
             [[Signal sharedInstance] getActivationsWithCodeHeard:[[SignalCodeHeard alloc] initWithBeaconCode:beaconCode]];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"ok"];
         } else {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }

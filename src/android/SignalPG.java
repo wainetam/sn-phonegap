@@ -1,8 +1,7 @@
 package com.signal360.plugin;
 
+// so cordova has access to the application's R class
 // import <PACKAGE-NAME>.R
-// so cordova has access to the application's R class; for example, the line below
-import com.example.hello.R;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
@@ -89,11 +88,10 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
         Context context = cordova.getActivity().getApplicationContext();
 
         // enter in your appID, assigned by Signal360
-        // String appID = "<INSERT-APPGUID>";
-        String appID = "ZjAwNmM3ZTgtOTkzNS00ZjMxLTk4ZmUtNzRhNDNiNDQzZWE1";
+        String appID = "<INSERT-APPGUID>";
         Signal.get().initialize(context, this, appID);
-        // SignalUI.get().initialize(context, this, <INSERT-FULL-PACKAGE-NAME>.R.class);
-        SignalUI.get().initialize(context, this, R.class);
+        // enter in full-package-name.R.class below
+        SignalUI.get().initialize(context, this, <INSERT-FULL-PACKAGE-NAME>.R.class);
         Signal.get().start();  
     }
 
