@@ -179,7 +179,7 @@ Create an init() function within the script tags that is called either when the 
             alert(json);
         };
 
-        SignalPG.registerDidHearCodeCB(callback); # register delegate/callback method in JS
+        SignalPG.registerDidHearCodeCB(callback); # register delegate callback method in JS
     }
 </script>
 ```
