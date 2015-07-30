@@ -18,7 +18,8 @@
 
 // called by cordova automatically
 - (void) pluginInitialize {
-    NSString *applicationGuid = @"035af909-caee-455d-8640-d9b9c5f9e0b7";
+    // NSString *applicationGuid = @"035af909-caee-455d-8640-d9b9c5f9e0b7";
+    NSString *applicationGuid = @"<INSERT-APPGUID>";
     bool makeQuiet = false;
 
     [self commonInitTasks:applicationGuid];
@@ -260,7 +261,7 @@
 
         NSString *customerIdentifier = [command.arguments objectAtIndex:0];
         customerIdentifier = (([customerIdentifier isEqual: [NSNull null]] || customerIdentifier.length == 0) ? nil : customerIdentifier);
-        
+
         if(customerIdentifier) {
             [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];

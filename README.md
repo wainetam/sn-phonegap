@@ -51,13 +51,13 @@ In signalpg.js, the **cordova.exec** function is used to define the following:
 cordova.exec(completionCallback, failureCallback, service, action, [args]);
 ```
 
- - completionCallback (if necessary)
- - errorCallback (if necessary)
- - "native class" aka "service"
+ - completionCallback (if necessary): run if native code executed successfully
+ - failureCallback (if necessary): run if native code not executed successfully 
+ - "native iOS/Android class" aka "service"
  - "native class method" aka "action"
  - arguments array to pass into native environment
 
-####Example: JS Method (isBluetoothEnabled) in signalpg.js
+####Example: JS environment (_isBluetoothEnabled_ in signalpg.js)
 ```sh
 isBluetoothEnabled: function (completionCallback) {
   var failureCallback = function(message) {
@@ -72,7 +72,7 @@ isBluetoothEnabled: function (completionCallback) {
 }
 ```
 
-####Example continued: Call isBluetoothEnabled method in index.html
+####Example continued: _isBluetoothEnabled_ method called in index.html
 ```sh
 <body onload="init()">
 
@@ -90,7 +90,7 @@ isBluetoothEnabled: function (completionCallback) {
 More detail from the [Plugin Development Guide](https://cordova.apache.org/docs/en/5.0.0/guide_hybrid_plugins_index.md.html)
 
 ####How JS method call passes args to native environment
-The plugin class (SignalPG) performs the 'action' (e.g., the native method, _isBluetoothEnabled_, is called with no parameters. Upon success, the JavaScript success callback method is called. In this case, the success callback named isBluetoothEnabledCB is called in the JS environment with the boolean return value as a parameter.
+In the example above, Cordova.exec passes the completionCallback, failureCallback, and no arguments into the native environment. The plugin class (SignalPG) performs the 'action' (e.g., the native method, _isBluetoothEnabled_, is called with no args). Upon completion in the native environment, the completionCallback is called in the JS environment with the boolean returned from the native environment.
 
 ### Add/Remove Plugin
 ```sh
@@ -105,7 +105,7 @@ $ phonegap plugin remove <enter package name> # i.e., com.signal360.SignalPGPlug
   - **Set appID manually in the 'pluginInitialize' method in SignalPG.m**
 ```sh
 - (void) pluginInitialize {
-    NSString *applicationGuid = @"<appId>";
+    NSString *applicationGuid = @"<INSERT-APPID>";
     bool makeQuiet = false;
 
     [self commonInitTasks:applicationGuid];
@@ -119,7 +119,7 @@ $ phonegap plugin remove <enter package name> # i.e., com.signal360.SignalPGPlug
 package com.signal360.plugin;
 
 # add import statement below to SignalPG.java
-import <full-package-name>.R;
+import <PACKAGE-NAME>.R;
 ```
 
   - **Set appID manually in the 'initialize' method in SignalPG.java**

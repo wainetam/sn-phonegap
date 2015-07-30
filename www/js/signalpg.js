@@ -153,7 +153,6 @@ var SignalPG = {
 	    console.log("isUserOptedOut error: " + message);
 	  };
 
-		// var completionCallback = this.isUserOptedOutCB;
 		if (typeof completionCallback !== "function") {
 	  	completionCallback = null;
 	  };
