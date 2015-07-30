@@ -238,7 +238,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                     Gson gson = new Gson();
                     String json = gson.toJson(content);
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
-                } catch {
+                } catch (Exception ex) {
                     callbackContext.error("Exception during allActiveContent");
                 }
                 return true;
@@ -251,7 +251,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                         this.customerTags = tags;
                         callbackContext.success("");
                     }
-                } catch {
+                } catch (Exception ex) {
                     callbackContext.error("Exception during setTags");    
                 }
                 return true;
