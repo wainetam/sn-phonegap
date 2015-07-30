@@ -19,7 +19,8 @@ var SignalPG = {
 	getTagsForCodeCB: null,
 
 	/**
-	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
+	 * Manually initialize the sdk with the application guid and a delegate that will receive all callbacks. 
+	 * SDK should be automatically initialized upon proper install of PhoneGap plugin
 	 *
 	 * @param applicationGuid unique identifier provided by Signal360 CMS
 	 * @param option boolean for sdk to prevent os popups
