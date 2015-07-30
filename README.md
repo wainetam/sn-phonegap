@@ -71,6 +71,22 @@ isBluetoothEnabled: function () {
 },
 ```
 
+####Call method in index.html
+```sh
+<body onload="init()">
+
+<script type="text/javascript">
+    function init() {
+        var callback = function(json) {
+            alert(json);
+        };
+
+        SignalPG.registerIsBluetoothEnabledCB(callback); # register callback method in JS
+        SignalPG.isBluetoothEnabled(); # then call the method directly (unless it is a delegate method in the SDK)
+    }
+</script>
+```
+
 More detail from the [Plugin Development Guide](https://cordova.apache.org/docs/en/5.0.0/guide_hybrid_plugins_index.md.html)
 
 ####How JS method call passes args to native environment
