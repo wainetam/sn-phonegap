@@ -66,7 +66,9 @@
 }
 
 - (void) stop:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] stop];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] stop];
+    }];
 }
 
 /**
@@ -94,14 +96,24 @@
 }
 
 - (void) userOptOut:(CDVInvokedUrlCommand *)command {
-   [[Signal sharedInstance] userOptOut];
+    [self.commandDelegate runInBackground:^{
+        @try {
+            [[Signal sharedInstance] userOptOut];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
 
-   CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        @catch ( NSException *e ) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception in calling function"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void) userOptIn:(CDVInvokedUrlCommand *)command {
-   [[Signal sharedInstance] userOptIn];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] userOptIn];
+    }];
 }
 
 /**
@@ -116,11 +128,15 @@
 }
 
 - (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] enableAdvertisingIdentifier];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] enableAdvertisingIdentifier];
+    }];
 }
 
 - (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-    [[Signal sharedInstance] disableAdvertisingIdentifier];
+    [self.commandDelegate runInBackground:^{
+        [[Signal sharedInstance] disableAdvertisingIdentifier];
+    }];
 }
 
 /**

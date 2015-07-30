@@ -48,10 +48,10 @@ To install the Signal360 PhoneGap plugin in an new/existing app:
 In signalpg.js, the **cordova.exec** function is used to define the following:
 
 ```sh
-cordova.exec(successCallback, failureCallback, service, action, [args]);
+cordova.exec(completionCallback, failureCallback, service, action, [args]);
 ```
 
- - successCallback (if necessary)
+ - completionCallback (if necessary)
  - errorCallback (if necessary)
  - "native class" aka "service"
  - "native class method" aka "action"
@@ -165,7 +165,7 @@ src/android/jniLibs
 src/android/res
 ```
 
-### Optional: Register Callbacks or Call Additional SDK Methods
+### Optional: Register Delegate Callbacks or Call Additional SDK Methods
 #### Edit index.html or reference new JS file
 Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add an **onload** parameter to the **body** element in the index.html file:
 
@@ -183,13 +183,8 @@ Create an init() function within the script tags that is called either when the 
     }
 </script>
 ```
-#### Available Callbacks to Register
-Corresponding JS register callback helper method in italics
- - isOn (_registerIsOnCB_)
- - isBluetoothEnabled (_registerIsBluetoothEnabledCB_)
- - isUserOptedOut (_registerIsUserOptedOutCB_)
- - isAdvertisingIdentifierEnabled (_registerIsAdvertisingIdentifierEnabledCB_)
- - allActiveContent (_registerAllActiveContentCB_)
+#### Available Delegate Callbacks to Register
+Corresponding JS delegate callback 'register' helper method in italics
  - didHearCode (_registerDidHearCodeCB_)
  - didReceiveActivations (_registerDidReceiveActivationsCB_)
  - didStatusChange (_registerDidStatusChangeCB_)
