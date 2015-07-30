@@ -106,86 +106,153 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
                     isQuiet = arguments.getBoolean(1);
                 }
 
-                Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, appID);
-                SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
+                try {
+                    Signal.get().initialize(cordova.getActivity().getApplicationContext(), this, appID);
+                    SignalUI.get().initialize(cordova.getActivity().getApplicationContext(), this, cordova.getActivity().getApplicationContext().getResources().getClass());
 
-                SignalInternal.getInternal().setQuiet(isQuiet);
-                Signal.get().start();
+                    SignalInternal.getInternal().setQuiet(isQuiet);
+                    Signal.get().start();
 
-                callbackContext.success("");
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during init");
+                }
                 return true;
             } else if (START.equals(action)) {
-                Signal.get().start();
-                callbackContext.success("");
+                try {
+                    Signal.get().start();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during start");
+                }
                 return true;
             } else if (STOP.equals(action)) {
-                Signal.get().stop();
-                callbackContext.success("");
+                try {
+                    Signal.get().stop();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during stop");
+                }
                 return true;
             } else if (IS_ON.equals(action)) {
                 Boolean enabled = Signal.get().isOn();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+
+                if (enabled != null) {
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+                } else {
+                    callbackContext.error("Return value is null");   
+                }
                 return true;
             } else if (IS_BLUETOOTH_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isBluetoothEnabled();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+
+                if (enabled != null) {
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+                } else {
+                    callbackContext.error("Return value is null");   
+                }
                 return true;
             } else if (USER_OPT_OUT.equals(action)) {
-                Signal.get().userOptOut();
-                callbackContext.success("");
+                try {
+                    Signal.get().userOptOut();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during userOptOut");
+                }
                 return true;
             } else if (USER_OPT_IN.equals(action)) {
-                Signal.get().userOptIn();
-                callbackContext.success("");
+                try {
+                    Signal.get().userOptIn();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during userOptIn");
+                }
                 return true;
             } else if (IS_USER_OPTED_OUT.equals(action)) {
                 Boolean optedOut = Signal.get().isUserOptedOut();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, optedOut));
+
+                if (optedOut != null) {
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, optedOut));
+                } else {
+                    callbackContext.error("Return value is null");   
+                }
                 return true;
             } else if (ENABLE_ADVERTISING_IDENTIFIER.equals(action)) {
-                Signal.get().enableAdvertisingIdentifier();
-                callbackContext.success("");
+                try {
+                    Signal.get().enableAdvertisingIdentifier();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during enableAdvertisingIdentifier");
+                }
                 return true;
             } else if (DISABLE_ADVERTISING_IDENTIFIER.equals(action)) {
-                Signal.get().disableAdvertisingIdentifier();
-                callbackContext.success("");
+                try {
+                    Signal.get().disableAdvertisingIdentifier();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during disableAdvertisingIdentifier");
+                }
                 return true;
             } else if (IS_ADVERTISING_IDENTIFIER_ENABLED.equals(action)) {
                 Boolean enabled = Signal.get().isAdvertisingIdentifierEnabled();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+
+                if (enabled != null) {
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, enabled));
+                } else {
+                    callbackContext.error("Return value is null");   
+                }
                 return true;
             } else if (SET_CUSTOMER_IDENTIFIER.equals(action)) {
                 String customerIdentifier = arguments.getString(0);
-                Signal.get().setCustomerIdentifier(customerIdentifier);
-                callbackContext.success("");
+
+                if (customerIdentifier != null) {
+                    Signal.get().setCustomerIdentifier(customerIdentifier);
+                    callbackContext.success("");
+                } else {
+                    callbackContext.error("Exception during setCustomerIdentifier");   
+                }
                 return true;
             } else if (RESET.equals(action)) {
-                Signal.get().reset();
-                callbackContext.success("");
+                try {
+                    Signal.get().reset();
+                    callbackContext.success("");
+                } catch (Exception ex) {
+                    callbackContext.error("Exception during reset");
+                }
                 return true;
             } else if (GET_ACTIVATIONS_WITH_CODEHEARD.equals(action)) {
                 int beaconCode = arguments.getInt(0);
 
-                if (beaconCode != 0) {
+                if (beaconCode != null && beaconCode != 0) {
                     // use hardcoded rssi to create CodeHeard from beaconCode int
                     SignalCodeHeard code = new SignalBluetoothCodeHeard(beaconCode, -50);
                     Signal.get().getActivationsWithCodeHeard(code);
                     callbackContext.success("");
+                } else {
+                    callbackContext.error("Exception during getActivationsWithCodeHeard");
                 }
                 return true;
             } else if (ALL_ACTIVE_CONTENT.equals(action)) {
-                List content = Signal.get().getAllActiveContent();
-                Gson gson = new Gson();
-                String json = gson.toJson(content);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+                try {
+                    List content = Signal.get().getAllActiveContent();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(content);
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+                } catch {
+                    callbackContext.error("Exception during allActiveContent");
+                }
                 return true;
             } else if (SET_TAGS.equals(action)) {
-                String jsonTags = arguments.getString(0);
-                if (isJSONValid(jsonTags)) {
-                    Gson gson = new GsonBuilder().create();
-                    Map<String,String> tags = gson.fromJson(jsonTags, Map.class);
-                    this.customerTags = tags;
-                    callbackContext.success("");
+                try {
+                    String jsonTags = arguments.getString(0);
+                    if (isJSONValid(jsonTags)) {
+                        Gson gson = new GsonBuilder().create();
+                        Map<String,String> tags = gson.fromJson(jsonTags, Map.class);
+                        this.customerTags = tags;
+                        callbackContext.success("");
+                    }
+                } catch {
+                    callbackContext.error("Exception during setTags");    
                 }
                 return true;
             } else {
@@ -194,7 +261,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
             }
         } catch (JSONException e) {
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
-            return false;
+            return false; // Returning false results in a "MethodNotFound" error.
         }
     }
 

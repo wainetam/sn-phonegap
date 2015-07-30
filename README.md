@@ -59,16 +59,17 @@ cordova.exec(completionCallback, failureCallback, service, action, [args]);
 
 ####Example: JS Method (isBluetoothEnabled) in signalpg.js
 ```sh
-isBluetoothEnabled: function () {
-    # callback that is registered (see 'Register Callbacks' section below)
-    var callback = this.isBluetoothEnabledCB;
-    
-  cordova.exec (function (bool) {
-    if (callback) {
-            callback.apply (this, [bool]);
-        }
-  }, null, "SignalPG", "isBluetoothEnabled", []);
-},
+isBluetoothEnabled: function (completionCallback) {
+  var failureCallback = function(message) {
+    console.log("isBluetoothEnabled error: " + message);
+  };
+
+  if (typeof completionCallback !== "function") {
+    completionCallback = null;
+  };
+
+  cordova.exec (completionCallback, failureCallback, "SignalPG", "isBluetoothEnabled", []);
+}
 ```
 
 ####Example continued: Call isBluetoothEnabled method in index.html
@@ -77,12 +78,11 @@ isBluetoothEnabled: function () {
 
 <script type="text/javascript">
     function init() {
-        var callback = function(json) {
-            alert(json);
+        var callback = function(val) {
+            alert(val);
         };
 
-        SignalPG.registerIsBluetoothEnabledCB(callback); # register callback method in JS
-        SignalPG.isBluetoothEnabled(); # unless it is a delegate method in SDK, now call the method directly
+        SignalPG.isBluetoothEnabled(callback);
     }
 </script>
 ```
@@ -133,7 +133,7 @@ public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     # enter in your appID, assigned by Signal360, for your app
     String appID = "xxxxxxxxxxxxxxxxx";
     Signal.get().initialize(context, this, appID);
-    SignalUI.get().initialize(context, this, R.class);
+    SignalUI.get().initialize(context, this, <full-package-name>.R.class);
     Signal.get().start();
 }
 ```
@@ -165,7 +165,7 @@ src/android/jniLibs
 src/android/res
 ```
 
-### Optional: Register Delegate Callbacks or Call Additional SDK Methods
+### Optional: Register Delegate Callbacks
 #### Edit index.html or reference new JS file
 Create an init() function within the script tags that is called either when the device is ready or loaded. One way to do it is to add an **onload** parameter to the **body** element in the index.html file:
 
@@ -209,7 +209,7 @@ $ phonegap run android
 # for android, you can't use android studio to debug build
 ```
 
-### Addendum: PhoneGap Plugin Mechanics and Plugin.xml 
+### Addendum: Plugin.xml and File Structure
 ```sh
 plugin.xml
 src/ios/sdk             # Signal and SignalUI frameworks here
