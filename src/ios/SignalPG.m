@@ -260,6 +260,7 @@
 
         NSString *customerIdentifier = [command.arguments objectAtIndex:0];
         customerIdentifier = (([customerIdentifier isEqual: [NSNull null]] || customerIdentifier.length == 0) ? nil : customerIdentifier);
+        
         if(customerIdentifier) {
             [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];

@@ -40,6 +40,8 @@ var SignalPG = {
 			} else {
 				cordova.exec (completionCallback, failureCallback, "SignalPG", "initialize", [applicationGuid, false]);
 			}
+		} else {
+			console.error("error in params for initialize");
 		}
 	},
 
@@ -220,9 +222,11 @@ var SignalPG = {
 	  	completionCallback = null;
 	  };
 
-		// if (customerIdentifier && typeof customerIdentifier === "string") {
+		if (customerIdentifier && typeof customerIdentifier === "string") {
 			cordova.exec (completionCallback, failureCallback, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
-		// }
+		} else {
+			console.error("error in params for setCustomerIdentifier");
+		}
 	},
 
 	/**
@@ -258,6 +262,8 @@ var SignalPG = {
 
 		if (code && typeof code === "number") {
 			cordova.exec (completionCallback, failureCallback, "SignalPG", "getActivationsWithCodeHeard", [code]);
+		} else {
+			console.error("error in params for getActivationsWithCodeHeard");
 		}
 	},
 
@@ -294,6 +300,8 @@ var SignalPG = {
 
 		if (obj && typeof obj === "object") {
 			cordova.exec (completionCallback, failureCallback, "SignalPG", "setTags", [obj]);
+		} else {
+			console.error("error in params for setTags");
 		}
 	},
 
