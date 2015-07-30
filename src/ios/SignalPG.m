@@ -61,13 +61,35 @@
 
 - (void) start:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] start];
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] start];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) stop:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] stop];
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] stop];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -77,9 +99,15 @@
  */
 - (void) isOn:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-       BOOL on = [[Signal sharedInstance] isOn];
-       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
-       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        CDVPluginResult* pluginResult = nil;
+        BOOL on = [[Signal sharedInstance] isOn];
+
+        if (on != nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:on];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 };
 
@@ -89,8 +117,15 @@
  */
 - (void) isBluetoothEnabled:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
         BOOL enabled = [[Signal sharedInstance] isBluetoothEnabled];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+
+        if (enabled != nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -105,7 +140,7 @@
         }
 
         @catch ( NSException *e ) {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception in calling function"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
 
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -114,7 +149,18 @@
 
 - (void) userOptIn:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] userOptIn];
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] userOptIn];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -123,21 +169,50 @@
  */
 - (void) isUserOptedOut:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
         BOOL optedOut = [[Signal sharedInstance] isUserOptedOut];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
+
+        if (enabled != nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:optedOut];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) enableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] enableAdvertisingIdentifier];
+    [self.commandDelegate runInBackground:^{ 
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] enableAdvertisingIdentifier];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) disableAdvertisingIdentifier:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] disableAdvertisingIdentifier];
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] disableAdvertisingIdentifier];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -146,35 +221,66 @@
  */
 - (void) isAdvertisingIdentifierEnabled:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
         BOOL enabled = [[Signal sharedInstance] isAdvertisingIdentifierEnabled];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+
+        if (enabled != nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:enabled];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"return value is null"];
+        }
+
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) setCustomerIdentifier:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+
         NSString *customerIdentifier = [command.arguments objectAtIndex:0];
         customerIdentifier = (([customerIdentifier isEqual: [NSNull null]] || customerIdentifier.length == 0) ? nil : customerIdentifier);
         if(customerIdentifier) {
             [[Signal sharedInstance] setCustomerIdentifier:customerIdentifier];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
+            
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) reset:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        [[Signal sharedInstance] reset];
+        CDVPluginResult* pluginResult = nil;
+
+        @try {
+            [[Signal sharedInstance] reset];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        }
+
+        @catch ( NSException *e ) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
 - (void) getActivationsWithCodeHeard:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
         int beaconCode = (int)[command argumentAtIndex:0];
         
         if (beaconCode != 0) {
             [[Signal sharedInstance] getActivationsWithCodeHeard:[[SignalCodeHeard alloc] initWithBeaconCode:beaconCode]];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"called without exceptions"];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
         }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId]; 
     }];
 }
 
@@ -184,8 +290,15 @@
 
 - (void) allActiveContent:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
         NSArray *content = [[Signal sharedInstance] allActiveContent];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:content];
+
+        if (content != nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:content];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"exception"];
+        }
+        
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
