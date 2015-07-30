@@ -31,6 +31,8 @@
     if([command.arguments count] > 1) {
         makeQuiet = [command argumentAtIndex:1 withDefault:nil];
     }
+
+    CDVPluginResult* pluginResult = nil;
     
     @try {
         [self commonInitTasks:applicationGuid];
