@@ -212,8 +212,9 @@ var SignalPG = {
 	 * @param string customerIdentifier
 	 */
 	setCustomerIdentifier: function (customerIdentifier, completionCallback) {
+		alert('in CI')
 		var failureCallback = function(message) {
-	    console.log("Could not setCustomerIdentifier: " + message);
+	    alert("Could not setCustomerIdentifier: " + message);
 	  };
 
 	 	if (typeof completionCallback !== "function") {
