@@ -34,7 +34,7 @@ var SignalPG = {
 	 * @param applicationGuid unique identifier provided by Signal360 CMS
 	 * @param option boolean for sdk to prevent os popups
 	 */
-	initialize: function (applicationGuid, option) { // tested
+	initialize: function (applicationGuid, option) {
 		var failureCallback = function(message) {
 	    console.log("Could not initialize: " + message);
 	  };
