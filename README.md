@@ -82,7 +82,7 @@ isBluetoothEnabled: function () {
         };
 
         SignalPG.registerIsBluetoothEnabledCB(callback); # register callback method in JS
-        SignalPG.isBluetoothEnabled(); # then call the method directly (unless it is a delegate method in the SDK)
+        SignalPG.isBluetoothEnabled(); # unless it is a delegate method in SDK, now call the method directly
     }
 </script>
 ```
