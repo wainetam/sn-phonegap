@@ -47,8 +47,12 @@ To install the Signal360 PhoneGap plugin in an new/existing app:
 ### JS <-> Native
 In signalpg.js, the **cordova.exec** function is used to define the following:
 
- - success callback (if necessary)
- - error callback (if necessary)
+```sh
+cordova.exec(successCallback, failureCallback, service, action, [args]);
+```
+
+ - successCallback (if necessary)
+ - errorCallback (if necessary)
  - "native class" aka "service"
  - "native class method" aka "action"
  - arguments array to pass into native environment
@@ -164,7 +168,7 @@ Create an init() function within the script tags that is called either when the 
 </script>
 ```
 #### Available Callbacks to Register
-Associated JS helper method in italics
+Corresponding JS register callback helper method in italics
  - isOn (_registerIsOnCB_)
  - isBluetoothEnabled (_registerIsBluetoothEnabledCB_)
  - isUserOptedOut (_registerIsUserOptedOutCB_)
