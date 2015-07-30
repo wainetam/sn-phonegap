@@ -50,41 +50,52 @@ var SignalPG = {
 
 	/**
 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
+	 * @param {Function} successCallback: a callback function on success; can be null
 	 */
-	start: function () {
+	start: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not start: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "start", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "start", []);
 	},
 
 	/**
 	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
+	 * @param {Function} successCallback: a callback function on success; can be null
 	 */
-	stop: function () {
+	stop: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not stop: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "stop", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "stop", []);
 	},
 
 	/**
 	 * Called to determine if start has been called
 	 * @return BOOL whether or not start has been called
+	 * @param {Function} successCallback: a callback function on success; should accept boolean
 	 */
-	isOn: function () {
+	isOn: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("isOn error: " + message);
 	  };
 
-		var successCallback = this.isOnCB;
-		cordova.exec (function (bool) {
-			if (successCallback) {
-        successCallback.apply (this, [bool]);
-      }
-		}, null, "SignalPG", "isOn", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		// var successCallback = this.isOnCB;
+		cordova.exec (successCallback, failureCallback, "SignalPG", "isOn", []);
 	},
 
 	/**
