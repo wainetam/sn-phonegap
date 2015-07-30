@@ -212,7 +212,6 @@ var SignalPG = {
 	 * @param string customerIdentifier
 	 */
 	setCustomerIdentifier: function (customerIdentifier, completionCallback) {
-		alert('in CI')
 		var failureCallback = function(message) {
 	    alert("Could not setCustomerIdentifier: " + message);
 	  };
@@ -221,9 +220,9 @@ var SignalPG = {
 	  	completionCallback = null;
 	  };
 
-		if (customerIdentifier && typeof customerIdentifier === "string") {
+		// if (customerIdentifier && typeof customerIdentifier === "string") {
 			cordova.exec (completionCallback, failureCallback, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
-		}
+		// }
 	},
 
 	/**
