@@ -184,7 +184,7 @@ Create an init() function within the script tags that is called either when the 
 </script>
 ```
 #### Available Delegate Callbacks to Register
-Corresponding JS delegate callback 'register' helper method in italics
+Native delegate methods and corresponding JS delegate callback 'register' helper methods in italics
  - didHearCode (_registerDidHearCodeCB_)
  - didReceiveActivations (_registerDidReceiveActivationsCB_)
  - didStatusChange (_registerDidStatusChangeCB_)
