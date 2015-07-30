@@ -223,7 +223,7 @@ public class SignalPG extends CordovaPlugin implements SignalClient, SignalUICli
             } else if (GET_ACTIVATIONS_WITH_CODEHEARD.equals(action)) {
                 int beaconCode = arguments.getInt(0);
 
-                if (beaconCode != null && beaconCode != 0) {
+                if (beaconCode != 0) {
                     // use hardcoded rssi to create CodeHeard from beaconCode int
                     SignalCodeHeard code = new SignalBluetoothCodeHeard(beaconCode, -50);
                     Signal.get().getActivationsWithCodeHeard(code);
