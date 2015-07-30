@@ -1,56 +1,51 @@
 var SignalPG = {
+	// delegate method callbacks to register, if desired
+	didHearCodeCB: null,
 
-	isOnCB: null,
+	didReceiveActivationsCB: null,
 
-	isBluetoothEnabledCB: null,
+	didStatusChangeCB: null, // 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
 
-	isUserOptedOutCB: null,
+	didGeoFenceEnteredCB: null,
 
-	isAdvertisingIdentifierEnabledCB: null,
+	didGeoFenceExitedCB: null,
 
-	allActiveContentCB: null,
+	didGeoFencesUpdatedCB: null,
 
-	didHearCodeCB: null, // delegate method
+	didCompleteRegistrationCB: null,
 
-	didReceiveActivationsCB: null, // delegate method
+	didUpdateConfigurationCB: null,
 
-	didStatusChangeCB: null, // delegate method; 0 = SignalSdkStatusNotInitialized, 1 = SignalSdkStatusDisabled, 2 = SignalSdkStatusTrial, 3 = SignalSdkStatusEnabled
-
-	didGeoFenceEnteredCB: null, // delegate method
-
-	didGeoFenceExitedCB: null, // delegate method
-
-	didGeoFencesUpdatedCB: null, // delegate method
-
-	didCompleteRegistrationCB: null, // delegate method
-
-	didUpdateConfigurationCB: null, // delegate method
-
-	getTagsForCodeCB: null, // delegate method
+	getTagsForCodeCB: null,
 
 	/**
 	 * Initialize the sdk with the application guid and a delegate that will receive all callbacks.
 	 *
 	 * @param applicationGuid unique identifier provided by Signal360 CMS
 	 * @param option boolean for sdk to prevent os popups
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	initialize: function (applicationGuid, option) {
+	initialize: function (applicationGuid, option, successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not initialize: " + message);
 	  };
 
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
 		if (applicationGuid && typeof applicationGuid === "string") {
 			if (option && typeof option === "boolean") {
-				cordova.exec (null, failureCallback, "SignalPG", "initialize", [applicationGuid, option]);
+				cordova.exec (successCallback, failureCallback, "SignalPG", "initialize", [applicationGuid, option]);
 			} else {
-				cordova.exec (null, failureCallback, "SignalPG", "initialize", [applicationGuid, false]);
+				cordova.exec (successCallback, failureCallback, "SignalPG", "initialize", [applicationGuid, false]);
 			}
 		}
 	},
 
 	/**
 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
-	 * @param {Function} successCallback: a callback function on success; can be null
+	 * @param {Function} successCallback: a callback function on success
 	 */
 	start: function (successCallback) {
 		var failureCallback = function(message) {
@@ -83,7 +78,7 @@ var SignalPG = {
 	/**
 	 * Called to determine if start has been called
 	 * @return BOOL whether or not start has been called
-	 * @param {Function} successCallback: a callback function on success; should accept boolean
+	 * @param {Function} successCallback: a callback function on success; should accept boolean; can be null
 	 */
 	isOn: function (successCallback) {
 		var failureCallback = function(message) {
@@ -94,257 +89,213 @@ var SignalPG = {
 	  	successCallback = null;
 	  };
 
-		// var successCallback = this.isOnCB;
 		cordova.exec (successCallback, failureCallback, "SignalPG", "isOn", []);
 	},
 
 	/**
-   * Provide function callback for isOn.
-   * You need to pass a callback function to receive the boolean return value.
-   *
-   * @param {function} callback function to receive the boolean value
-   *
-   * @example function isOnCB(bool) {
-   *    alert(bool);
-   *  }
-   *  SignalPG.registerIsOnCB(isOnCB);
-   *  SignalPG.isOn();
-   */
-  registerIsOnCB: function (callback) {
-    if (typeof callback === "function") {
-      this.isOnCB = callback;
-    }
-  },
-
-	/**
 	 * Called to determine if Bluetooth is enabled on the device
 	 * @return BOOL whether or not Bluetooth is Enabled
+	 * @param {Function} successCallback: a callback function on success that should accept boolean
 	 */
-	isBluetoothEnabled: function () {
+	isBluetoothEnabled: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("isBluetoothEnabled error: " + message);
 	  };
 
-		var successCallback = this.isBluetoothEnabledCB;
-		cordova.exec (function (bool) {
-			if (successCallback) {
-        successCallback.apply (this, [bool]);
-      }
-		}, failureCallback, "SignalPG", "isBluetoothEnabled", []);
+		if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "isBluetoothEnabled", []);
 	},
 
 	/**
-   * Provide function callback for isBluetoothEnabled.
-   * You need to pass a callback function to receive the boolean return value.
-   *
-   * @param {function} callback function to receive the boolean value
-   *
-   * @example function isBluetoothEnabledCB(bool) {
-   *    alert(bool);
-   *  }
-   *  SignalPG.registerIsBluetoothEnabledCB(isBluetoothEnabledCB);
-   *  SignalPG.isBluetoothEnabled(); // then call the method
-   */
-  registerIsBluetoothEnabledCB: function (callback) {
-    if (typeof callback === "function") {
-      this.isBluetoothEnabledCB = callback;
-    }
-  },
-
-	/**
 	 * User opts out
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	userOptOut: function () {
+	userOptOut: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("userOptOut error: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "userOptOut", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "userOptOut", []);
 	},
 
 	/**
 	 * User opts in
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	userOptIn: function () {
+	userOptIn: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("userOptIn error: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "userOptIn", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "userOptIn", []);
 	},
 
 	/**
 	 * @return BOOL whether or not user has opted out
+	 * @param {Function} successCallback: a callback function on success that should accept boolean
 	 */
-	isUserOptedOut: function () {
+	isUserOptedOut: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("isUserOptedOut error: " + message);
 	  };
 
-		var successCallback = this.isUserOptedOutCB;
-		cordova.exec (function (bool) {
-			if (successCallback) {
-        successCallback.apply (this, [bool]);
-      }
-		}, failureCallback, "SignalPG", "isUserOptedOut", []);
+		// var successCallback = this.isUserOptedOutCB;
+		if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "isUserOptedOut", []);
 	},
 
 	/**
-   * Provide function callback for isUserOptedOut.
-   * You need to pass a callback function to receive the boolean return value.
-   *
-   * @param {function} callback function to receive the boolean value
-   */
-  registerIsUserOptedOutCB: function (callback) {
-    if (typeof callback === "function") {
-      this.isUserOptedOutCB = callback;
-    }
-  },
-
-	/**
 	 * Enable advertising identifier
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	enableAdvertisingIdentifier: function () {
+	enableAdvertisingIdentifier: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not enableAdvertisingIdentifier: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "enableAdvertisingIdentifier", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "enableAdvertisingIdentifier", []);
 	},
 
 	/**
 	 * Disable advertising identifier
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	disableAdvertisingIdentifier: function () {
+	disableAdvertisingIdentifier: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not disableAdvertisingIdentifier: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "disableAdvertisingIdentifier", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "disableAdvertisingIdentifier", []);
 	},
 
 	/**
 	 * @return BOOL whether or not advertising identifier is enabled
+	 * @param {Function} successCallback: a callback function on success that should accept boolean
 	 */
-	isAdvertisingIdentifierEnabled: function() {
+	isAdvertisingIdentifierEnabled: function(successCallback) {
 		var failureCallback = function(message) {
 	    console.log("isAdvertisingIdentifierEnabled error: " + message);
 	  };
 
-		var successCallback = this.isAdvertisingIdentifierEnabledCB;
-		cordova.exec (function (bool) {
-			if (successCallback) {
-        successCallback.apply (this, [bool]);
-      }
-		}, failureCallback, "SignalPG", "isAdvertisingIdentifierEnabled", []);
+		if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "isAdvertisingIdentifierEnabled", []);
 	},
 
 	/**
-   * Provide function callback for isAdvertisingIdentifierEnabled.
-   * You need to pass a callback function to receive the boolean return value.
-   *
-   * @param {function} callback function to receive the boolean value
-   *
-   * @example function isAdvertisingIdentifierEnabledCB(bool) {
-   *    alert(bool);
-   *  }
-   *  SignalPG.registerIsAdvertisingIdentifierEnabledCB(isAdvertisingIdentifierEnabledCB);
-   *  SignalPG.isAdvertisingIdentifierEnabled() // then call the method
-   */
-  registerIsAdvertisingIdentifierEnabledCB: function (callback) {
-    if (typeof callback === "function") {
-      this.isAdvertisingIdentifierEnabledCB = callback;
-    }
-  },
-
-	/**
 	 * This allows SDK integrator to pass in customer identifier
+	 * @param {Function} successCallback: a callback function on success
 	 * @param string customerIdentifier
 	 */
-	setCustomerIdentifier: function (customerIdentifier) {
+	setCustomerIdentifier: function (customerIdentifier, successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not setCustomerIdentifier: " + message);
 	  };
 
+	 	if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
 		if (customerIdentifier && typeof customerIdentifier === "string") {
-			cordova.exec (null, failureCallback, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
+			cordova.exec (successCallback, failureCallback, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
 		}
 	},
 
 	/**
 	 * Reset all content, activations, cached content, etc
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	reset: function () {
+	reset: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not reset: " + message);
 	  };
 
-		cordova.exec (null, failureCallback, "SignalPG", "reset", []);
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "reset", []);
 	},
 
 	/**
 	 * Simulate code heard
 	 *
 	 * @param integer code
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	getActivationsWithCodeHeard: function (code) {
+	getActivationsWithCodeHeard: function (code, successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not getActivationsWithCodeHeard: " + message);
 	  };
 
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
 		if (code && typeof code === "number") {
-			cordova.exec (null, failureCallback, "SignalPG", "getActivationsWithCodeHeard", [code]);
+			cordova.exec (successCallback, failureCallback, "SignalPG", "getActivationsWithCodeHeard", [code]);
 		}
 	},
 
 	/**
 	 * All active activations
 	 * @return Array of <SignalActivation>
+	 * @param {Function} successCallback: a callback function on success that should accept json (array of SonicActivation objects)
 	 */
-	allActiveContent: function () {
+	allActiveContent: function (successCallback) {
 		var failureCallback = function(message) {
 	    console.log("allActiveContent error: " + message);
 	  };
 
-		var successCallback = this.allActiveContentCB;
-		cordova.exec (function (json) {
-			if (successCallback) {
-        successCallback.apply (this, [json]);
-      }
-		}, failureCallback, "SignalPG", "allActiveContent", []);
+		if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
+		cordova.exec (successCallback, failureCallback, "SignalPG", "allActiveContent", []);
 	},
 
 	/**
 	 * Set tags for advanced targeting
 	 * @param object with key-value pairs of tags
+	 * @param {Function} successCallback: a callback function on success
 	 */
-	setTags: function (obj) {
+	setTags: function (obj, successCallback) {
 		var failureCallback = function(message) {
 	    console.log("Could not setTags: " + message);
 	  };
 
+	  if (typeof successCallback !== "function") {
+	  	successCallback = null;
+	  };
+
 		if (obj && typeof obj === "object") {
-			cordova.exec (null, failureCallback, "SignalPG", "setTags", [obj]);
+			cordova.exec (successCallback, failureCallback, "SignalPG", "setTags", [obj]);
 		}
 	},
-
-	/**
-   * Provide function callback for allActiveContent.
-   * You need to pass a callback function to receive the array of Sonic Activation objects in JSON as its return value.
-   *
-   * @param {function} callback function to receive the array
-   *
-   * @example function allActiveContentCB(arr) {
-   *    alert(arr);
-   *  }
-   *  SignalPG.registerAllActiveContentCB(allActiveContentCB);
-   *  SignalPG.allActiveContent(); // then call the method
-   */
-  registerAllActiveContentCB: function (callback) {
-    if (typeof callback === "function") {
-      this.allActiveContentCB = callback;
-    }
-  },
 
 	// DELEGATE METHODS
 
