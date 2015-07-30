@@ -35,11 +35,15 @@ var SignalPG = {
 	 * @param option boolean for sdk to prevent os popups
 	 */
 	initialize: function (applicationGuid, option) { // tested
+		var failureCallback = function(message) {
+	    console.log("Could not initialize: " + message);
+	  };
+
 		if (applicationGuid && typeof applicationGuid === "string") {
 			if (option && typeof option === "boolean") {
-				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, option]);
+				cordova.exec (null, failureCallback, "SignalPG", "initialize", [applicationGuid, option]);
 			} else {
-				cordova.exec (null, null, "SignalPG", "initialize", [applicationGuid, false]);
+				cordova.exec (null, failureCallback, "SignalPG", "initialize", [applicationGuid, false]);
 			}
 		}
 	},
@@ -48,14 +52,22 @@ var SignalPG = {
 	 * Start, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
 	start: function () {
-		cordova.exec (null, null, "SignalPG", "start", []);
+		var failureCallback = function(message) {
+	    console.log("Could not start: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "start", []);
 	},
 
 	/**
 	 * Stop, this is for both Bluetooth and Audio. If you are interested in one or the other this can be configured via the CMS.
 	 */
 	stop: function () {
-		cordova.exec (null, null, "SignalPG", "stop", []);
+		var failureCallback = function(message) {
+	    console.log("Could not stop: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "stop", []);
 	},
 
 	/**
@@ -63,13 +75,16 @@ var SignalPG = {
 	 * @return BOOL whether or not start has been called
 	 */
 	isOn: function () {
-		var callback = this.isOnCB;
+		var failureCallback = function(message) {
+	    console.log("isOn error: " + message);
+	  };
+
+		var successCallback = this.isOnCB;
 		cordova.exec (function (bool) {
-			if (callback) {
-        callback.apply (this, [bool]);
+			if (successCallback) {
+        successCallback.apply (this, [bool]);
       }
 		}, null, "SignalPG", "isOn", []);
-		cordova.exec (null, null, "SignalPG", "isOn", []);
 	},
 
 	/**
@@ -95,12 +110,16 @@ var SignalPG = {
 	 * @return BOOL whether or not Bluetooth is Enabled
 	 */
 	isBluetoothEnabled: function () {
-		var callback = this.isBluetoothEnabledCB;
+		var failureCallback = function(message) {
+	    console.log("isBluetoothEnabled error: " + message);
+	  };
+
+		var successCallback = this.isBluetoothEnabledCB;
 		cordova.exec (function (bool) {
-			if (callback) {
-        callback.apply (this, [bool]);
+			if (successCallback) {
+        successCallback.apply (this, [bool]);
       }
-		}, null, "SignalPG", "isBluetoothEnabled", []);
+		}, failureCallback, "SignalPG", "isBluetoothEnabled", []);
 	},
 
 	/**
@@ -125,26 +144,38 @@ var SignalPG = {
 	 * User opts out
 	 */
 	userOptOut: function () {
-		cordova.exec (null, null, "SignalPG", "userOptOut", []);
+		var failureCallback = function(message) {
+	    console.log("userOptOut error: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "userOptOut", []);
 	},
 
 	/**
 	 * User opts in
 	 */
 	userOptIn: function () {
-		cordova.exec (null, null, "SignalPG", "userOptIn", []);
+		var failureCallback = function(message) {
+	    console.log("userOptIn error: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "userOptIn", []);
 	},
 
 	/**
 	 * @return BOOL whether or not user has opted out
 	 */
 	isUserOptedOut: function () {
-		var callback = this.isUserOptedOutCB;
+		var failureCallback = function(message) {
+	    console.log("isUserOptedOut error: " + message);
+	  };
+
+		var successCallback = this.isUserOptedOutCB;
 		cordova.exec (function (bool) {
-			if (callback) {
-        callback.apply (this, [bool]);
+			if (successCallback) {
+        successCallback.apply (this, [bool]);
       }
-		}, null, "SignalPG", "isUserOptedOut", []);
+		}, failureCallback, "SignalPG", "isUserOptedOut", []);
 	},
 
 	/**
@@ -163,26 +194,38 @@ var SignalPG = {
 	 * Enable advertising identifier
 	 */
 	enableAdvertisingIdentifier: function () {
-		cordova.exec (null, null, "SignalPG", "enableAdvertisingIdentifier", []);
+		var failureCallback = function(message) {
+	    console.log("Could not enableAdvertisingIdentifier: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "enableAdvertisingIdentifier", []);
 	},
 
 	/**
 	 * Disable advertising identifier
 	 */
 	disableAdvertisingIdentifier: function () {
-		cordova.exec (null, null, "SignalPG", "disableAdvertisingIdentifier", []);
+		var failureCallback = function(message) {
+	    console.log("Could not disableAdvertisingIdentifier: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "disableAdvertisingIdentifier", []);
 	},
 
 	/**
 	 * @return BOOL whether or not advertising identifier is enabled
 	 */
 	isAdvertisingIdentifierEnabled: function() {
-		var callback = this.isAdvertisingIdentifierEnabledCB;
+		var failureCallback = function(message) {
+	    console.log("isAdvertisingIdentifierEnabled error: " + message);
+	  };
+
+		var successCallback = this.isAdvertisingIdentifierEnabledCB;
 		cordova.exec (function (bool) {
-			if (callback) {
-        callback.apply (this, [bool]);
+			if (successCallback) {
+        successCallback.apply (this, [bool]);
       }
-		}, null, "SignalPG", "isAdvertisingIdentifierEnabled", []);
+		}, failureCallback, "SignalPG", "isAdvertisingIdentifierEnabled", []);
 	},
 
 	/**
@@ -208,8 +251,12 @@ var SignalPG = {
 	 * @param string customerIdentifier
 	 */
 	setCustomerIdentifier: function (customerIdentifier) {
+		var failureCallback = function(message) {
+	    console.log("Could not setCustomerIdentifier: " + message);
+	  };
+
 		if (customerIdentifier && typeof customerIdentifier === "string") {
-			cordova.exec (null, null, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
+			cordova.exec (null, failureCallback, "SignalPG", "setCustomerIdentifier", [customerIdentifier]);
 		}
 	},
 
@@ -217,7 +264,11 @@ var SignalPG = {
 	 * Reset all content, activations, cached content, etc
 	 */
 	reset: function () {
-		cordova.exec (null, null, "SignalPG", "reset", []);
+		var failureCallback = function(message) {
+	    console.log("Could not reset: " + message);
+	  };
+
+		cordova.exec (null, failureCallback, "SignalPG", "reset", []);
 	},
 
 	/**
@@ -226,8 +277,12 @@ var SignalPG = {
 	 * @param integer code
 	 */
 	getActivationsWithCodeHeard: function (code) {
+		var failureCallback = function(message) {
+	    console.log("Could not getActivationsWithCodeHeard: " + message);
+	  };
+
 		if (code && typeof code === "number") {
-			cordova.exec (null, null, "SignalPG", "getActivationsWithCodeHeard", [code]);
+			cordova.exec (null, failureCallback, "SignalPG", "getActivationsWithCodeHeard", [code]);
 		}
 	},
 
@@ -236,12 +291,16 @@ var SignalPG = {
 	 * @return Array of <SignalActivation>
 	 */
 	allActiveContent: function () {
-		var callback = this.allActiveContentCB;
+		var failureCallback = function(message) {
+	    console.log("allActiveContent error: " + message);
+	  };
+
+		var successCallback = this.allActiveContentCB;
 		cordova.exec (function (json) {
-			if (callback) {
-        callback.apply (this, [json]);
+			if (successCallback) {
+        successCallback.apply (this, [json]);
       }
-		}, null, "SignalPG", "allActiveContent", []);
+		}, failureCallback, "SignalPG", "allActiveContent", []);
 	},
 
 	/**
@@ -249,8 +308,12 @@ var SignalPG = {
 	 * @param object with key-value pairs of tags
 	 */
 	setTags: function (obj) {
+		var failureCallback = function(message) {
+	    console.log("Could not setTags: " + message);
+	  };
+
 		if (obj && typeof obj === "object") {
-			cordova.exec (null, null, "SignalPG", "setTags", [obj]);
+			cordova.exec (null, failureCallback, "SignalPG", "setTags", [obj]);
 		}
 	},
 
