@@ -71,7 +71,7 @@ isBluetoothEnabled: function () {
 },
 ```
 
-####Call method in index.html
+####Example continued: Call isBluetoothEnabled method in index.html
 ```sh
 <body onload="init()">
 
